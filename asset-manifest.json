@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/FreeBet/static/css/main.a8500309.chunk.css",
+    "main.js": "/FreeBet/static/js/main.71782ae8.chunk.js",
+    "main.js.map": "/FreeBet/static/js/main.71782ae8.chunk.js.map",
+    "runtime-main.js": "/FreeBet/static/js/runtime-main.d797b612.js",
+    "runtime-main.js.map": "/FreeBet/static/js/runtime-main.d797b612.js.map",
+    "static/js/2.304bd371.chunk.js": "/FreeBet/static/js/2.304bd371.chunk.js",
+    "static/js/2.304bd371.chunk.js.map": "/FreeBet/static/js/2.304bd371.chunk.js.map",
+    "static/js/3.d0a1fd1c.chunk.js": "/FreeBet/static/js/3.d0a1fd1c.chunk.js",
+    "static/js/3.d0a1fd1c.chunk.js.map": "/FreeBet/static/js/3.d0a1fd1c.chunk.js.map",
+    "index.html": "/FreeBet/index.html",
+    "static/css/main.a8500309.chunk.css.map": "/FreeBet/static/css/main.a8500309.chunk.css.map",
+    "static/js/2.304bd371.chunk.js.LICENSE.txt": "/FreeBet/static/js/2.304bd371.chunk.js.LICENSE.txt",
+    "static/media/24-money.66f55454.gif": "/FreeBet/static/media/24-money.66f55454.gif"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d797b612.js",
+    "static/js/2.304bd371.chunk.js",
+    "static/css/main.a8500309.chunk.css",
+    "static/js/main.71782ae8.chunk.js"
+  ]
+}
