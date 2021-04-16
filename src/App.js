@@ -1,11 +1,17 @@
 // import logo from './logo.svg';
+import { Route, Switch } from 'react-router-dom';
+
 import './App.css';
 
 import Home from './components/Home/home';
+import highRollers from './components/HighRollers/highRollers';
 
 const App = () => {
   return(
-    <Home />
+    <Switch>
+      <Route path='/' component={Home} exact />
+      <Route path='/multiplybet' component={highRollers} />
+    </Switch>
   )
 }
 

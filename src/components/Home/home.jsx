@@ -1,12 +1,35 @@
 import React, { useState } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha';
 
 import './home.css';
 import transaction from './24-money.gif';
+import { roll } from '../Helpers/service';
 
 function Home() {
     const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+    const [faucet, setFaucet] = useState(10000);
+    const reCaptchaRef = React.createRef();
 
     const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+
+    const handleRoll = () => {
+        console.log("its working")
+        roll()
+        .then(x => {
+            // console.log(x);
+            setFaucet(x);
+        });
+    }
+
+    function onSubmit () {
+        const recaptchaValue = reCaptchaRef.current.getValue();
+        this.props.onSubmit(recaptchaValue);
+    }
+
+    function onChange (value) {
+        console.log("CAPTCHA value : ", value)
+    }
+
     return (
         <div>
             <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
@@ -51,39 +74,17 @@ function Home() {
                     <span className="display-3">Make your transactions in a snap</span>
                     <div className="row py-3 my-4">
                         <div className="col-6 text-center">
-                            <button className="btn btn-info btn-lg m-auto">Deposit</button>
+                            <button className="btn btn-info btn-lg mx-3">Deposit</button>
+                            <button className="btn btn-info btn-lg mx-3">Withdraw</button>
                         </div>
                         <div className="col-6 text-center">
-                            <button className="btn btn-info btn-lg m-auto">Withdraw</button>
+                            {/* <button className="btn btn-info btn-lg m-auto">Withdraw</button> */}
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="card card-body bg-gray">
-                <div className="row">
-                    <div className="col-8">
-                        <h1 className="text-white">High Rollers</h1>
-                        <div className="text-center my-4"><span className="border m-auto display-4 p-3 text-white">10000</span></div>
-                        <div className="row py-3">
-                            <div className="col-6 text-center">
-                                <button className="btn btn-info btn-lg m-auto">ROLL HI</button>
-                            </div>
-                            <div className="col-6 text-center">
-                                <button className="btn btn-info btn-lg m-auto">ROLL LO</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-4">
-                        <div className="card card-body">
-                            <h3>How fair the game is</h3>
-                            <ol>
-                                <li>Let me explain how fair we are.</li>
-                                <li>Explanory text</li>
-                                <li>and this is how its done</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
+            <div className="p-3 bg-gray text-center text-white">
+                <span className="display-4">Get Free Money For Every 45 Minutes</span>
             </div>
             <div className="my-4 px-4 w-100">
                 <table class="table table-bordered m-auto w-50">
@@ -108,10 +109,18 @@ function Home() {
                         </tr>
                     </tbody>
                 </table>
-                <div className="w-100 text-center">
-                <span className="my-3">Captcha goes here</span><br></br>
-                <button className="btn btn-primary btn-lg m-2">ROLL</button>
-                </div>
+                <div className="w-100 text-center bg-gray p-4 my-4">
+                    <div className="text-center my-4"><span className="border m-auto display-4 p-3 text-white">{faucet}</span></div><br></br>
+                    <form onSubmit={onSubmit} className="text-center">
+                    <ReCAPTCHA
+                        
+                        ref={reCaptchaRef}
+                        sitekey="6Lc__qsaAAAAANZ2FqwF3PCF45gwhSPP-uGLisD8"
+                        onChange={onChange}
+                    />
+                    <button className="btn btn-primary btn-lg m-2" onClick={() => handleRoll()}>ROLL</button>
+                    </form>
+                 </div>
             </div>
         </div>
     )
