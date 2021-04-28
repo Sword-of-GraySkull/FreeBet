@@ -6,8 +6,8 @@ export async function roll() {
     // });
     // // console.log(response)
     // return await response;
-    // const response = axios.get('https://freebet-server.herokuapp.com/api/roll')
-    const response = axios.get('http://localhost:3080/api/roll')
+    const response = axios.get('https://freebet-server.herokuapp.com/api/roll')
+    // const response = axios.get('http://localhost:3080/api/roll')
                     .then(res => {
                         return res.data.data;
                     })
