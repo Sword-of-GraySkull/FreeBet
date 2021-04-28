@@ -18,7 +18,7 @@ function Navbar() {
 
                 <div className={`${isNavCollapsed ? 'collapse' : 'collapse'} navbar-collapse`} id="navbarsExample09">
                     <a className="nav-link text-info" href="/freebet">Free bet</a>
-                    <a className="nav-link text-info" href="/FreeBet/multiplybet">Multiply bet</a>
+                    <a className="nav-link text-info" href="/FreeBet/#/multiplybet">Multiply bet</a>
                     <a href="/lottery" className="nav-link text-info" >Lottery</a>
                     <a href="/wallet" className="nav-link text-info">$0.000000001</a>
                 </div>
