@@ -3,14 +3,14 @@ import { Route, Switch } from 'react-router-dom';
 
 import './App.css';
 
-import Home from './components/Home/home';
-import highRollers from './components/HighRollers/highRollers';
+import Home from './components/Home/Home';
+import MultiplyBet from './components/MultiplyBet/MultiplyBet';
 
 const App = () => {
   return(
     <Switch>
       <Route path='/' component={Home} exact />
-      <Route path='/multiplybet' component={highRollers} />
+      <Route path='/multiplybet' component={MultiplyBet} />
     </Switch>
   )
 }

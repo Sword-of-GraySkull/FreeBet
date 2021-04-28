@@ -1,0 +1,23 @@
+span.text-green {
+    color: lawngreen !important;
+}
+
+span.text-gold {
+    color: gold;
+}
+
+.bg-darkgray {
+    background-color: #24363f;
+}
+
+h5,h6,.h5 {
+    font-weight: 350 !important;
+}
+
+.text-blue {
+    color: #30afe6;
+}
+
+.borderless {
+    border: 1px solid transparent;
+}
