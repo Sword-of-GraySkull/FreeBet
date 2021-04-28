@@ -8,7 +8,7 @@ function Navbar() {
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light rounded">
-                <a className="navbar-brand text-info font-weight-bolder" href="/">
+                <a className="navbar-brand text-info font-weight-bolder" href="/FreeBet">
                     {/* <img src={Logo} alt="Logo" width="36" height="36" className="vertical-align-middle" /> */}
                     <span className="">FREE MONEY</span>
                 </a>
@@ -18,7 +18,7 @@ function Navbar() {
 
                 <div className={`${isNavCollapsed ? 'collapse' : 'collapse'} navbar-collapse`} id="navbarsExample09">
                     <a className="nav-link text-info" href="/freebet">Free bet</a>
-                    <a className="nav-link text-info" href="/multiplybet">Multiply bet</a>
+                    <a className="nav-link text-info" href="/FreeBet/multiplybet">Multiply bet</a>
                     <a href="/lottery" className="nav-link text-info" >Lottery</a>
                     <a href="/wallet" className="nav-link text-info">$0.000000001</a>
                 </div>
