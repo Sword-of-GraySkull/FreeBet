@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/FreeBet/static/css/main.827f3255.chunk.css",
-    "main.js": "/FreeBet/static/js/main.abe9b26d.chunk.js",
-    "main.js.map": "/FreeBet/static/js/main.abe9b26d.chunk.js.map",
-    "runtime-main.js": "/FreeBet/static/js/runtime-main.5b718582.js",
-    "runtime-main.js.map": "/FreeBet/static/js/runtime-main.5b718582.js.map",
-    "static/js/2.3f12447f.chunk.js": "/FreeBet/static/js/2.3f12447f.chunk.js",
-    "static/js/2.3f12447f.chunk.js.map": "/FreeBet/static/js/2.3f12447f.chunk.js.map",
-    "static/js/3.087d099f.chunk.js": "/FreeBet/static/js/3.087d099f.chunk.js",
-    "static/js/3.087d099f.chunk.js.map": "/FreeBet/static/js/3.087d099f.chunk.js.map",
+    "main.css": "/FreeBet/static/css/main.8f07bc27.chunk.css",
+    "main.js": "/FreeBet/static/js/main.063cebf8.chunk.js",
+    "main.js.map": "/FreeBet/static/js/main.063cebf8.chunk.js.map",
+    "runtime-main.js": "/FreeBet/static/js/runtime-main.76bfb2a7.js",
+    "runtime-main.js.map": "/FreeBet/static/js/runtime-main.76bfb2a7.js.map",
+    "static/js/2.8a7c6758.chunk.js": "/FreeBet/static/js/2.8a7c6758.chunk.js",
+    "static/js/2.8a7c6758.chunk.js.map": "/FreeBet/static/js/2.8a7c6758.chunk.js.map",
+    "static/js/3.4502a5c2.chunk.js": "/FreeBet/static/js/3.4502a5c2.chunk.js",
+    "static/js/3.4502a5c2.chunk.js.map": "/FreeBet/static/js/3.4502a5c2.chunk.js.map",
     "index.html": "/FreeBet/index.html",
-    "static/css/main.827f3255.chunk.css.map": "/FreeBet/static/css/main.827f3255.chunk.css.map",
-    "static/js/2.3f12447f.chunk.js.LICENSE.txt": "/FreeBet/static/js/2.3f12447f.chunk.js.LICENSE.txt",
+    "static/css/main.8f07bc27.chunk.css.map": "/FreeBet/static/css/main.8f07bc27.chunk.css.map",
+    "static/js/2.8a7c6758.chunk.js.LICENSE.txt": "/FreeBet/static/js/2.8a7c6758.chunk.js.LICENSE.txt",
     "static/media/24-money.66f55454.gif": "/FreeBet/static/media/24-money.66f55454.gif"
   },
   "entrypoints": [
-    "static/js/runtime-main.5b718582.js",
-    "static/js/2.3f12447f.chunk.js",
-    "static/css/main.827f3255.chunk.css",
-    "static/js/main.abe9b26d.chunk.js"
+    "static/js/runtime-main.76bfb2a7.js",
+    "static/js/2.8a7c6758.chunk.js",
+    "static/css/main.8f07bc27.chunk.css",
+    "static/js/main.063cebf8.chunk.js"
   ]
 }
