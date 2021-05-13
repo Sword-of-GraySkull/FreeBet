@@ -1,0 +1,33 @@
+/* Pagination Style */
+
+ul.pagination {
+	display: flex;
+	justify-content: center;
+	padding: 15px 0 15px;
+}
+ul.pagination li {
+	border: 1px solid #e7e7e7;
+	padding: 2px 13px;
+}
+ul.pagination li.active {
+	background-image: none;
+	border-color: transparent;
+}
+
+ul.pagination li a {
+    text-decoration: none;
+    color: #7dd1e6;
+    cursor: pointer;
+}
+
+ul.pagination li.active a {
+	color: #ffffff;
+}
+
+ul.pagination li.active a.undefined {
+	color: #ffffff;
+}
+ul.pagination li.disabled a {
+	pointer-events: none;
+    color: #13829e;
+}

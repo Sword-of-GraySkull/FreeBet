@@ -15,3 +15,11 @@
 .fixed {
     position: fixed;
 }
+
+.text-green {
+    color: lawngreen;
+}
+
+.text-darkGreen {
+    color: forestgreen;
+}

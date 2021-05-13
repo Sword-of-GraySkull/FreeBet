@@ -1,17 +1,30 @@
 // import logo from './logo.svg';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { ToastProvider } from 'react-toast-notifications'
 
 import './App.css';
 
 import Home from './components/Home/Home';
 import MultiplyBet from './components/MultiplyBet/MultiplyBet';
+import Login from './components/Login/Login';
+import RollHistory from './components/RollHistory/RollHistory';
+
+// const wallet = '0.00';
 
 const App = () => {
+  // const [wallet, setWallet] = useState(0.00)
+  // console.log("wallet", wallet)
   return(
-    <Switch>
-      <Route path='/' component={Home} exact />
-      <Route path='/multiplybet' component={MultiplyBet} />
-    </Switch>
+    <ToastProvider>
+      <Switch>
+        {/* <Route path='/' component={() => <Home wallet={wallet} setWallet={wallet => setWallet(wallet)}/>} exact /> */}
+        <Route path='/' component={Home} exact/>
+        <Route path='/multiplybet' component={MultiplyBet} />
+        <Route path='/rollHistory' component={RollHistory} />
+        <Route path='/login' component={Login} />
+      </Switch>
+    </ToastProvider>
   )
 }
 

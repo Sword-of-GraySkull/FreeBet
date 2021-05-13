@@ -1,4 +1,4 @@
-span.text-green {
+.text-green {
     color: lawngreen !important;
 }
 
@@ -10,7 +10,7 @@ span.text-gold {
     background-color: #24363f;
 }
 
-h5,h6,.h5 {
+h5,h6,h1,.h5 {
     font-weight: 350 !important;
 }
 
