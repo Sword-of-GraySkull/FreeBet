@@ -106,7 +106,7 @@ function Login() {
                                             // setUserId(res.data.users[0]._id)
                                             localStorage.setItem('userId', res.data.users[0]._id)
                                             // handleClose()
-                                            window.history.replaceState('', 'loggedIn', '/')
+                                            window.history.replaceState('', 'loggedIn', '/FreeBet/')
                                             window.location.reload(false);
                                         }
                                     });
