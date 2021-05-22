@@ -50,7 +50,7 @@ function MultiplyBet() {
     const [increaseBetLose, setIncreaseBetLose] = useState(0.0);
     const [changeBetOddWin, setChangeBetOddWin] = useState(betOdds);
     const [changeBetOddLose, setChangeBetOddLose] = useState(betOdds);
-    const [basebet, setBaseBet] = useState('')
+    const [basebet, setBaseBet] = useState('-')
     
     const [a, setA] = useState();
 
@@ -80,16 +80,21 @@ function MultiplyBet() {
             if(value === 'win') {
                 setProfit(profit+Number(winProfit))
                 // console.log(Number(takeAwayAmount.toFixed(2)), '+', Number(winProfit))
-                setTakeAwayAmount(Number(takeAwayAmount.toFixed(2)) + Number(winProfit))
+                let tk = Math.abs(Number(winProfit));
+                setWallet((Number(wallet) + tk).toFixed(2))
+                setTakeAwayAmount(tk)
                 // console.log(Number(wallet) + takeAwayAmount)
                 setWin(true)
             }
             else if(value === 'lose') {
                 setLoss(loss+Number(winProfit))
                 // console.log(Number(takeAwayAmount.toFixed(2)), '-', Number(winProfit))
-                setTakeAwayAmount(Number(takeAwayAmount.toFixed(2)) - Number(winProfit))
+                // setTakeAwayAmount(-Number(winProfit).toFixed(2))
                 // console.log(Number(wallet) + takeAwayAmount)
-                setWallet(Number(wallet) + takeAwayAmount)
+                // setWallet(Number(wallet) + takeAwayAmount)
+                let tk = -Number(winProfit);
+                setWallet((Number(wallet) + tk).toFixed(2))
+                setTakeAwayAmount(tk)
                 setWin(false)
             }
         }
@@ -101,11 +106,16 @@ function MultiplyBet() {
                 setBetOdds(changeBetOddWin)
                 // setIncreasedWinProfit(((betAmount)*betOdds)-(betAmount))
                 // console.log(Number(takeAwayAmount.toFixed(2)), '+', Number(winProfit))
-                if(Number(takeAwayAmount.toFixed(2)) + Number(winProfit) === 0) 
-                    setTakeAwayAmount(Number(winProfit))
-                else 
-                    setTakeAwayAmount(Number(takeAwayAmount.toFixed(2)) + Number(winProfit))  //############################# !!!!!!!!!!!!!!!!
-                setWin(true)
+                // if(Number(takeAwayAmount.toFixed(2)) + Number(winProfit) === 0) 
+                //     setTakeAwayAmount(Number(winProfit))
+                // else 
+                //     setTakeAwayAmount(Number(takeAwayAmount.toFixed(2)) + Number(winProfit))  //############################# !!!!!!!!!!!!!!!!
+                console.log(Number(winProfit));
+                let tk = Math.abs(Number(winProfit));
+                console.log("hey", tk);
+                setWallet((Number(wallet) + Number(tk)).toFixed(2));
+                setTakeAwayAmount(tk);
+                setWin(true);
             }
             else if(value === 'lose') {
                 // setWin(false)
@@ -115,8 +125,13 @@ function MultiplyBet() {
                 // setIncreasedWinProfit(((betAmount)*betOdds)-(betAmount))
                 // console.log('increasedWinProfit',increasedWinProfit)
                 // console.log(Number(takeAwayAmount.toFixed(2)), '-', Number(winProfit))
-                setTakeAwayAmount(Number(takeAwayAmount.toFixed(2)) - Number(winProfit))
-                setWin(false)
+                // setTakeAwayAmount(Number(takeAwayAmount.toFixed(2)) - Number(winProfit))
+                console.log(Number(winProfit));
+                let tk = -Number(winProfit);
+                console.log("hey", tk);
+                setWallet((Number(wallet) + Number(tk)).toFixed(2));
+                setTakeAwayAmount(tk);
+                setWin(false);
             }
         }
     }
@@ -183,6 +198,7 @@ function MultiplyBet() {
             })
             setIsAutoBetActive(false)
             clearInterval(a);
+            setTimeout(() => setRollValue(10000), 2000)
         }
         else if(max_bet === 'basebet' && betAmount >= MaxBet) {
             // console.log('info: Changed betamount to base bet [from - On Hitting MaxBet - chosen Return to BaseBet')
@@ -203,6 +219,7 @@ function MultiplyBet() {
             })
             setIsAutoBetActive(false) 
             clearInterval(a);
+            setTimeout(() => setRollValue(10000), 2000)
             // console.log("Profit Reached Threshold [from Stop Betting After - Profit >=")
         }
         if(loss >= stopLoss) {
@@ -211,7 +228,8 @@ function MultiplyBet() {
                 autoDismiss: true
             })
             setIsAutoBetActive(false)
-           clearInterval(a);
+            clearInterval(a);
+            setTimeout(() => setRollValue(10000), 2000)
         //    console.log("Loss Reached Threshold [from Stop Betting")
         }
     }
@@ -236,12 +254,26 @@ function MultiplyBet() {
 
     const handleValidation = () => {
         if(betmode === 'manual') {
-            if(betAmount <= 0) {
+            if(betAmount === 0) {
                 addToast("BetAmount can't be zero. Why don't you try Free Bet ?", {
                     appearance: 'info',
                     autoDismiss: true
                 })
-                return false
+                return false;
+            }
+            else if(betAmount < 0.01) {
+                addToast("BetAmount should be greater than 0.01", {
+                    appearance: 'info',
+                    autoDismiss: true
+                })
+                return false;
+            }
+            else if(betAmount > 20) {
+                addToast("BetAmount can't be greater than 20", {
+                    appearance: 'info',
+                    autoDismiss: true
+                })
+                return false;
             }
             else if(betAmount > wallet) {
                 addToast("You don't have enough money to place the bet. Deposit some money or you can always earn money from Free bet", {
@@ -253,14 +285,29 @@ function MultiplyBet() {
             else return true;
         }
         if(betmode === 'auto') {
-            if(betAmount <= 0) {
+            if(betAmount === 0) {
                 addToast("BetAmount can't be zero. Why don't you try Free Bet ?", {
                     appearance: 'info',
                     autoDismiss: true
                 })
-                return false
+                return false;
             }
-            if(betAmount > wallet) {
+            else if(betAmount < 0.01) {
+                addToast("BetAmount should be greater than 0.01", {
+                    appearance: 'info',
+                    autoDismiss: true
+                })
+                return false;
+            }
+            else if(betAmount > 20) {
+                addToast("BetAmount can't be greater than 20.", {
+                    appearance: 'info',
+                    autoDismiss: true
+                })
+                return false;
+            }
+            else if(betAmount > wallet) {
+                // console.log("hey")
                 addToast("You don't have enough money to place the bet. Deposit some money or you can always earn money from Free bet", {
                     appearance: 'info',
                     autoDismiss: true
@@ -269,7 +316,10 @@ function MultiplyBet() {
             }
             else if(betAmount > 20) {
                 // console.log("info: betAmount greater than max bet")
-                addToast("BetAmount can't be greater than 20.")
+                addToast("BetAmount can't be greater than 20.", {
+                    appearance: 'info',
+                    autoDismiss: true
+                })
                 return false;
             }
             else return true
@@ -282,9 +332,9 @@ function MultiplyBet() {
                 if((x.toString() === noOfRolls)) {
                     setIsAutoBetActive(false)
                     clearInterval(id)
+                    setTimeout(() => setRollValue(10000), 2000)
                 }
                 setA(id);
-                // handleValidation();
                 handleRoll()
                 x++;
             }, 3000);
@@ -353,17 +403,34 @@ function MultiplyBet() {
         handleWin()
         handleHitMax()
         handleStopBetAfter()
+        // if(betmode === "auto") {
+        //     if(!handleValidation()) {
+        //         clearInterval(a);
+        //         setRollValue(10000)
+        //         setIsAutoBetActive(false);
+        //     } 
+        // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rollValue])
 
     useEffect(() => {
         // console.log('takeAwayAmount',takeAwayAmount);
-        let w = Number(wallet) + takeAwayAmount
-        setWallet(w.toFixed(2))
-        setWalletData(userId, w.toFixed(2))
-        setHistory(!history)
+        // let w = Number(wallet) + Number(takeAwayAmount)
+        // setWallet(w.toFixed(2))
+        let w = Number(wallet);
+        // console.log("hey", wallet, w);
+        console.log(w.toFixed(2))
+        if(betmode === "auto") {
+            if(!handleValidation()) {
+                clearInterval(a);
+                setTimeout(() => setRollValue(10000), 2000)
+                setIsAutoBetActive(false);
+            } 
+        }
+        setWalletData(userId, w.toFixed(2));
+        setHistory(!history);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [takeAwayAmount])
+    }, [wallet])
 
     useEffect(() => {
         if(betmode === 'manual' && rollValue !== 10000)
@@ -398,18 +465,20 @@ function MultiplyBet() {
                         ?
                         <>    {/*#####################################  manual bet  ######################## */}
                             <label className="mb-3 h5">Max Bet</label>
-                            <input className="float-right rounded borderless" value={MaxBet} readOnly></input><br></br>
+                            <label className="float-right mr-4"><span className="text-gold h5">{MaxBet}</span></label><br></br>
                             <label className="mb-3 h5">Bet Amount</label>
                             <input 
                                 className="float-right rounded borderless"
                                 value={betAmount} 
                                 onChange={event => {
-                                    if(event.target.value <= 20 && event.target.value > 0) 
-                                        setBetAmount(event.target.value);
-                                    // else if(event.target.value <= 0) 
-                                    //     setBetAmount(0.1)
-                                    else
-                                        setBetAmount(20); }}
+                                    // if(event.target.value <= 20 && event.target.value > 0) 
+                                    //     setBetAmount(event.target.value);
+                                    // // else if(event.target.value <= 0) 
+                                    // //     setBetAmount(0.1)
+                                    // else
+                                    //     setBetAmount(20);
+                                    setBetAmount(event.target.value); 
+                                    }}
                             ></input><br></br>
                             <label className="mb-3 h5">Bet Odds</label>
                             <input 
@@ -420,36 +489,38 @@ function MultiplyBet() {
                             <label className="mb-3 h5">Win Profit</label>
                             <label className="float-right mr-4"><span className="text-gold h5">{winProfit}</span></label><br></br>
                             <label className="mb-4 h5">Win Probability</label>
-                            <input className="float-right rounded borderless" value={winChance} readOnly></input><br></br>
+                            <label className="float-right mr-4"><span className="text-gold h5">{winChance}%</span></label><br></br>
                         </>
                         :
-                        <>  {/*######################################  auto bet  ######################## */}
+                        <div className="disabled">  {/*######################################  auto bet  ######################## */}
                             <label className="mb-3 h5">Max Bet</label>
-                            <input className="float-right rounded borderless" value={MaxBet} readOnly></input><br></br>
+                            <label className="float-right mr-4"><span className="text-gold h5">{MaxBet}</span></label><br></br>
                             <label className="mb-3 h5">Base Bet</label>
-                            <input className="float-right rounded borderless" value={basebet} readOnly></input><br></br>
+                            <label className="float-right mr-4"><span className="text-gold h5">{basebet}</span></label><br></br>
                             <label className="mb-3 h5">Bet Amount</label>
                             <input 
-                                className="float-right rounded borderless"
+                                className="float-right rounded borderless disabled"
                                 value={betAmount} 
                                 onChange={event => {
-                                    if(event.target.value <= 20) 
-                                        setBetAmount(event.target.value);
-                                    // else if(event.target.value < 0) 
-                                    //     setBetAmount(0.01)
-                                    else
-                                        setBetAmount(20); }}
+                                    // if(event.target.value <= 20) 
+                                    //     setBetAmount(event.target.value);
+                                    // // else if(event.target.value < 0) 
+                                    // //     setBetAmount(0.01)
+                                    // else
+                                    //     setBetAmount(20); 
+                                    setBetAmount(event.target.value);
+                                    }}
                             ></input><br></br>
                             <label className="mb-3 h5">Bet Odds</label>
                             <input 
-                                className="float-right rounded borderless"  
+                                className="float-right rounded borderless disabled"  
                                 onChange={event => {setBetOdds(event.target.value);}}
                                 value={betOdds}
                             ></input><br></br>
                             <label className="mb-3 h5">Win Profit</label>
                             <label className="float-right mr-4"><span className="text-gold h5">{winProfit}</span></label><br></br>
                             <label className="mb-4 h5">Win Probability</label>
-                            <input className="float-right rounded borderless" value={winChance} readOnly></input><br></br>
+                            <label className="float-right mr-4"><span className="text-gold h5">{winChance}%</span></label><br></br>
                             <h5 className="bg-dark p-2 text-center rounded">On Hitting Max Bet</h5>
                             <div className="bg-darkgray p-2">
                                 <input type="radio" value="basebet" name="max_bet" onChange={event => handleRadio(event)}></input>
@@ -457,7 +528,7 @@ function MultiplyBet() {
                                 <input type="radio" value="stopbet" name="max_bet" onChange={event => handleRadio(event)} defaultChecked></input>
                                 <label className="h5 mx-2">Stop Betting</label>
                             </div>
-                        </>}
+                        </div>}
                     </div>
                     <div className="col-4 border-right border-left">
                         {betmode === "manual" 
@@ -507,12 +578,19 @@ function MultiplyBet() {
                         :
                         <>  {/*##########################################  auto bet  ######################## */}
                             <div className="text-center my-4"><span className="border m-auto display-4 p-3 text-white">{rollValue}</span></div>
+                            <label className="h5 mt-3">Bet On</label>
+                            <div className="float-right mt-3">
+                                <input type="radio" name="rollmode" value="hi" onChange={event => {setIsHi(1); handleRadio(event)}} defaultChecked></input><label className="mx-2">Hi</label>
+                                <input type="radio" name="rollmode" value="lo" onChange={event => {setIsHi(0); handleRadio(event)}}></input><label className="mx-2">Lo</label>
+                                <input type="radio" name="rollmode" value="alternate" onChange={event => {setIsHi(1); handleRadio(event)}}></input><label className="mx-2">Alternate</label>
+                            </div><br></br>
                             <div className="w-100 text-center py-4">
                                 {isAutoBetActive ? 
                                 <button 
                                     className="btn btn-danger btn-lg m-auto"
                                     onClick={() => {
                                         clearInterval(a);
+                                        setTimeout(() => setRollValue(10000), 2000)
                                         setIsAutoBetActive(false);
                                     }}
                                 >Stop Auto Bet</button>
@@ -550,12 +628,6 @@ function MultiplyBet() {
                         {betmode === "auto"
                         ?
                         <>  {/*#########################################  auto bet  ######################## */}
-                            <label className="h5 mb-3">Bet On</label>
-                            <div className="float-right">
-                                <input type="radio" name="rollmode" value="hi" onChange={event => {setIsHi(1); handleRadio(event)}} defaultChecked></input><label className="mx-2">Hi</label>
-                                <input type="radio" name="rollmode" value="lo" onChange={event => {setIsHi(0); handleRadio(event)}}></input><label className="mx-2">Lo</label>
-                                <input type="radio" name="rollmode" value="alternate" onChange={event => {setIsHi(1); handleRadio(event)}}></input><label className="mx-2">Alternate</label>
-                            </div><br></br>
                             <label className="h5 mb-3">Number of rolls</label>
                             <input 
                                 className="float-right rounded borderless"

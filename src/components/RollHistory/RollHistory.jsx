@@ -1,3 +1,5 @@
+// Version 0.1.1 Perfectly working Pagination , bug fixes
+
 import React, { useState, useEffect } from 'react'
 import ReactPaginate from 'react-paginate'
 
@@ -5,20 +7,14 @@ import { getRollHistory , getWalletData, getMultiplyBetRollHistory} from '../Hel
 import Navbar from '../Navbar/Navbar';
 import './RollHistory.css'
 
+const PER_PAGE = 5;
+
 function RollHistory() {
     const [rollData, setRollData] = useState([])
     const [multiplierRollData, setmultiplierRollData] = useState([])
     const [wallet, setWallet] = useState('0.0')
-    const [offset, setOffset] = useState(0)
-    const [multiplierOffset, setmultiplierOffset] = useState(0)
     const [currentPage, setCurrentPage] = useState(0)
     const [multiplierCurrentPage, setmultiplierCurrentPage] = useState(0)
-    const [perPage, setPerPage] = useState(5)
-    const [multiplierPerPage, setmultiplierPerPage] = useState(5)
-    const [pageCount, setPageCount] = useState(0)
-    const [multiplierPageCount, setmultiplierPageCount] = useState(0)
-    const [pageData, setPageData] = useState([])
-    const [multiplierPageData, setmultiplierPageData] = useState([])
 
     // ##########################  handle functions #################################
 
@@ -27,11 +23,7 @@ function RollHistory() {
         getRollHistory(userId)
         .then(res => {
             const { data } = res;
-            // console.log(data.[0].rollHistory.[0].rollValue)
-            var slice = data.[0].rollHistory.slice(offset, offset+perPage)
-            setRollData(data.[0].rollHistory)
-            setPageCount(Math.ceil(data.[0].rollHistory.length/perPage))
-            setPageData(slice)
+            setRollData(data.[0].rollHistory);
         })
     }
 
@@ -40,26 +32,8 @@ function RollHistory() {
         getMultiplyBetRollHistory(userId)
         .then(res => {
             const { data } = res;
-            // console.log(data.[0].MultiplyBetRollHistory)
-            var slice = data.[0].MultiplyBetRollHistory.slice(multiplierOffset, multiplierOffset+multiplierPerPage)
             setmultiplierRollData(data.[0].MultiplyBetRollHistory)
-            setmultiplierPageCount(Math.ceil(data.[0].MultiplyBetRollHistory.length/multiplierPerPage))
-            setmultiplierPageData(slice)
         })
-    }
-
-    function loadMoreData(){
-        var data = rollData;
-        var slice = data.slice(offset, offset + perPage)
-        setPageCount(Math.ceil(data.length / perPage))
-        setPageData(slice)
-    }
-
-    function loadMoreMultiplyBetData(){
-        var data = multiplierRollData;
-        var slice = data.slice(multiplierOffset, multiplierOffset + multiplierPerPage)
-        setmultiplierPageCount(Math.ceil(data.length / multiplierPerPage))
-        setmultiplierPageData(slice)
     }
 
     const handleSetWallet = () => {
@@ -71,28 +45,29 @@ function RollHistory() {
         } 
     }
 
-    const handlePageClick = (e) => {
-        const selectedPage = e.selected;
-        const offset = selectedPage * perPage;
-        setCurrentPage(selectedPage)
-        setOffset(offset)
-        loadMoreData()
+    const handlePageClick = ({ selected: selectedPage }) => {
+        setCurrentPage(selectedPage);
     }
 
-    const handlemultiplierPageClick = (e) => {
-        const selectedPage = e.selected;
-        const offset = selectedPage * multiplierPerPage;
+    const handlemultiplierPageClick = ({ selected: selectedPage }) => {
         setmultiplierCurrentPage(selectedPage)
-        setmultiplierOffset(offset)
-        loadMoreMultiplyBetData()
     }
 
-
+    // ###################################  LIFE CYCLE FUNCTIONS ##################################
     useEffect(() => {
         handleSetWallet()
         handleGetRollHistory()
         handleGetmultiplierRollHistory()
     }, [])
+
+    const offset = currentPage * PER_PAGE;
+    const multiplierOffset = multiplierCurrentPage * PER_PAGE;
+
+    const pageData = rollData.slice(offset, offset + PER_PAGE);
+    const multiplierPageData = multiplierRollData.slice(multiplierOffset, multiplierOffset + PER_PAGE);
+
+    const pageCount = Math.ceil(rollData.length / PER_PAGE);
+    const multiplierPageCount = Math.ceil(multiplierRollData.length / PER_PAGE)
 
     return (
         <div>
@@ -138,15 +113,6 @@ function RollHistory() {
 
             </div>
 
-            {/* betmode: "auto"
-date: "5/12/2021"
-multiplier: "2"
-rollOption: "Hi"
-rollValue: 7363
-takeaway: 0.1
-wallet: "0.35"
-win: "Win"
-winProfit: "0.10" */}
             <div className="card card-body bg-gray text-white">
                 <h1 className="text-white">Multiply Bet</h1>
                 <table className="table table-bordered m-auto text-center">
