@@ -9,12 +9,17 @@ import Home from './components/Home/Home';
 import MultiplyBet from './components/MultiplyBet/MultiplyBet';
 import Login from './components/Login/Login';
 import RollHistory from './components/RollHistory/RollHistory';
+import Lottery from './components/Lottery/Lottery';
+import FakeDoor from './components/FakeDoor/FakeDoor';
+import PathError from './components/PathError/PathError';
+import VerifyRoll from './components/VerifyRoll/VerifyRoll';
 
 // const wallet = '0.00';
 
 const App = () => {
   // const [wallet, setWallet] = useState(0.00)
   // console.log("wallet", wallet)
+
   return(
     <ToastProvider>
       <Switch>
@@ -23,6 +28,10 @@ const App = () => {
         <Route path='/multiplybet' component={MultiplyBet} />
         <Route path='/rollHistory' component={RollHistory} />
         <Route path='/login' component={Login} />
+        <Route path='/lottery' component={Lottery} />
+        <Route path='/fakedoor' component={FakeDoor} />
+        <Route path={`/VerifyRoll/:serverSeed/:clientSeed`} component={VerifyRoll} />
+        <Route component={PathError} />
       </Switch>
     </ToastProvider>
   )

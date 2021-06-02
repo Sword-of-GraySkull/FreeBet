@@ -1,0 +1,200 @@
+import React, { useState, useEffect } from 'react'
+// import ReactDOM from 'react-dom'
+import logo from '../../logo.svg';
+
+import { getWalletData, setWalletData } from '../Helpers/service'
+import Navbar from '../Navbar/Navbar'
+import './FakeDoor.scss'
+import { useToasts } from 'react-toast-notifications'
+import LoggedUser from '../LoggedUser/LoggedUser'
+
+function FakeDoor() {
+    const { addToast } = useToasts()
+    const [wallet, setWallet] = useState(0.00)
+    const [diffLvl, setDiffLvl] = useState(3) 
+    const [result, setResult] = useState([0,0,0]) 
+    const [index, setIndex] = useState()
+    const [className, setClassName] = useState("door")    
+    // const [prizeIndex, setPrizeIndex] = useState()
+    // const [margin, setmargin] = useState(0)
+
+    const arr3 = ['001', '010', '100']
+    const arr4 = ['0001', '0010', '0100', '1000']
+    const arr5 = ['00001', '00010', '00100', '01000', '10000']
+    const arr6 = ['000001', '000010', '000100', '001000', '010000', '100000']
+
+
+    const handleSetWallet = () => {
+        if(localStorage.getItem("userId")) {
+            getWalletData(localStorage.getItem("userId")).then(res => {
+                // console.log(res.data.wallet)
+                setWallet((res.data.wallet))
+            })
+        }
+    }
+
+    const handleFakeDoor = (ind) => {
+        // console.log(document.getElementById(index).textContent)
+        if(className !== "door doorOpen") {
+            setIndex(ind)
+            if(wallet < (0.01 * diffLvl)) {
+                addToast("You don't have enough money to play the game", {
+                    appearance: 'info',
+                    autoDismiss: true
+                })
+            }
+            else {
+                if(diffLvl === 3) {
+                    let index = Math.floor(Math.random() * 3)
+                    let list = arr3[index].split('')
+                    // console.log(list)
+                    setResult(list)
+                }
+                else if(diffLvl === 4) {
+                    let index = Math.floor(Math.random() * 4)
+                    let list = arr4[index].split('')
+                    // console.log(list)
+                    setResult(list)
+                }
+                else if(diffLvl === 5) {
+                    let index = Math.floor(Math.random() * 5)
+                    let list = arr5[index].split('')
+                    // console.log(list)
+                    setResult(list)
+                }
+                else if(diffLvl === 6) {
+                    let index = Math.floor(Math.random() * 6)
+                    let list = arr6[index].split('')
+                    // console.log(list)
+                    setResult(list)
+                }
+            }
+        }
+    }
+
+
+    useEffect(() => {
+        handleSetWallet()
+    })
+
+    useEffect(() => {
+        // console.log(result[index], result, index)
+        // console.log(result[index] === '1')
+        // console.log(result, [0, 0, 0, 0, 0] , result.join('') === [0, 0, 0, 0, 0].join(''))
+    
+        if(result[index] === '1') {
+            // setPrizeIndex(index)
+            addToast(`You have Found the Real Door!! +${diffLvl * 0.01} added to wallet`, {
+                appearance: 'success',
+                autoDismiss: true
+            })
+            // console.log((Number(wallet) + Number(0.01*diffLvl)).toFixed(2))
+            setWalletData(localStorage.getItem("userId"),(Number(wallet) + Number(0.01*diffLvl)).toFixed(2))
+        }
+        else {
+            if(result.join('') !== [0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0, 0, 0].join('')) {
+                addToast(`Uh Oh, You have opened the fake door!! -${diffLvl * 0.01} reduced from wallet`, {
+                    appearance: 'error',
+                    autoDismiss: true
+                })
+                // console.log((wallet + (0.01*diffLvl)))
+                setWalletData(localStorage.getItem("userId"),(Number(wallet) - Number(0.01*diffLvl)).toFixed(2))
+            }    
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [result, index])
+
+    function toggleDoor() {
+        // console.log("ji")
+        // let list = document.getElementsByClassName("door");
+        // ReactDOM.findDOMNode(list).classList.toggle("doorOpen");
+        // console.log("hi")
+        if(className === "door") {
+            // console.log("ji")
+            setClassName("door doorOpen")
+        }
+        else {
+            // console.log("ki")
+            setClassName("door")
+        }
+    }
+
+    return (
+        <div>
+            <Navbar wallet={wallet}/>
+            <LoggedUser />
+            <div className="display-4 text-center my-4">Welcome to Fake Door</div>
+            <h1 className="text-center mb-4 pb-5">Everything you see around here is not <div className="text-danger text-center"><span className="real"></span></div></h1>
+            <div className="row">
+                {result.map((li, index) => {
+                    return(
+                        <div className="col-4 text-center my-4">
+                            {/* <div className="lid"></div> */}
+                            {/* <div className="p-3 border" id={index} onClick={() => {handleFakeDoor(index);toggleDoor()}}>{li}</div> */}
+                            <div class="backDoor">
+                                <div className={className} id={index} onClick={() => {handleFakeDoor(index);toggleDoor()}}>
+                                </div>
+                                {/* {console.log(li)} */}
+                                {li === '1'
+                                ? 
+                                <>
+                                    <img src={logo} alt="prize" />
+                                </>
+                                : 
+                                <></>}
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+            <h3 className="text-center mt-4 mb-2">Difficulty Level</h3>
+            <div className="d-inline-block text-center mb-4 w-100">
+                <button className="btn btn-info mx-2" onClick={() => {setDiffLvl(3);setResult([0,0,0])}}>3</button>
+                <button className="btn btn-info mx-2" onClick={() => {setDiffLvl(4);setResult([0,0,0,0])}}>4</button>
+                <button className="btn btn-info mx-2" onClick={() => {setDiffLvl(5);setResult([0,0,0,0,0])}}>5</button>
+                <button className="btn btn-info mx-2" onClick={() => {setDiffLvl(6);setResult([0,0,0,0,0,0])}}>6</button>
+            </div>
+            <h3 className="text-center mb-3">Higher the Difficulty Level, Higher the Profit You Earn</h3>
+         <div className="text-center m-auto">
+<div class="hexagon one">
+<div class="text">
+<h1>89%</h1>
+<p>My Overall Score</p>
+</div>
+</div>
+<div class="hexagon two">
+<div class="text">
+<h1>89%</h1>
+<p>My Overall Score</p>
+</div>
+</div>
+<div class="hexagon three">
+<div class="text">
+<h1>89%</h1>
+<p>My Overall Score</p>
+</div>
+</div><br></br>
+<div class="hexagon four">
+<div class="text">
+<h1>89%</h1>
+<p>My Overall Score</p>
+</div>
+</div>
+<div class="hexagon five">
+<div class="text">
+<h1>89%</h1>
+<p>My Overall Score</p>
+</div>
+</div>
+<div class="hexagon six">
+<div class="text">
+<h1>89%</h1>
+<p>My Overall Score</p>
+</div>
+</div>
+</div>   
+        </div>
+    )
+}
+
+export default FakeDoor

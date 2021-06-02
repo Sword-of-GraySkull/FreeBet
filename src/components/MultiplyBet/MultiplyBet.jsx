@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useToasts } from 'react-toast-notifications';
 
-import './MultiplyBet.css';
+import './MultiplyBet.scss';
 import Navbar from './../Navbar/Navbar';
 import { roll, getWalletData, setWalletData, pushMultiplyBetRollHistory } from '../Helpers/service';
+import LoggedUser from '../LoggedUser/LoggedUser';
 
 // eslint-disable-next-line no-lone-blocks
 {/* <ul class="nav nav-tabs">
@@ -22,6 +23,8 @@ import { roll, getWalletData, setWalletData, pushMultiplyBetRollHistory } from '
 </ul> */}
 
 function MultiplyBet() {
+
+    const [counter, setCounter] = useState(false)
 
     // ###################################      manual bet options  ###################################################
     const [rollValue, setRollValue] = useState(10000);
@@ -237,6 +240,7 @@ function MultiplyBet() {
     function handleRoll() {                     //#################### Function that gets the RollValue from the Server ####################
         roll()
         .then(x => {
+            setCounter(false)
             setRollValue(x)
         });
     }
@@ -335,6 +339,7 @@ function MultiplyBet() {
                     setTimeout(() => setRollValue(10000), 2000)
                 }
                 setA(id);
+                setCounter(true)
                 handleRoll()
                 x++;
             }, 3000);
@@ -367,14 +372,14 @@ function MultiplyBet() {
         }
     }
 
-    const handleResultDisplay = () => {
-        if(win && rollValue !== 10000) {
-            return true
-        }
-        else if(!win && rollValue !== 10000) {
-            return false
-        }
-    }
+    // const handleResultDisplay = () => {
+    //     if(win && rollValue !== 10000) {
+    //         return true
+    //     }
+    //     else if(!win && rollValue !== 10000) {
+    //         return false
+    //     }
+    // }
 
     const handleSetWallet = () => {
         if(localStorage.getItem("userId")) {
@@ -389,6 +394,9 @@ function MultiplyBet() {
         
     useEffect(() => {
         handleBetOdds();
+        if(isAutoBetActive === false) {
+            clearInterval(a)
+        }
     });
 
     useEffect(() => {
@@ -447,12 +455,15 @@ function MultiplyBet() {
     return (
         <div>
             <Navbar wallet={wallet} />
-            <div className="card card-body bg-gray text-white">
+            <LoggedUser />
+            <div className=" bg-gray text-white p-3">
                 <h1 className="text-white text-center py-4">Multiply your Bet here</h1>
                 <div className="text-center mb-3">
                     <button className="btn btn-lg btn-primary mr-3" onClick={() => {
                         setBetmode('manual')
                         setRollValue(10000)
+                        clearInterval(a)
+                        setIsAutoBetActive(false)
                         }}>Manual</button>
                     <button className="btn btn-lg btn-primary" onClick={() => {
                         setBetmode('auto')
@@ -460,7 +471,7 @@ function MultiplyBet() {
                     }}>Auto</button>
                 </div>
                 <div className="row" style={{"fontWeight": 'lighter'}}>
-                    <div className="col-4">
+                    <div className="col-4 multiplyBet">
                         {betmode === "manual"
                         ?
                         <>    {/*#####################################  manual bet  ######################## */}
@@ -468,7 +479,7 @@ function MultiplyBet() {
                             <label className="float-right mr-4"><span className="text-gold h5">{MaxBet}</span></label><br></br>
                             <label className="mb-3 h5">Bet Amount</label>
                             <input 
-                                className="float-right rounded borderless"
+                                className="float-right rounded borderless mobile"
                                 value={betAmount} 
                                 onChange={event => {
                                     // if(event.target.value <= 20 && event.target.value > 0) 
@@ -482,7 +493,7 @@ function MultiplyBet() {
                             ></input><br></br>
                             <label className="mb-3 h5">Bet Odds</label>
                             <input 
-                                className="float-right rounded borderless"  
+                                className="float-right rounded borderless mobile"  
                                 onChange={event => {setBetOdds(event.target.value);}}
                                 value={betOdds}
                             ></input><br></br>
@@ -492,14 +503,17 @@ function MultiplyBet() {
                             <label className="float-right mr-4"><span className="text-gold h5">{winChance}%</span></label><br></br>
                         </>
                         :
-                        <div className="disabled">  {/*######################################  auto bet  ######################## */}
+                        <>
+                        {isAutoBetActive
+                        ?
+                        <div style={{"pointerEvents": "none", "opacity": "0.5"}}>  {/*######################################  auto bet  ######################## */}
                             <label className="mb-3 h5">Max Bet</label>
                             <label className="float-right mr-4"><span className="text-gold h5">{MaxBet}</span></label><br></br>
                             <label className="mb-3 h5">Base Bet</label>
                             <label className="float-right mr-4"><span className="text-gold h5">{basebet}</span></label><br></br>
                             <label className="mb-3 h5">Bet Amount</label>
                             <input 
-                                className="float-right rounded borderless disabled"
+                                className="float-right rounded borderless disabled mobile"
                                 value={betAmount} 
                                 onChange={event => {
                                     // if(event.target.value <= 20) 
@@ -513,7 +527,7 @@ function MultiplyBet() {
                             ></input><br></br>
                             <label className="mb-3 h5">Bet Odds</label>
                             <input 
-                                className="float-right rounded borderless disabled"  
+                                className="float-right rounded borderless disabled mobile"  
                                 onChange={event => {setBetOdds(event.target.value);}}
                                 value={betOdds}
                             ></input><br></br>
@@ -528,13 +542,63 @@ function MultiplyBet() {
                                 <input type="radio" value="stopbet" name="max_bet" onChange={event => handleRadio(event)} defaultChecked></input>
                                 <label className="h5 mx-2">Stop Betting</label>
                             </div>
-                        </div>}
+                        </div>
+                        :
+                        <div>
+                        <label className="mb-3 h5">Max Bet</label>
+                            <label className="float-right mr-4"><span className="text-gold h5">{MaxBet}</span></label><br></br>
+                            <label className="mb-3 h5">Base Bet</label>
+                            <label className="float-right mr-4"><span className="text-gold h5">{basebet}</span></label><br></br>
+                            <label className="mb-3 h5">Bet Amount</label>
+                            <input 
+                                className="float-right rounded borderless disabled mobile"
+                                value={betAmount} 
+                                onChange={event => {
+                                    // if(event.target.value <= 20) 
+                                    //     setBetAmount(event.target.value);
+                                    // // else if(event.target.value < 0) 
+                                    // //     setBetAmount(0.01)
+                                    // else
+                                    //     setBetAmount(20); 
+                                    setBetAmount(event.target.value);
+                                    }}
+                            ></input><br></br>
+                            <label className="mb-3 h5">Bet Odds</label>
+                            <input 
+                                className="float-right rounded borderless disabled mobile"  
+                                onChange={event => {setBetOdds(event.target.value);}}
+                                value={betOdds}
+                            ></input><br></br>
+                            <label className="mb-3 h5">Win Profit</label>
+                            <label className="float-right mr-4"><span className="text-gold h5">{winProfit}</span></label><br></br>
+                            <label className="mb-4 h5">Win Probability</label>
+                            <label className="float-right mr-4"><span className="text-gold h5">{winChance}%</span></label><br></br>
+                            <h5 className="bg-dark p-2 text-center rounded">On Hitting Max Bet</h5>
+                            <div className="bg-darkgray p-2">
+                                <input type="radio" value="basebet" name="max_bet" onChange={event => handleRadio(event)}></input>
+                                <label className="h5 mx-2">Return to BaseBet</label><br></br>
+                                <input type="radio" value="stopbet" name="max_bet" onChange={event => handleRadio(event)} defaultChecked></input>
+                                <label className="h5 mx-2">Stop Betting</label>
+                            </div>
+                        </div>
+                        }
+                        </>
+                        }
                     </div>
-                    <div className="col-4 border-right border-left">
+                    <div className="col-4 multiplyBet border-right border-left">
                         {betmode === "manual" 
                         ?
                         <>  {/*###########################################  manual bet  ######################## */}
+                            {counter
+                            ?
+                            <>
+                            <div className="text-center my-4"><span className="border counter m-auto display-4 p-3 text-white"></span></div>    
+                            </>
+                            :
+                            <>
                             <div className="text-center my-4"><span className="border m-auto display-4 p-3 text-white">{rollValue}</span></div>
+                            </>
+                            }
                             <div className="row py-4">
                                 <div className="col-6 text-center">
                                     <button 
@@ -544,6 +608,7 @@ function MultiplyBet() {
                                             if(handleValidation()) {
                                                 setIsHi(1);
                                                 setTakeAwayAmount(0);
+                                                setCounter(true)
                                                 handleRoll();
                                             }
                                         }}>ROLL HI</button>
@@ -556,6 +621,7 @@ function MultiplyBet() {
                                             if(handleValidation()) {
                                                 setIsHi(0);
                                                 setTakeAwayAmount(0);
+                                                setCounter(true)
                                                 handleRoll()
                                             }
                                         }}>ROLL LO</button>
@@ -577,13 +643,35 @@ function MultiplyBet() {
                         </>
                         :
                         <>  {/*##########################################  auto bet  ######################## */}
+                            {counter
+                            ?
+                            <>
+                            <div className="text-center my-4"><span className="border counter m-auto display-4 p-3 text-white"></span></div>    
+                            </>
+                            :
+                            <>
                             <div className="text-center my-4"><span className="border m-auto display-4 p-3 text-white">{rollValue}</span></div>
-                            <label className="h5 mt-3">Bet On</label>
-                            <div className="float-right mt-3">
-                                <input type="radio" name="rollmode" value="hi" onChange={event => {setIsHi(1); handleRadio(event)}} defaultChecked></input><label className="mx-2">Hi</label>
-                                <input type="radio" name="rollmode" value="lo" onChange={event => {setIsHi(0); handleRadio(event)}}></input><label className="mx-2">Lo</label>
-                                <input type="radio" name="rollmode" value="alternate" onChange={event => {setIsHi(1); handleRadio(event)}}></input><label className="mx-2">Alternate</label>
-                            </div><br></br>
+                            </>
+                            }
+                            {isAutoBetActive
+                            ?
+                            <div style={{"pointerEvents": 'none', "opacity": "0.5"}}>
+                                <label className="h5 mt-3">Bet On</label>
+                                <div className="float-right mt-3">
+                                    <input type="radio" name="rollmode" value="hi" onChange={event => {setIsHi(1); handleRadio(event)}} defaultChecked></input><label className="mx-2">Hi</label>
+                                    <input type="radio" name="rollmode" value="lo" onChange={event => {setIsHi(0); handleRadio(event)}}></input><label className="mx-2">Lo</label>
+                                    <input type="radio" name="rollmode" value="alternate" onChange={event => {setIsHi(1); handleRadio(event)}}></input><label className="mx-2">Alternate</label>
+                                </div><br></br>
+                            </div>
+                            :
+                            <>
+                                <label className="h5 mt-3">Bet On</label>
+                                <div className="float-right mt-3">
+                                    <input type="radio" name="rollmode" value="hi" onChange={event => {setIsHi(1); handleRadio(event)}} defaultChecked></input><label className="mx-2">Hi</label>
+                                    <input type="radio" name="rollmode" value="lo" onChange={event => {setIsHi(0); handleRadio(event)}}></input><label className="mx-2">Lo</label>
+                                    <input type="radio" name="rollmode" value="alternate" onChange={event => {setIsHi(1); handleRadio(event)}}></input><label className="mx-2">Alternate</label>
+                                </div><br></br>
+                            </>}
                             <div className="w-100 text-center py-4">
                                 {isAutoBetActive ? 
                                 <button 
@@ -602,6 +690,7 @@ function MultiplyBet() {
                                         setProfit(0);
                                         setLoss(0);
                                         if(handleValidation()) {
+                                            setCounter(true)
                                             handleAutoBet();
                                             setIsAutoBetActive(true);
                                         }
@@ -610,80 +699,129 @@ function MultiplyBet() {
                                 }
                             </div>
                             <p>The roll should be greater than <span className="text-green">{winHigh}</span> if you roll High and less than <span className="text-green">{winLow}</span> if you roll low.</p>
-                            {rollValue !== 10000
-                            ? 
-                                handleResultDisplay()
-                                ?
-                                <>
-                                <h1 className="text-green text-center">You Won !!</h1>
-                                </>
-                                :
-                                <h1 className="text-danger text-center">You Lose !!</h1>
-                            :
-                            <></>
-                            }
                         </>}
                     </div>
-                    <div className="col-4">
+                    <div className="col-4 multiplyBet">
                         {betmode === "auto"
                         ?
                         <>  {/*#########################################  auto bet  ######################## */}
-                            <label className="h5 mb-3">Number of rolls</label>
-                            <input 
-                                className="float-right rounded borderless"
-                                value={noOfRolls}
-                                onChange={event => {setNoOfRolls(event.target.value)}}></input><br></br>
-                            <h5 className="text-center bg-dark p-2 rounded">Stop Betting After</h5>
-                            <div className="bg-darkgray p-2 mb-2">
-                                <label className="h5 mb-3">Profit {'>='}</label>
-                                <input className="float-right rounded borderless" value={stopProfit} onChange={event => setStopProfit(event.target.value)} required></input><br></br>                            
-                                <label className="h5 mb-3">Loss {'>='}</label>
-                                <input className="float-right rounded borderless" value={stopLoss} onChange={event => setStopLoss(event.target.value)} required></input>
+                            {isAutoBetActive
+                            ?
+                            <div style={{"pointerEvents": 'none', "opacity": "0.5"}}>
+                                <label className="h5 mb-3">Number of rolls</label>
+                                <input 
+                                    className="float-right rounded borderless mobile"
+                                    value={noOfRolls}
+                                    onChange={event => {setNoOfRolls(event.target.value)}}></input><br></br>
+                                <h5 className="text-center bg-dark p-2 rounded">Stop Betting After</h5>
+                                <div className="bg-darkgray p-2 mb-2">
+                                    <label className="h5 mb-3">Profit {'>='}</label>
+                                    <input className="float-right rounded borderless mobile" value={stopProfit} onChange={event => setStopProfit(event.target.value)} required></input><br></br>                            
+                                    <label className="h5 mb-3">Loss {'>='}</label>
+                                    <input className="float-right rounded borderless mobile" value={stopLoss} onChange={event => setStopLoss(event.target.value)} required></input>
+                                </div>
+                                <nav className="nav nav-fill">
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                    <a className="nav-item nav-link p-2 bg-dark borderless text-white" onClick={() => setOnWin(true)}>On Win</a>
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                    <a className="nav-item nav-link p-2 bg-dark borderless text-white" onClick={() => setOnWin(false)}>On Lose</a>
+                                </nav>
+                                <div className="bg-darkgray p-2">
+                                {onWin 
+                                    ? <> {/*#############################  On win ################################# */}
+                                    <p>Changes to make on every win</p>
+                                    {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
+                                    <label className="h5 mb-3">Increase bet by</label>
+                                    <input 
+                                        className="float-right rounded borderless mobile"
+                                        value={increaseBetWin}
+                                        onChange={event => setIncreaseBetWin(event.target.value)}
+                                        ></input><br></br>
+                                    <label className="h5 mb-3">Change Bet Odds to</label>
+                                    <input  
+                                        className="float-right rounded borderless mobile"
+                                        value={changeBetOddWin}
+                                        onChange={event => setChangeBetOddWin(event.target.value)}></input>
+                                    </>
+                                    : <> {/*############################# On Lose  ################################ */}
+                                    <p>Changes to make on every lose</p>
+                                    {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
+                                    <label className="h5 mb-3">Increase bet by</label>
+                                    <input 
+                                        className="float-right rounded borderless mobile"
+                                        value={increaseBetLose}
+                                        onChange={event => setIncreaseBetLose(event.target.value)}
+                                        ></input><br></br>
+                                    <label className="h5 mb-3">Change Bet Odds to</label>
+                                    <input  
+                                        className="float-right rounded borderless mobile"
+                                        value={changeBetOddLose}
+                                        onChange={event => setChangeBetOddLose(event.target.value)}></input>         
+                                    </>
+                                }
+                                </div>
                             </div>
-                            <nav className="nav nav-fill">
-                                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                                <a className="nav-item nav-link p-2 bg-dark borderless text-white" onClick={() => setOnWin(true)}>On Win</a>
-                                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                                <a className="nav-item nav-link p-2 bg-dark borderless text-white" onClick={() => setOnWin(false)}>On Lose</a>
-                            </nav>
-                            <div className="bg-darkgray p-2">
-                            {onWin 
-                                ? <> {/*#############################  On win ################################# */}
-                                <p>Changes to make on every win</p>
-                                {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
-                                <label className="h5 mb-3">Increase bet by</label>
+                            :
+                            <div>
+                                <label className="h5 mb-3">Number of rolls</label>
                                 <input 
-                                    className="float-right rounded borderless"
-                                    value={increaseBetWin}
-                                    onChange={event => setIncreaseBetWin(event.target.value)}
-                                    ></input><br></br>
-                                <label className="h5 mb-3">Change Bet Odds to</label>
-                                <input  
-                                    className="float-right rounded borderless"
-                                    value={changeBetOddWin}
-                                    onChange={event => setChangeBetOddWin(event.target.value)}></input>
-                                </>
-                                : <> {/*############################# On Lose  ################################ */}
-                                <p>Changes to make on every lose</p>
-                                {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
-                                <label className="h5 mb-3">Increase bet by</label>
-                                <input 
-                                    className="float-right rounded borderless"
-                                    value={increaseBetLose}
-                                    onChange={event => setIncreaseBetLose(event.target.value)}
-                                    ></input><br></br>
-                                <label className="h5 mb-3">Change Bet Odds to</label>
-                                <input  
-                                    className="float-right rounded borderless"
-                                    value={changeBetOddLose}
-                                    onChange={event => setChangeBetOddLose(event.target.value)}></input>
-                                </>
+                                    className="float-right rounded borderless mobile"
+                                    value={noOfRolls}
+                                    onChange={event => {setNoOfRolls(event.target.value)}}></input><br></br>
+                                <h5 className="text-center bg-dark p-2 rounded">Stop Betting After</h5>
+                                <div className="bg-darkgray p-2 mb-2">
+                                    <label className="h5 mb-3">Profit {'>='}</label>
+                                    <input className="float-right rounded borderless mobile" value={stopProfit} onChange={event => setStopProfit(event.target.value)} required></input><br></br>                            
+                                    <label className="h5 mb-3">Loss {'>='}</label>
+                                    <input className="float-right rounded borderless mobile" value={stopLoss} onChange={event => setStopLoss(event.target.value)} required></input>
+                                </div>
+                                <nav className="nav nav-fill">
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                    <a className="nav-item nav-link p-2 bg-dark borderless text-white" onClick={() => setOnWin(true)}>On Win</a>
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                    <a className="nav-item nav-link p-2 bg-dark borderless text-white" onClick={() => setOnWin(false)}>On Lose</a>
+                                </nav>
+                                <div className="bg-darkgray p-2">
+                                {onWin 
+                                    ? <> {/*#############################  On win ################################# */}
+                                    <p>Changes to make on every win</p>
+                                    {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
+                                    <label className="h5 mb-3">Increase bet by</label>
+                                    <input 
+                                        className="float-right rounded borderless mobile"
+                                        value={increaseBetWin}
+                                        onChange={event => setIncreaseBetWin(event.target.value)}
+                                        ></input><br></br>
+                                    <label className="h5 mb-3">Change Bet Odds to</label>
+                                    <input  
+                                        className="float-right rounded borderless mobile"
+                                        value={changeBetOddWin}
+                                        onChange={event => setChangeBetOddWin(event.target.value)}></input>
+                                    </>
+                                    : <> {/*############################# On Lose  ################################ */}
+                                    <p>Changes to make on every lose</p>
+                                    {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
+                                    <label className="h5 mb-3">Increase bet by</label>
+                                    <input 
+                                        className="float-right rounded borderless mobile"
+                                        value={increaseBetLose}
+                                        onChange={event => setIncreaseBetLose(event.target.value)}
+                                        ></input><br></br>
+                                    <label className="h5 mb-3">Change Bet Odds to</label>
+                                    <input  
+                                        className="float-right rounded borderless mobile"
+                                        value={changeBetOddLose}
+                                        onChange={event => setChangeBetOddLose(event.target.value)}></input>         
+                                    </>
+                                }
+                                </div>
+                            </div>
                             }
-                            </div>
                         </>
                         :
                         <> {/*######################################### manual bet ######################################## */}
-                        </>}
+                        </>
+                        }
                     </div>
                 </div>
             </div>

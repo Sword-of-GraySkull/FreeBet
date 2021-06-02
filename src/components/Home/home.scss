@@ -1,0 +1,141 @@
+div.desc, div.desc-right {
+  font-weight: 350;
+}
+
+.desc {
+  margin-left: 130px;
+  padding: 40px 0 30px 0;
+  background-color: #324D5B;
+}
+
+.desc-right {
+  margin-left: 30px;
+  margin-right: 100px;
+  margin-top: 30px;
+  margin: 30px 100px 30px 30px;
+  padding: 40px 0 30px 0;
+  background-color: #324D5B;
+}
+
+.hexagon.des {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.hexagon.des-right {
+  margin-top: -203px;
+}
+
+.nav-bar {
+    background-color: #007BFF;
+    padding: 20px;
+    color: #f2f2f2;
+}
+
+.nav-item {
+    padding: 0 15px;
+}
+
+.bg-gray {
+    background-color: #324D5B;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.text-green {
+    color: lawngreen;
+}
+
+.text-darkGreen {
+    color: forestgreen;
+}
+
+
+@property --num {
+    syntax: "<integer>";
+    initial-value: 10000;
+    inherits: false;
+  }
+  
+  span.counter {
+    animation: counter 30s infinite alternate ease-in-out;
+    counter-reset: num var(--num);
+    font: 800 40px;
+    padding: 2rem;
+  }
+  span.counter::after {
+    content: counter(num);
+  }
+  
+  @keyframes counter {
+    from {
+      --num: 9999;
+    }
+    to {
+      --num: 5000;
+    }
+  }
+
+  .text{
+    position: absolute;
+  z-index: 1000;
+  width: 100%;
+  text-align: center;
+}
+
+.hexagon {
+position: relative;
+width: 200px; 
+height: 115.47px;
+background-color: #ffffff;
+margin: 57.74px 0;
+border-left: solid 2px #000000;
+border-right: solid 2px #000000;
+}
+
+.hexagon:before,
+.hexagon:after {
+content: "";
+position: absolute;
+z-index: 1;
+width: 141.42px;
+height: 141.42px;
+-webkit-transform: scaleY(0.5774) rotate(-45deg);
+-ms-transform: scaleY(0.5774) rotate(-45deg);
+transform: scaleY(0.5774) rotate(-45deg);
+background-color: inherit;
+left: 27.2893px;
+}
+
+.hexagon:before {
+top: -70.7107px;
+border-top: solid 2.8284px #000000;
+border-right: solid 2.8284px #000000;
+}
+
+.hexagon:after {
+bottom: -70.7107px;
+border-bottom: solid 2.8284px #000000;
+border-left: solid 2.8284px #000000;
+}
+
+@media only screen and (max-width: 500px) {
+  .col-6.money {
+    max-width: 100%;
+  }
+
+  .col-6.money button {
+    margin-top: 30px;
+  }
+
+  .display-3 {
+    font-size: 3rem;
+  }
+
+  .display-4 {
+    font-size: 2rem;
+  }
+
+}

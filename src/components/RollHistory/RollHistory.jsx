@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import ReactPaginate from 'react-paginate'
 
 import { getRollHistory , getWalletData, getMultiplyBetRollHistory} from '../Helpers/service';
+import LoggedUser from '../LoggedUser/LoggedUser';
 import Navbar from '../Navbar/Navbar';
 import './RollHistory.css'
 
@@ -72,9 +73,10 @@ function RollHistory() {
     return (
         <div>
             <Navbar wallet={wallet}/>
+            <LoggedUser />
             <p className="display-4 text-center p-4">Check Out your Roll History here</p>
-            <div className="card card-body bg-gray text-white mb-4">
-                <h1 className="text-white">FreeBet</h1>
+            <div className="card card-body mb-4">
+                <h1 className="">FreeBet</h1>
                 <table className="table table-bordered m-auto text-center">
                     <thead>
                         <th>SNO</th>
@@ -110,11 +112,10 @@ function RollHistory() {
                     containerClassName={"pages pagination"}
                     activeClassName={"active"}
                 />
-
             </div>
 
-            <div className="card card-body bg-gray text-white">
-                <h1 className="text-white">Multiply Bet</h1>
+            <div className="card card-body">
+                <h1 className="">Multiply Bet</h1>
                 <table className="table table-bordered m-auto text-center">
                     <thead>
                         <th>SNO</th>

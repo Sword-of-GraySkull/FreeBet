@@ -15,7 +15,8 @@ function Login() {
     const registerData = {
         username : username,
         password: password,
-        wallet: '0.00'
+        wallet: '0.00',
+        lottery: 0
     }
     const loginData = {
         username: username,

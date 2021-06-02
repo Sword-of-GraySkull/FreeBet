@@ -1,0 +1,70 @@
+.text-green {
+    color: lawngreen !important;
+}
+
+span.text-gold {
+    color: gold;
+}
+
+input.mobile {
+  width: 178px;
+}
+
+.bg-darkgray {
+    background-color: #24363f;
+}
+
+h5,h6,h1,h2,h3,.h5 {
+    font-weight: 350 !important;
+}
+
+.text-blue {
+    color: #30afe6;
+}
+
+.borderless {
+    border: 1px solid transparent;
+}
+
+
+@property --num {
+    syntax: "<integer>";
+    initial-value: 10000;
+    inherits: false;
+  }
+  
+  span.counter {
+    animation: counter 30s infinite alternate ease-in-out;
+    counter-reset: num var(--num);
+    font: 800 40px;
+    padding: 2rem;
+  }
+  span.counter::after {
+    content: counter(num);
+  }
+  
+  @keyframes counter {
+    from {
+      --num: 9999;
+    }
+    to {
+      --num: 5000;
+    }
+  }
+
+@media only screen and (max-width: 500px) {
+  .col-4.multiplyBet {
+    max-width: 100%;
+    // text-align: center;
+    flex: none;
+  }
+  .border-right {
+    border-right: none;
+  }
+  .border-left {
+    border-left: none;
+  }
+  input.mobile {
+    width: 70px;
+  }
+}

@@ -1,0 +1,151 @@
+.lid {
+  background-color: rgb(12, 8, 8);
+  opacity: 1;
+  margin-bottom: -3.5rem;
+  height: 3.5rem;
+  width: 100%;
+  z-index: 111;
+}
+
+@property --num {
+    syntax: "<integer>";
+    initial-value: 6 * 26 * 26 * 26 + 1 * 26 * 26  + 11 * 26 + 5 ;
+    inherits: false;
+  }
+  
+  .real {
+    transition: --num 0.25s;
+    counter-set: num var(--num);
+    font: 600 40px system-ui;
+    // padding: 2rem;
+  }
+  .real::after {
+    content: counter(num, lower-alpha);
+  }
+  .real:hover {
+    --num: #{18 * 26 * 26 * 26 + 5 * 26 * 26 + 1 * 26 + 12};
+  }
+
+  .backDoor
+{
+  // background-color: #333;
+  border: 1px solid black;
+  position:relative;
+  width:200px;
+  height:300px;
+  
+  margin: 0 auto;
+  margin-top:50px;
+}
+
+.door
+{
+  background-color: brown;
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:200px;
+  height:300px;
+ 
+  transform-origin: left;
+  /*Speed of the Door animation*/
+  transition: all 0.5s ease-in-out;
+}
+
+.doorOpen
+{
+  /*prespectiv creates the door open effect*/
+  transform: perspective(1200px) translateZ(0px) translateX(0px) translateY(0px) rotateY(-105deg);
+}
+
+.text{
+  position: absolute;
+z-index: 1000;
+width: 100%;
+text-align: center;
+}
+.hexagon {
+position: relative;
+width: 200px; 
+height: 115.47px;
+background-color: #ffffff;
+margin: 57.74px 0;
+border-left: solid 2px #000000;
+border-right: solid 2px #000000;
+float:left;
+}
+
+.hexagon:before,
+.hexagon:after {
+content: "";
+position: absolute;
+z-index: 1;
+width: 141.42px;
+height: 141.42px;
+-webkit-transform: scaleY(0.5774) rotate(-45deg);
+-ms-transform: scaleY(0.5774) rotate(-45deg);
+transform: scaleY(0.5774) rotate(-45deg);
+background-color: inherit;
+left: 27.2893px;
+}
+
+.hexagon:before {
+top: -70.7107px;
+border-top: solid 2.8284px #000000;
+border-right: solid 2.8284px #000000;
+}
+
+.hexagon:after {
+bottom: -70.7107px;
+border-bottom: solid 2.8284px #000000;
+border-left: solid 2.8284px #000000;
+}
+
+.hexagon.one {
+  margin-left: 600px;
+}
+.hexagon.two {
+  display: inline-block;
+  // margin-top: 230.74px;
+  left: 100px;
+  margin-left: 600px;
+  margin-top: 0px;
+}
+.hexagon.three {
+  // display: ;
+  margin-left: -300px;
+  margin-top: 0px;
+}
+.hexagon.four {
+  display: inline-block;
+  left: 100px;
+  margin-top: 170px;
+  margin-left: -300px;
+}
+.hexagon.five {
+  margin-top: 170px;
+  left: 100px;
+  margin-left: -100px;
+}
+.hexagon.six {
+  margin-top: 170px;
+  left: 100px;
+  margin-left: -600px;
+}
+
+// @media only screen and (max-width: 500px) {
+// .hexagon{
+//   float: left;
+// }
+// .hexagon.one{
+//   left:103px;
+//   }
+//  .mid-align {
+//     display: inline-block;
+//     margin-top: -57.74px;
+//   }
+//   .hexagon.four{
+//     left: 102px;
+//     margin-top: -4px; 
+//   }
+// }
