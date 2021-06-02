@@ -9,7 +9,7 @@ export async function roll(clientSeed) {
     const data = {
         "clientSeed": clientSeed 
     }
-    const response = axios.get('https://freebet-server.herokuapp.com/api/roll', data)
+    const response = axios.post('https://freebet-server.herokuapp.com/api/roll', data)
     // const response = axios.post('http://localhost:3080/api/roll', data)
                     .then(res => {
                         return res.data;
