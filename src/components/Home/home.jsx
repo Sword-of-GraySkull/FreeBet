@@ -493,7 +493,7 @@ function Home() {
                                 // handleTakeaway()
                             }
                             else {
-                                window.history.pushState('', 'login', '/#/login')
+                                window.history.pushState('', 'login', 'FreeBet/#/login')
                                 window.location.reload(false)
                                 /*setRegister(false)
                                 setUsername('')
@@ -515,7 +515,7 @@ function Home() {
                                 // handleTakeaway()
                             }
                             else {
-                                window.history.pushState('', 'login', '/#/login')
+                                window.history.pushState('', 'login', 'FreeBet/#/login')
                                 window.location.reload(false)
                                 // setRegister(false)
                                 // setUsername('')
