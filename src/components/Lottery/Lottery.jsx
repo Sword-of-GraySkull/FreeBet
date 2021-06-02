@@ -100,7 +100,7 @@ function Lottery() {
     useEffect(() => {
         calcLotteryWinner()
         .then(res => {
-            if(res) {
+            if(res.data.winners) {
                 setTempWinners(res.data.winners)
             }
         })
@@ -109,7 +109,7 @@ function Lottery() {
             setA(interval)
             calcLotteryWinner()
             .then(res => {
-                if(res) {
+                if(res.data.winners) {
                     setTempWinners(res.data.winners)
                 }
             })
