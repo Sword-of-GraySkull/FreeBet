@@ -493,7 +493,8 @@ function Home() {
                                 // handleTakeaway()
                             }
                             else {
-                                window.history.replaceState({}, 'login', '#/login')
+                                // window.history.replaceState({}, 'login', '#/login')
+                                window.location.pathname('/login')
                                 window.location.reload(false)
                                 /*setRegister(false)
                                 setUsername('')
@@ -515,7 +516,8 @@ function Home() {
                                 // handleTakeaway()
                             }
                             else {
-                                window.history.replaceState({}, 'login', '#/login')
+                                // window.history.replaceState({}, 'login', '#/login')
+                                window.location.pathname('/login')
                                 window.location.reload(false)
                                 // setRegister(false)
                                 // setUsername('')
