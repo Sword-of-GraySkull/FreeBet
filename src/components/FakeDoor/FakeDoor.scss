@@ -7,6 +7,11 @@
   z-index: 111;
 }
 
+.text-brown {
+  color: #493c09;
+  // color: #F1E380;
+}
+
 @property --num {
     syntax: "<integer>";
     initial-value: 6 * 26 * 26 * 26 + 1 * 26 * 26  + 11 * 26 + 5 ;
@@ -31,8 +36,8 @@
   // background-color: #333;
   border: 1px solid black;
   position:relative;
-  width:200px;
-  height:300px;
+  width:100px;
+  height:150px;
   
   margin: 0 auto;
   margin-top:50px;
@@ -40,12 +45,13 @@
 
 .door
 {
-  background-color: brown;
+  // background-color: brown;
+  background: url('../../ackdoor\ bg-copy.jpg');
   position:absolute;
   top:0px;
   left:0px;
-  width:200px;
-  height:300px;
+  width:100px;
+  height:150px;
  
   transform-origin: left;
   /*Speed of the Door animation*/

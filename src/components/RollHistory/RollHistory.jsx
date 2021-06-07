@@ -75,7 +75,7 @@ function RollHistory() {
             <Navbar wallet={wallet}/>
             <LoggedUser />
             <p className="display-4 text-center p-4">Check Out your Roll History here</p>
-            <div className="card card-body mb-4">
+            <div className="mb-4">
                 <h1 className="">FreeBet</h1>
                 <table className="table table-bordered m-auto text-center">
                     <thead>
@@ -114,7 +114,7 @@ function RollHistory() {
                 />
             </div>
 
-            <div className="card card-body">
+            <div className="">
                 <h1 className="">Multiply Bet</h1>
                 <table className="table table-bordered m-auto text-center">
                     <thead>

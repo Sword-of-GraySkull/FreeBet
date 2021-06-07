@@ -11,6 +11,7 @@ import LoggedUser from '../LoggedUser/LoggedUser'
 function FakeDoor() {
     const { addToast } = useToasts()
     const [wallet, setWallet] = useState(0.00)
+    const [betAmount, setBetAmount] = useState()
     const [diffLvl, setDiffLvl] = useState(3) 
     const [result, setResult] = useState([0,0,0]) 
     const [index, setIndex] = useState()
@@ -37,39 +38,63 @@ function FakeDoor() {
         // console.log(document.getElementById(index).textContent)
         if(className !== "door doorOpen") {
             setIndex(ind)
-            if(wallet < (0.01 * diffLvl)) {
-                addToast("You don't have enough money to play the game", {
-                    appearance: 'info',
-                    autoDismiss: true
-                })
+            if(diffLvl === 3) {
+                let index = Math.floor(Math.random() * 3)
+                let list = arr3[index].split('')
+                // console.log(list)
+                setResult(list)
             }
-            else {
-                if(diffLvl === 3) {
-                    let index = Math.floor(Math.random() * 3)
-                    let list = arr3[index].split('')
-                    // console.log(list)
-                    setResult(list)
-                }
-                else if(diffLvl === 4) {
-                    let index = Math.floor(Math.random() * 4)
-                    let list = arr4[index].split('')
-                    // console.log(list)
-                    setResult(list)
-                }
-                else if(diffLvl === 5) {
-                    let index = Math.floor(Math.random() * 5)
-                    let list = arr5[index].split('')
-                    // console.log(list)
-                    setResult(list)
-                }
-                else if(diffLvl === 6) {
-                    let index = Math.floor(Math.random() * 6)
-                    let list = arr6[index].split('')
-                    // console.log(list)
-                    setResult(list)
-                }
+            else if(diffLvl === 4) {
+                let index = Math.floor(Math.random() * 4)
+                let list = arr4[index].split('')
+                // console.log(list)
+                setResult(list)
+            }
+            else if(diffLvl === 5) {
+                let index = Math.floor(Math.random() * 5)
+                let list = arr5[index].split('')
+                // console.log(list)
+                setResult(list)
+            }
+            else if(diffLvl === 6) {
+                let index = Math.floor(Math.random() * 6)
+                let list = arr6[index].split('')
+                // console.log(list)
+                setResult(list)
             }
         }
+    }
+
+    const handleValidation = () => {
+        if(!betAmount) {
+            addToast("You need to place a Bet Amount first !", {
+                appearance: 'info',
+                autoDismiss: true
+            })
+            return false
+        }
+        if(betAmount > 20) {
+            addToast("BetAmount can't be greater than 20", {
+                appearance: 'info',
+                autoDismiss: true
+            })
+            return false
+        }
+        if(betAmount < 0.001) {
+            addToast("Minimum BetAmount is 0.001", {
+                appearance: 'info',
+                autoDismiss: true
+            })
+            return false
+        }
+        if(wallet < (betAmount * diffLvl)) {
+            addToast("You don't have enough money to place the bet", {
+                appearance: 'info',
+                autoDismiss: true
+            })
+            return false
+        }
+        return true
     }
 
 
@@ -84,21 +109,21 @@ function FakeDoor() {
     
         if(result[index] === '1') {
             // setPrizeIndex(index)
-            addToast(`You have Found the Real Door!! +${diffLvl * 0.01} added to wallet`, {
+            addToast(`You have Found the Real Door!! +${diffLvl * betAmount} added to wallet`, {
                 appearance: 'success',
                 autoDismiss: true
             })
             // console.log((Number(wallet) + Number(0.01*diffLvl)).toFixed(2))
-            setWalletData(localStorage.getItem("userId"),(Number(wallet) + Number(0.01*diffLvl)).toFixed(2))
+            setWalletData(localStorage.getItem("userId"),(Number(wallet) + Number(betAmount*diffLvl)).toFixed(2))
         }
         else {
             if(result.join('') !== [0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0, 0, 0].join('')) {
-                addToast(`Uh Oh, You have opened the fake door!! -${diffLvl * 0.01} reduced from wallet`, {
+                addToast(`Uh Oh, You have opened the fake door!! -${diffLvl * betAmount} reduced from wallet`, {
                     appearance: 'error',
                     autoDismiss: true
                 })
                 // console.log((wallet + (0.01*diffLvl)))
-                setWalletData(localStorage.getItem("userId"),(Number(wallet) - Number(0.01*diffLvl)).toFixed(2))
+                setWalletData(localStorage.getItem("userId"),(Number(wallet) - Number(betAmount*diffLvl)).toFixed(2))
             }    
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -120,7 +145,7 @@ function FakeDoor() {
     }
 
     return (
-        <div>
+        <div className="text-brown">
             <Navbar wallet={wallet}/>
             <LoggedUser />
             <div className="display-4 text-center my-4">Welcome to Fake Door</div>
@@ -132,7 +157,12 @@ function FakeDoor() {
                             {/* <div className="lid"></div> */}
                             {/* <div className="p-3 border" id={index} onClick={() => {handleFakeDoor(index);toggleDoor()}}>{li}</div> */}
                             <div class="backDoor">
-                                <div className={className} id={index} onClick={() => {handleFakeDoor(index);toggleDoor()}}>
+                                <div className={className} id={index} onClick={() => {
+                                    if(handleValidation()) {
+                                        handleFakeDoor(index);
+                                        toggleDoor();
+                                    }
+                                    }}>
                                 </div>
                                 {/* {console.log(li)} */}
                                 {li === '1'
@@ -154,8 +184,15 @@ function FakeDoor() {
                 <button className="btn btn-info mx-2" onClick={() => {setDiffLvl(5);setResult([0,0,0,0,0])}}>5</button>
                 <button className="btn btn-info mx-2" onClick={() => {setDiffLvl(6);setResult([0,0,0,0,0,0])}}>6</button>
             </div>
+            <div className="text-center my-4">
+                <label className="h5">Bet Amount</label>
+                <input 
+                    className="rounded borderless mx-3"
+                    value={betAmount}
+                    onChange={event => setBetAmount(event.target.value)}></input>
+            </div>
             <h3 className="text-center mb-3">Higher the Difficulty Level, Higher the Profit You Earn</h3>
-         <div className="text-center m-auto">
+         {/* <div className="text-center m-auto">
 <div class="hexagon one">
 <div class="text">
 <h1>89%</h1>
@@ -192,7 +229,7 @@ function FakeDoor() {
 <p>My Overall Score</p>
 </div>
 </div>
-</div>   
+</div>    */}
         </div>
     )
 }

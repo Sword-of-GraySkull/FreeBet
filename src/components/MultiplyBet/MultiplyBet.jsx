@@ -3,7 +3,7 @@ import { useToasts } from 'react-toast-notifications';
 
 import './MultiplyBet.scss';
 import Navbar from './../Navbar/Navbar';
-import { roll, getWalletData, setWalletData, pushMultiplyBetRollHistory } from '../Helpers/service';
+import { roll, getWalletData, setWalletData, pushMultiplyBetRollHistory, getClientSeed } from '../Helpers/service';
 import LoggedUser from '../LoggedUser/LoggedUser';
 
 // eslint-disable-next-line no-lone-blocks
@@ -25,6 +25,9 @@ import LoggedUser from '../LoggedUser/LoggedUser';
 function MultiplyBet() {
 
     const [counter, setCounter] = useState(false)
+    const [clientSeed, setClientSeed] = useState()
+    const [prevServerSeed, setPrevServerSeed] = useState()
+    const [prevClientSeed, setPrevClientSeed] = useState()
 
     // ###################################      manual bet options  ###################################################
     const [rollValue, setRollValue] = useState(10000);
@@ -51,6 +54,8 @@ function MultiplyBet() {
     const [stopLoss, setStopLoss] = useState('100')
     const [increaseBetWin, setIncreaseBetWin] = useState(0.0);
     const [increaseBetLose, setIncreaseBetLose] = useState(0.0);
+    const [onWinChecked, setOnWinChecked] = useState(false)
+    const [onLoseChecked, setOnLoseChecked] = useState(false)
     const [changeBetOddWin, setChangeBetOddWin] = useState(betOdds);
     const [changeBetOddLose, setChangeBetOddLose] = useState(betOdds);
     const [basebet, setBaseBet] = useState('-')
@@ -238,21 +243,47 @@ function MultiplyBet() {
     }
 
     function handleRoll() {                     //#################### Function that gets the RollValue from the Server ####################
-        roll()
+        roll(clientSeed)
         .then(x => {
             setCounter(false)
-            setRollValue(x)
+            setRollValue(x.data);
+            setPrevClientSeed(x.clientSeed)
+            setPrevServerSeed(x.serverSeed)
         });
     }
 
     const handleRadio = (e) => {               //##################### Function that handles Radio Button changes ##########################
         const {name, value} = e.target;
-        console.log("name", name, "value", value)
+        // console.log("name", name, "value", value)
         if(name === "max_bet") {
             setMax_Bet(value);
         }
         else if(name === "rollmode") {
             setrollmode(value);
+        }
+    }
+
+    const handleCheckBox = (event) => {
+        const { name, value } = event.target
+        
+        if(name === "onWin") {
+            //
+            var val;
+            if(value === 'false') {
+                val = true;
+                // console.log("false")
+            }
+            else if(value === 'true') {
+                val = false;
+            }
+            if(val) {
+                console.log("onwin")
+            }
+        }
+        else if(name === "onLose"  && val) {
+            // 
+            setOnLoseChecked(true)
+            console.log("onlose")
         }
     }
 
@@ -265,8 +296,8 @@ function MultiplyBet() {
                 })
                 return false;
             }
-            else if(betAmount < 0.01) {
-                addToast("BetAmount should be greater than 0.01", {
+            else if(betAmount < 0.001) {
+                addToast("BetAmount should be greater than 0.001", {
                     appearance: 'info',
                     autoDismiss: true
                 })
@@ -372,15 +403,6 @@ function MultiplyBet() {
         }
     }
 
-    // const handleResultDisplay = () => {
-    //     if(win && rollValue !== 10000) {
-    //         return true
-    //     }
-    //     else if(!win && rollValue !== 10000) {
-    //         return false
-    //     }
-    // }
-
     const handleSetWallet = () => {
         if(localStorage.getItem("userId")) {
             getWalletData(localStorage.getItem("userId")).then(res => {
@@ -404,7 +426,15 @@ function MultiplyBet() {
         if(loggedInUser) {
             setUserId(loggedInUser)
         }
+        
         handleSetWallet();
+
+        if(localStorage.getItem("userId")) {
+            getClientSeed().then(res => {
+                // console.log(res)
+                setClientSeed(res.data.data)
+            })
+        }
     }, [])
 
     useEffect(() => {
@@ -482,12 +512,6 @@ function MultiplyBet() {
                                 className="float-right rounded borderless mobile"
                                 value={betAmount} 
                                 onChange={event => {
-                                    // if(event.target.value <= 20 && event.target.value > 0) 
-                                    //     setBetAmount(event.target.value);
-                                    // // else if(event.target.value <= 0) 
-                                    // //     setBetAmount(0.1)
-                                    // else
-                                    //     setBetAmount(20);
                                     setBetAmount(event.target.value); 
                                     }}
                             ></input><br></br>
@@ -516,12 +540,6 @@ function MultiplyBet() {
                                 className="float-right rounded borderless disabled mobile"
                                 value={betAmount} 
                                 onChange={event => {
-                                    // if(event.target.value <= 20) 
-                                    //     setBetAmount(event.target.value);
-                                    // // else if(event.target.value < 0) 
-                                    // //     setBetAmount(0.01)
-                                    // else
-                                    //     setBetAmount(20); 
                                     setBetAmount(event.target.value);
                                     }}
                             ></input><br></br>
@@ -545,7 +563,7 @@ function MultiplyBet() {
                         </div>
                         :
                         <div>
-                        <label className="mb-3 h5">Max Bet</label>
+                            <label className="mb-3 h5">Max Bet</label>
                             <label className="float-right mr-4"><span className="text-gold h5">{MaxBet}</span></label><br></br>
                             <label className="mb-3 h5">Base Bet</label>
                             <label className="float-right mr-4"><span className="text-gold h5">{basebet}</span></label><br></br>
@@ -553,13 +571,7 @@ function MultiplyBet() {
                             <input 
                                 className="float-right rounded borderless disabled mobile"
                                 value={betAmount} 
-                                onChange={event => {
-                                    // if(event.target.value <= 20) 
-                                    //     setBetAmount(event.target.value);
-                                    // // else if(event.target.value < 0) 
-                                    // //     setBetAmount(0.01)
-                                    // else
-                                    //     setBetAmount(20); 
+                                onChange={event => {                
                                     setBetAmount(event.target.value);
                                     }}
                             ></input><br></br>
@@ -731,7 +743,7 @@ function MultiplyBet() {
                                     ? <> {/*#############################  On win ################################# */}
                                     <p>Changes to make on every win</p>
                                     {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
-                                    <label className="h5 mb-3">Increase bet by</label>
+                                    <label className="h5 mb-3">Increase bet by (%)</label>
                                     <input 
                                         className="float-right rounded borderless mobile"
                                         value={increaseBetWin}
@@ -746,7 +758,7 @@ function MultiplyBet() {
                                     : <> {/*############################# On Lose  ################################ */}
                                     <p>Changes to make on every lose</p>
                                     {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
-                                    <label className="h5 mb-3">Increase bet by</label>
+                                    <label className="h5 mb-3">Increase bet by (%)</label>
                                     <input 
                                         className="float-right rounded borderless mobile"
                                         value={increaseBetLose}
@@ -786,7 +798,14 @@ function MultiplyBet() {
                                     ? <> {/*#############################  On win ################################# */}
                                     <p>Changes to make on every win</p>
                                     {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
-                                    <label className="h5 mb-3">Increase bet by</label>
+                                    <input 
+                                        className="" 
+                                        type="checkbox"
+                                        name="onWin"
+                                        value={onWinChecked}
+                                        onChange={event => handleCheckBox(event)}></input>
+                                    <label className="h5 mx-2 mb-3">Return to BaseBet</label><br></br>
+                                    <label className="h5 mb-3">Increase bet by (%)</label>
                                     <input 
                                         className="float-right rounded borderless mobile"
                                         value={increaseBetWin}
@@ -801,7 +820,14 @@ function MultiplyBet() {
                                     : <> {/*############################# On Lose  ################################ */}
                                     <p>Changes to make on every lose</p>
                                     {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
-                                    <label className="h5 mb-3">Increase bet by</label>
+                                    <input 
+                                        className="" 
+                                        type="checkbox"
+                                        name="onLose"
+                                        value={onLoseChecked}
+                                        onChange={event => handleCheckBox(event)}></input>
+                                    <label className="h5 mx-2 mb-3">Return to BaseBet</label><br></br>
+                                    <label className="h5 mb-3">Increase bet by (%)</label>
                                     <input 
                                         className="float-right rounded borderless mobile"
                                         value={increaseBetLose}

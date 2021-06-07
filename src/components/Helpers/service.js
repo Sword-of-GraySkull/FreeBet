@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+var URL = window.location.hostname === "localhost" ? 'http://localhost:3080/api' : 'https://freebet-server.herokuapp.com/api';
+
 export async function roll(clientSeed) {
     // const response = await fetch('http://localhost:3080/api/roll', {
     //     mode: "no-cors"
@@ -9,8 +11,8 @@ export async function roll(clientSeed) {
     const data = {
         "clientSeed": clientSeed 
     }
-    const response = axios.post('https://freebet-server.herokuapp.com/api/roll', data)
-    // const response = axios.post('http://localhost:3080/api/roll', data)
+    // const response = axios.post('https://freebet-server.herokuapp.com/api/roll', data)
+    const response = axios.post(`${URL}/roll`, data)
                     .then(res => {
                         return res.data;
                     })
@@ -19,8 +21,8 @@ export async function roll(clientSeed) {
 }
 
 export async function getClientSeed() {
-    const response = axios.get('https://freebet-server.herokuapp.com/api/getClientSeed')
-    // const response = axios.get('http://localhost:3080/api/getClientSeed')
+    // const response = axios.get('https://freebet-server.herokuapp.com/api/getClientSeed')
+    const response = axios.get(`${URL}/getClientSeed`)
                 .then(res => {
                     return res;
                 })
@@ -29,14 +31,14 @@ export async function getClientSeed() {
 }
 
 export async function registerUser(registerData) {
-    const response = await axios.post('https://freebet-server.herokuapp.com/api/register', registerData);
-    // const response = await axios.post('http://localhost:3080/api/register', registerData);
+    // const response = await axios.post('https://freebet-server.herokuapp.com/api/register', registerData);
+    const response = await axios.post(`${URL}/register`, registerData);
     return response.data;
 }
 
 export async function loginUser(data) {
-    const response = await axios.post('https://freebet-server.herokuapp.com/api/login', data);
-    // const response = await axios.post('http://localhost:3080/api/login', data);
+    // const response = await axios.post('https://freebet-server.herokuapp.com/api/login', data);
+    const response = await axios.post(`${URL}/login`, data);
 
     return response;
 }
@@ -45,16 +47,16 @@ export async function getUserName(userId) {
     const data = {
         id: userId
     }
-    const response = await axios.post('https://freebet-server.herokuapp.com/api/getUserName', data)
-    // const response = await axios.post('http://localhost:3080/api/getUserName', data)
+    // const response = await axios.post('https://freebet-server.herokuapp.com/api/getUserName', data)
+    const response = await axios.post(`${URL}/getUserName`, data)
     // console.log(response)
     return response
 }
 
 export async function getWalletData(userId) {
     const wallet = {id: userId}
-    const response = await axios.post('https://freebet-server.herokuapp.com/api/wallet', wallet)
-    // const response = await axios.post('http://localhost:3080/api/wallet', wallet)
+    // const response = await axios.post('https://freebet-server.herokuapp.com/api/wallet', wallet)
+    const response = await axios.post(`${URL}/wallet`, wallet)
 
     // console.log(response.data)
     return response;
@@ -65,8 +67,8 @@ export async function setWalletData(userId, wallet) {
         id: userId,
         wallet: wallet
     }
-    const response = await axios.post('https://freebet-server.herokuapp.com/api/setWallet', data)
-    // const response = await axios.post('http://localhost:3080/api/setWallet', data)
+    // const response = await axios.post('https://freebet-server.herokuapp.com/api/setWallet', data)
+    const response = await axios.post(`${URL}/setWallet`, data)
 
     return response;
 }       
@@ -76,8 +78,8 @@ export async function pushRollHistory(userId, rollHistory) {
         id: userId,
         rollHistory: rollHistory
     }
-    await axios.post('https://freebet-server.herokuapp.com/api/pushRollHistory', data)
-    // await axios.post('http://localhost:3080/api/pushRollHistory', data)
+    // await axios.post('https://freebet-server.herokuapp.com/api/pushRollHistory', data)
+    await axios.post(`${URL}/pushRollHistory`, data)
 
 }
 
@@ -85,8 +87,8 @@ export async function getRollHistory(userId) {
     const data = {
         id: userId
     }
-    const response = await axios.post('https://freebet-server.herokuapp.com/api/getRollHistory', data)
-    // const response = await axios.post('http://localhost:3080/api/getRollHistory', data)
+    // const response = await axios.post('https://freebet-server.herokuapp.com/api/getRollHistory', data)
+    const response = await axios.post(`${URL}/getRollHistory`, data)
 
     return response;
     // console.log(response)
@@ -97,8 +99,8 @@ export async function pushMultiplyBetRollHistory(userId, rollHistory) {
         id: userId,
         rollHistory: rollHistory
     }
-    await axios.post('https://freebet-server.herokuapp.com/api/pushMultiplyBetRollHistory', data)
-    // await axios.post('http://localhost:3080/api/pushMultiplyBetRollHistory', data)
+    // await axios.post('https://freebet-server.herokuapp.com/api/pushMultiplyBetRollHistory', data)
+    await axios.post(`${URL}/pushMultiplyBetRollHistory`, data)
 
 }
 
@@ -107,8 +109,8 @@ export async function getMultiplyBetRollHistory(userId) {
         id: userId
     }
 
-    const response = await axios.post('https://freebet-server.herokuapp.com/api/getMultiplyBetRollHistory', data)
-    // const response = await axios.post('http://localhost:3080/api/getMultiplyBetRollHistory', data)
+    // const response = await axios.post('https://freebet-server.herokuapp.com/api/getMultiplyBetRollHistory', data)
+    const response = await axios.post(`${URL}/getMultiplyBetRollHistory`, data)
 
     return response;
 }
@@ -119,8 +121,8 @@ export async function writeLottery(num, userId) {
         num: num
     }
 
-    await axios.post('https://freebet-server.herokuapp.com/api/writeLottery', data)
-    // await axios.post('http://localhost:3080/api/writeLottery', data)
+    // await axios.post('https://freebet-server.herokuapp.com/api/writeLottery', data)
+    await axios.post(`${URL}/writeLottery`, data)
 }
 
 export async function getLotteryTickets(userId) {
@@ -128,15 +130,15 @@ export async function getLotteryTickets(userId) {
         id: userId
     }
 
-    const response = await axios.post('https://freebet-server.herokuapp.com/api/getLotteryTickets', data)
-    // const response = await axios.post('http://localhost:3080/api/getLotteryTickets', data)
+    // const response = await axios.post('https://freebet-server.herokuapp.com/api/getLotteryTickets', data)
+    const response = await axios.post(`${URL}/getLotteryTickets`, data)
     
     return response;
 }
 
 export async function calcLotteryWinner() {
-    const response = await axios.get('https://freebet-server.herokuapp.com/api/calcLotteryWinner')
-    // const response = await axios.get('http://localhost:3080/api/calcLotteryWinner')
+    // const response = await axios.get('https://freebet-server.herokuapp.com/api/calcLotteryWinner')
+    const response = await axios.get(`${URL}/calcLotteryWinner`)
     // console.log(response)
     return response
 }

@@ -5,8 +5,9 @@ import {registerUser, loginUser } from '../Helpers/service'
 
 function Login() {
     const { addToast } = useToasts()
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [username, setUsername] = useState()
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
     const [register, setRegister] = useState(false);
     const [isNavCollapsed, setIsNavCollapsed] = useState(true);
 
@@ -15,11 +16,12 @@ function Login() {
     const registerData = {
         username : username,
         password: password,
-        wallet: '0.00',
+        email: email,
+        wallet: '0.000',
         lottery: 0
     }
     const loginData = {
-        username: username,
+        email: email,
         password: password
     }
 
@@ -29,6 +31,65 @@ function Login() {
             behavior: "smooth",
             block: "center"
         });  
+    }
+
+    function handleValidation() {
+        if(!username) {
+            console.log("hehe1")
+            addToast('Username cannot be empty!!', {
+                appearance: 'error',
+                autoDismiss: true
+            })
+            return false;
+        }
+        if(typeof username !== "undefined") {
+            if(!username.match(/^[a-zA-Z0-9]+$/)) {
+                console.log("hehe2")
+                addToast('Username should contain only letters and numbers', {
+                    appearance: 'error', 
+                    autoDismiss: true
+                })
+                return false;
+            }
+        }
+        if(!email) {
+            console.log("hehe3")
+            addToast('Email cannot be empty', {
+                appearance: 'error',
+                autoDismiss: true
+            })
+            return false;
+        }
+        if(typeof email !== "undefined") {
+            let lastAtPos = email.lastIndexOf('@');
+            let lastDotPos = email.lastIndexOf('.');
+
+            if(!(lastAtPos < lastDotPos && lastAtPos > 0 && email.indexOf('@@') === -1 && lastDotPos > 2 && (email.length - lastDotPos) > 2)) {
+                addToast('Email is not valid', {
+                    appearance: 'error',
+                    autoDismiss: true
+                })
+                return false;
+            }
+        }
+        if(!password) {
+            addToast('Password cannot be empty!!', {
+                appearance: 'error',
+                autoDismiss: true
+            })
+            return false
+        }
+        if(typeof password !== "undefined") {
+            if(!(password.length >= 8)) {
+                addToast("Password should contain atleat 8 characters!!", {
+                    appearance: 'error',
+                    autoDismiss: true
+                })
+                return false
+            }
+        }
+
+        return true;
     }
 
     return (
@@ -62,10 +123,82 @@ function Login() {
                 <div className="col-6">
                 <div className="bg-gray p-3 text-white">
                     {register ? 
-                    <h1 className="text-center">Create a New Account</h1>
-                    :
-                    <h1 className="text-center">Sign In to your Account</h1>}
+                    <>
+                        <h1 className="text-center">Create a New Account</h1>
                         <label className="h5">Username</label><br></br>
+                        <input 
+                            className="my-2 rounded borderless"
+                            value={username}
+                            onChange={event => setUsername(event.target.value)}></input><br></br>
+                        <label className="h5">Email</label><br></br>
+                        <input 
+                            className="my-2 rounded borderless"
+                            value={email}
+                            onChange={event => setEmail(event.target.value)}></input><br></br>
+                        <label className='h5'>Password</label><br></br>
+                        <input 
+                            className="my-2 rounded borderless"
+                            value={password}
+                            onChange={event => setPassword(event.target.value)}></input><br></br>
+                        <div className="text-center pt-3">
+                            <button 
+                                className="btn btn-lg btn-info m-auto mb-2"
+                                onClick={() => {
+                                    if(handleValidation()) {
+                                        registerUser(registerData).then(res => {
+                                            // alert(res)
+                                            addToast(res, {
+                                                appearance: 'info',
+                                                autoDismiss: true
+                                            })
+                                        });
+                                        setRegister(false);
+                                    }                                    
+                                }}
+                                 >Register</button>
+                        </div>
+                    </>
+                    :
+                    <>
+                        <h1 className="text-center">Sign In to your Account</h1>
+                        <label className="h5">Email</label><br></br>
+                        <input 
+                            className="my-2 rounded borderless"
+                            value={email}
+                            onChange={event => setUsername(event.target.value)}></input><br></br>
+                        <label className='h5'>Password</label><br></br>
+                        <input 
+                            className="my-2 rounded borderless"
+                            value={password}
+                            type="password"
+                            onChange={event => setPassword(event.target.value)}></input><br></br>
+                        <div className="text-center pt-3">                        
+                            <button 
+                                className="btn btn-lg btn-info m-auto mb-2"
+                                onClick={() => {
+                                    loginUser(loginData).then(res => {
+                                        // console.log(res)
+                                        // alert(res.data.data);
+                                        addToast(res.data.data, {
+                                            appearance: 'info',
+                                            autoDismiss: true
+                                        })
+                                        if(res.data.data === "Logged in Successfully") {
+                                            // setUserId(res.data.users[0]._id)
+                                            localStorage.setItem('userId', res.data.users[0]._id)
+                                            // handleClose()
+                                            window.history.replaceState('', 'loggedIn', '/FreeBet/')
+                                            window.location.reload(false);
+                                        }
+                                    });
+                                    }}
+                                >Login</button>
+                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                            <a className="text-info nav-link " style={{"cursor": "pointer"}} onClick={() => setRegister(true)}>Create New Account</a>
+                        </div>
+                    </>
+                    }
+                        {/* <label className="h5">Username</label><br></br>
                         <input 
                             className="my-2 rounded borderless"
                             value={username}
@@ -81,15 +214,16 @@ function Login() {
                             <button 
                                 className="btn btn-lg btn-info m-auto mb-2"
                                 onClick={() => {
-                                    registerUser(registerData).then(res => {
-                                        // alert(res)
-                                        addToast(res, {
-                                            appearance: 'info',
-                                            autoDismiss: true
-                                        })
-                                    });
-                                    setRegister(false);
-                                    
+                                    if(handleValidation()) {
+                                        registerUser(registerData).then(res => {
+                                            // alert(res)
+                                            addToast(res, {
+                                                appearance: 'info',
+                                                autoDismiss: true
+                                            })
+                                        });
+                                        setRegister(false);
+                                    }                                    
                                 }}
                                  >Register</button>
                             : 
@@ -114,8 +248,8 @@ function Login() {
                                     }}
                                 >Login</button>}
                             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                            <a className="text-info nav-link " style={{"cursor": "pointer"}} onClick={() => setRegister(true)}>Create New Account</a>
-                        </div>
+                            {/* <a className="text-info nav-link " style={{"cursor": "pointer"}} onClick={() => setRegister(true)}>Create New Account</a>
+                        </div>  */}
                     </div>
                 </div>
             </div>

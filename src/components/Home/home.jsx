@@ -36,7 +36,7 @@ const getTimeDays = (time) => (time / daySeconds) | 0;
 
 function Home() {
     const { addToast } = useToasts()
-    const [faucet, setFaucet] = useState(10000);
+    const [faucet, setFaucet] = useState('00000');
     const [disable, setDisable] = useState(false);
     const [counter, setCounter] = useState(false);
     //User logged in state
@@ -46,7 +46,7 @@ function Home() {
     // const [password, setPassword] = useState('')
     const [takeaway, setTakeAway] = useState(0.00)
     const [win, setWin] = useState(false)
-    const [wallet, setWallet] = useState('0.00')
+    const [wallet, setWallet] = useState('0.000')
     const [history, setHistory] = useState(false)
     const [clientSeed, setClientSeed] = useState()
     const [prevServerSeed, setPrevServerSeed] = useState()
@@ -145,51 +145,77 @@ function Home() {
     }
 
     const handleTakeaway = () => {
-        if (faucet <= 9999 && faucet >= 9800) {
-            let w = Number(wallet) + 0.90
-            setWalletData(userId, w.toFixed(2))
+        if(faucet === 10000) {
+            let w = Number(wallet) + 10.000;
+            setWalletData(userId, w.toFixed(2));
             setWallet(w.toFixed(2))
             setHistory(!history)
-            setTakeAway(0.90)
-            // setWallet(Number(wallet) + 0.90)
+            setTakeAway(10.000)
             setWin(true)
-            // addToast('You Won', {
-            //     appearance: 'success',
-            //     autoDismiss: true
-            // })
-        } else if (faucet < 9800 && faucet >= 9500) {
-            let w = Number(wallet) + 0.09
-            setWalletData(userId, w.toFixed(2))
-            setWallet(w.toFixed(2))
-            setTakeAway(0.09)
-            setHistory(!history)
-            // setWallet(Number(wallet) + 0.09)
-            setWin(true)
-            addToast(`Woohoo, You Won Free money out of Nothing`, {
+            addToast(`Woohoo, You Won Free money out of Nothing. $10 added to your wallet`, {
                 appearance: 'success',
                 autoDismiss: true
             })
-        } else if (faucet < 8000 && faucet >= 0) {
-            let w = Number(wallet) + 0.01
+        }else if (faucet <= 9999 && faucet >= 9998) {
+            let w = Number(wallet) + 5.340
             setWalletData(userId, w.toFixed(2))
             setWallet(w.toFixed(2))
-            setTakeAway(0.01)
             setHistory(!history)
-            // console.log(getWalletData(userId).then(res => {
-            //     return res.data.wallet
-            //     // console.log(res.data.wallet)
-            // }))
-            // setWallet(Number(wallet) + 0.01)
+            setTakeAway(5.340)
             setWin(true)
-            addToast(`Woohoo, You Won Free money out of Nothing`, {
+            addToast(`Woohoo, You Won Free money out of Nothing. $5.340 added to your wallet`, {
+                appearance: 'success',
+                autoDismiss: true
+            })
+        } else if (faucet <= 9997 && faucet >= 9994) {
+            let w = Number(wallet) + 2.760
+            setWalletData(userId, w.toFixed(2))
+            setWallet(w.toFixed(2))
+            setTakeAway(2.760)
+            setHistory(!history)
+            setWin(true)
+            addToast(`Woohoo, You Won Free money out of Nothing. $2.760 added to your wallet`, {
+                appearance: 'success',
+                autoDismiss: true
+            })
+        } else if (faucet <= 9993 && faucet >= 9986) {
+            let w = Number(wallet) + 1.110
+            setWalletData(userId, w.toFixed(2))
+            setWallet(w.toFixed(2))
+            setTakeAway(1.110)
+            setHistory(!history)
+            setWin(true)
+            addToast(`Woohoo, You Won Free money out of Nothing. $1.110 added to your wallet`, {
+                appearance: 'success',
+                autoDismiss: true
+            })
+        } else if (faucet <= 9985 && faucet >= 9886) {
+            let w = Number(wallet) + 0.140
+            setWalletData(userId, w.toFixed(2))
+            setWallet(w.toFixed(2))
+            setTakeAway(0.140)
+            setHistory(!history)
+            setWin(true)
+            addToast(`Woohoo, You Won Free money out of Nothing. $0.140 added to your wallet`, {
+                appearance: 'success',
+                autoDismiss: true
+            })
+        } else if (faucet <= 9885 && faucet > 0) {
+            let w = Number(wallet) + 0.069
+            setWalletData(userId, w.toFixed(2))
+            setWallet(w.toFixed(2))
+            setTakeAway(0.069)
+            setHistory(!history)
+            setWin(true)
+            addToast(`Woohoo, You Won Free money out of Nothing. $0.069 added to your wallet`, {
                 appearance: 'success',
                 autoDismiss: true
             })
         } else {
-            if(faucet !== 10000) {
+            if(faucet !== '00000') {
                 setWin(false)
                 setHistory(!history)
-                setTakeAway(0.00)
+                setTakeAway(0.000)
                 addToast('Oh bugger, lack of luck it seems. You get Nothing', {
                     appearance: 'warning',
                     autoDismiss: true
@@ -360,7 +386,7 @@ function Home() {
                 </div>
             </div>
             <div className="my-4 px-4 w-100">
-                <table className="table table-bordered m-auto w-50">
+                <table className="table table-bordered text-center m-auto w-50">
                     <thead>
                         <tr>
                             <th scope="col">Roll</th>
@@ -369,16 +395,28 @@ function Home() {
                     </thead>
                     <tbody>
                         <tr>
-                            <th scope="row">9999-9800</th>
-                            <td>1.0000</td>
+                            <th scope="row">10000</th>
+                            <td>10</td>
                         </tr>
                         <tr>
-                            <th scope="row">9800-9500</th>
-                            <td>0.0090</td>
+                            <th scope="row">9999-9998</th>
+                            <td>5.34</td>
                         </tr>
                         <tr>
-                            <th scope="row">9500-0</th>
-                            <td>0.0009</td>
+                            <th scope="row">9997-9994</th>
+                            <td>2.76</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9993-9986</th>
+                            <td>1.11</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9985-9886</th>
+                            <td>0.14</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">9885-0</th>
+                            <td>0.069</td>
                         </tr>
                     </tbody>
                 </table>

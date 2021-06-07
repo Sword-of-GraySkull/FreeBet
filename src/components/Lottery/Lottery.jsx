@@ -14,6 +14,7 @@ function Lottery() {
     const [totalTickets, setTotalTickets] = useState(0)
     const [tempWinners, setTempWinners] = useState([])
     const [a, setA] = useState()
+    const [b, setB] = useState()
 
     const pricePerTicket = 0.01;
     const minuteSeconds = 60;
@@ -104,6 +105,12 @@ function Lottery() {
                 setTempWinners(res.data.winners)
             }
         })
+
+        let interval1 = setInterval(() => {
+            setB(interval1)
+            handleGetLotteryTickets();
+        }, 1000)
+
         let interval = setInterval(() => {
             console.log("kio")
             setA(interval)
@@ -118,6 +125,7 @@ function Lottery() {
         return () => {
             console.log("koi")
             clearInterval(a)
+            clearInterval(b)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -194,7 +202,7 @@ function Lottery() {
                         <label className="h5 mb-3">Win Probability</label>
                         <label className="float-right mr-4 h5"><span className="text-gold">{((userTickets/totalTickets)*100).toFixed(2)}%</span></label><br></br>
                         <label className="h5 mb-3">Your Tickets</label>
-                        <button className="btn btn-info float-right" style={{"margin": "-5px 0 0 5px"}} onClick={() => {handleGetLotteryTickets()}}>&#x21bb;</button>
+                        {/* <button className="btn btn-info float-right" style={{"margin": "-5px 0 0 5px"}} onClick={() => {handleGetLotteryTickets()}}>&#x21bb;</button> */}
                         <label className="float-right mr-4 h5">{userTickets}</label><br></br>
                         <label className="h5 mb-3">Price Per Ticket</label>
                         <label className="float-right mr-4 h5">{pricePerTicket}</label><br></br>
