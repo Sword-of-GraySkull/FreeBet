@@ -93,15 +93,15 @@ function Login() {
                 })
                 return false
             }
-            if(typeof password !== "undefined") {
-                if(!password.match(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/)) {
-                    addToast("Password should contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!!", {
-                        appearance: 'error',
-                        autoDismiss: true
-                    })
-                    return false
-                }
-            }
+            // if(typeof password !== "undefined") {
+            //     if(!password.match(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/)) {
+            //         addToast("Password should contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character!!", {
+            //             appearance: 'error',
+            //             autoDismiss: true
+            //         })
+            //         return false
+            //     }
+            // }
             if(unmaskedPassword !== unmaskedConfirmPassword) {
                 addToast("Password and Confirm Password don't seem to match", {
                     appearance: 'error',
