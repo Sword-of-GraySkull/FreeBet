@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/FreeBet/static/css/main.f316f975.chunk.css",
-    "main.js": "/FreeBet/static/js/main.0ead13f4.chunk.js",
-    "main.js.map": "/FreeBet/static/js/main.0ead13f4.chunk.js.map",
+    "main.js": "/FreeBet/static/js/main.1e0cef27.chunk.js",
+    "main.js.map": "/FreeBet/static/js/main.1e0cef27.chunk.js.map",
     "runtime-main.js": "/FreeBet/static/js/runtime-main.c2d4464c.js",
     "runtime-main.js.map": "/FreeBet/static/js/runtime-main.c2d4464c.js.map",
     "static/js/2.bc9095f0.chunk.js": "/FreeBet/static/js/2.bc9095f0.chunk.js",
@@ -23,6 +23,6 @@
     "static/js/runtime-main.c2d4464c.js",
     "static/js/2.bc9095f0.chunk.js",
     "static/css/main.f316f975.chunk.css",
-    "static/js/main.0ead13f4.chunk.js"
+    "static/js/main.1e0cef27.chunk.js"
   ]
 }
