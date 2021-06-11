@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/FreeBet/static/css/main.bd4ef3c1.chunk.css",
-    "main.js": "/FreeBet/static/js/main.e62c9a60.chunk.js",
-    "main.js.map": "/FreeBet/static/js/main.e62c9a60.chunk.js.map",
+    "main.css": "/FreeBet/static/css/main.f316f975.chunk.css",
+    "main.js": "/FreeBet/static/js/main.8b5d1e9c.chunk.js",
+    "main.js.map": "/FreeBet/static/js/main.8b5d1e9c.chunk.js.map",
     "runtime-main.js": "/FreeBet/static/js/runtime-main.c2d4464c.js",
     "runtime-main.js.map": "/FreeBet/static/js/runtime-main.c2d4464c.js.map",
     "static/js/2.bc9095f0.chunk.js": "/FreeBet/static/js/2.bc9095f0.chunk.js",
@@ -10,16 +10,19 @@
     "static/js/3.2e01250b.chunk.js": "/FreeBet/static/js/3.2e01250b.chunk.js",
     "static/js/3.2e01250b.chunk.js.map": "/FreeBet/static/js/3.2e01250b.chunk.js.map",
     "index.html": "/FreeBet/index.html",
-    "static/css/main.bd4ef3c1.chunk.css.map": "/FreeBet/static/css/main.bd4ef3c1.chunk.css.map",
+    "static/css/main.f316f975.chunk.css.map": "/FreeBet/static/css/main.f316f975.chunk.css.map",
     "static/js/2.bc9095f0.chunk.js.LICENSE.txt": "/FreeBet/static/js/2.bc9095f0.chunk.js.LICENSE.txt",
     "static/media/24-money.66f55454.gif": "/FreeBet/static/media/24-money.66f55454.gif",
+    "static/media/BE FREE MONEY_(FINAL).ae5e00c8.jpg": "/FreeBet/static/media/BE FREE MONEY_(FINAL).ae5e00c8.jpg",
+    "static/media/index.css": "/FreeBet/static/media/HONEY COMB -(TILTED).65b6bf52.png",
     "static/media/FakeDoor.scss": "/FreeBet/static/media/ackdoor bg-copy.181493a0.jpg",
-    "static/media/logo.6ce24c58.svg": "/FreeBet/static/media/logo.6ce24c58.svg"
+    "static/media/logo.6ce24c58.svg": "/FreeBet/static/media/logo.6ce24c58.svg",
+    "static/media/spinner2.c7d9f081.gif": "/FreeBet/static/media/spinner2.c7d9f081.gif"
   },
   "entrypoints": [
     "static/js/runtime-main.c2d4464c.js",
     "static/js/2.bc9095f0.chunk.js",
-    "static/css/main.bd4ef3c1.chunk.css",
-    "static/js/main.e62c9a60.chunk.js"
+    "static/css/main.f316f975.chunk.css",
+    "static/js/main.8b5d1e9c.chunk.js"
   ]
 }
