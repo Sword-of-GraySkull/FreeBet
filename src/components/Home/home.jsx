@@ -6,10 +6,13 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 import './home.scss';
 import transaction from './24-money.gif';
+import CarousalItem from './BE FREE MONEY_(FINAL).jpg';
 import Navbar from '../Navbar/Navbar';
 import { roll, getWalletData, setWalletData, pushRollHistory, getClientSeed } from '../Helpers/service';
 import LoggedUser from '../LoggedUser/LoggedUser';
 // import { Modal } from "react-bootstrap";
+
+var URL = window.location.hostname === "localhost" ? 'http://localhost:3000/FreeBet' : 'https://sword-of-grayskull.github.io/FreeBet';
 
 const minuteSeconds = 60;
 const hourSeconds = 3600;
@@ -104,7 +107,7 @@ function Home() {
         }
         let currTime;
         let currHr;
-        console.log(Date.now() / 1000)
+        // console.log(Date.now() / 1000)
 
         const stratTime = Date.now() / 1000; // use UNIX timestamp in seconds
         const endTime = stratTime + 60; // use UNIX timestamp in seconds
@@ -147,8 +150,8 @@ function Home() {
     const handleTakeaway = () => {
         if(faucet === 10000) {
             let w = Number(wallet) + 10.000;
-            setWalletData(userId, w.toFixed(2));
-            setWallet(w.toFixed(2))
+            setWalletData(userId, w.toFixed(3));
+            setWallet(w.toFixed(3))
             setHistory(!history)
             setTakeAway(10.000)
             setWin(true)
@@ -158,8 +161,8 @@ function Home() {
             })
         }else if (faucet <= 9999 && faucet >= 9998) {
             let w = Number(wallet) + 5.340
-            setWalletData(userId, w.toFixed(2))
-            setWallet(w.toFixed(2))
+            setWalletData(userId, w.toFixed(3))
+            setWallet(w.toFixed(3))
             setHistory(!history)
             setTakeAway(5.340)
             setWin(true)
@@ -169,8 +172,8 @@ function Home() {
             })
         } else if (faucet <= 9997 && faucet >= 9994) {
             let w = Number(wallet) + 2.760
-            setWalletData(userId, w.toFixed(2))
-            setWallet(w.toFixed(2))
+            setWalletData(userId, w.toFixed(3))
+            setWallet(w.toFixed(3))
             setTakeAway(2.760)
             setHistory(!history)
             setWin(true)
@@ -180,8 +183,8 @@ function Home() {
             })
         } else if (faucet <= 9993 && faucet >= 9986) {
             let w = Number(wallet) + 1.110
-            setWalletData(userId, w.toFixed(2))
-            setWallet(w.toFixed(2))
+            setWalletData(userId, w.toFixed(3))
+            setWallet(w.toFixed(3))
             setTakeAway(1.110)
             setHistory(!history)
             setWin(true)
@@ -191,8 +194,8 @@ function Home() {
             })
         } else if (faucet <= 9985 && faucet >= 9886) {
             let w = Number(wallet) + 0.140
-            setWalletData(userId, w.toFixed(2))
-            setWallet(w.toFixed(2))
+            setWalletData(userId, w.toFixed(3))
+            setWallet(w.toFixed(3))
             setTakeAway(0.140)
             setHistory(!history)
             setWin(true)
@@ -202,8 +205,8 @@ function Home() {
             })
         } else if (faucet <= 9885 && faucet > 0) {
             let w = Number(wallet) + 0.069
-            setWalletData(userId, w.toFixed(2))
-            setWallet(w.toFixed(2))
+            setWalletData(userId, w.toFixed(3))
+            setWallet(w.toFixed(3))
             setTakeAway(0.069)
             setHistory(!history)
             setWin(true)
@@ -234,7 +237,7 @@ function Home() {
     }
 
     const handleSetRollHistory = () => {
-        if(faucet !== 10000) {
+        if(faucet !== '00000') {
             // console.log('rollValue', faucet)
             // console.log("takeaway", takeaway)
             // console.log('win/lose', win)
@@ -296,6 +299,28 @@ function Home() {
         <div>
             <Navbar wallet={wallet}/>
             <LoggedUser />
+            {/* ##################################################33        Carousal           3########################################33*/}
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src={CarousalItem} alt="First slide"></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src={CarousalItem} alt="Second slide"></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src={CarousalItem} alt="Third slide"></img>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
             <div className="row p-4">
                 <div className="col-6 p-4 text-center money"><img src={transaction} width="300" height="300" alt="transaction"/></div>
                 <div className="col-6 money">
@@ -532,8 +557,9 @@ function Home() {
                             }
                             else {
                                 // window.history.replaceState({}, 'login', '#/login')
-                                window.location.pathname('/login')
-                                window.location.reload(false)
+                                // window.location.pathname('/login')
+                                // window.location.reload(false)
+                                window.location.assign(`${URL}/#/login`);
                                 /*setRegister(false)
                                 setUsername('')
                                 setPassword('')
@@ -555,8 +581,9 @@ function Home() {
                             }
                             else {
                                 // window.history.replaceState({}, 'login', '#/login')
-                                window.location.pathname('/login')
-                                window.location.reload(false)
+                                // window.location.pathname('/login')
+                                window.location.assign(`${URL}/#/login`);
+                                // window.location.reload(false)
                                 // setRegister(false)
                                 // setUsername('')
                                 // setPassword('')

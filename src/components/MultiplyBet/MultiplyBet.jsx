@@ -6,6 +6,8 @@ import Navbar from './../Navbar/Navbar';
 import { roll, getWalletData, setWalletData, pushMultiplyBetRollHistory, getClientSeed } from '../Helpers/service';
 import LoggedUser from '../LoggedUser/LoggedUser';
 
+
+
 // eslint-disable-next-line no-lone-blocks
 {/* <ul class="nav nav-tabs">
   <li class="nav-item">
@@ -32,7 +34,7 @@ function MultiplyBet() {
     // ###################################      manual bet options  ###################################################
     const [rollValue, setRollValue] = useState(10000);
     const [betmode, setBetmode] = useState('manual');
-    const [betAmount, setBetAmount] = useState(0.1);
+    const [betAmount, setBetAmount] = useState(0.001);
     const [betOdds, setBetOdds] = useState('2');
     const [winChance, setWinChance] = useState('47.5');
     const [winHigh, setWinHigh] = useState('5250');
@@ -53,12 +55,17 @@ function MultiplyBet() {
     const [stopProfit, setStopProfit] = useState('100')
     const [stopLoss, setStopLoss] = useState('100')
     const [increaseBetWin, setIncreaseBetWin] = useState(0.0);
-    const [increaseBetLose, setIncreaseBetLose] = useState(0.0);
-    const [onWinChecked, setOnWinChecked] = useState(false)
-    const [onLoseChecked, setOnLoseChecked] = useState(false)
+    const [increaseBetLose, setIncreaseBetLose] = useState(0.0);    
     const [changeBetOddWin, setChangeBetOddWin] = useState(betOdds);
     const [changeBetOddLose, setChangeBetOddLose] = useState(betOdds);
     const [basebet, setBaseBet] = useState('-')
+
+    const [onWinChecked, setOnWinChecked] = useState(false)
+    const [onLoseChecked, setOnLoseChecked] = useState(false)
+    const [onWinIncreaseBetChecked, setOnWinIncreaseBetChecked] = useState(false)
+    const [onLoseIncreaseBetChecked, setOnLoseIncreaseBetChecked] = useState(false)
+    const [onWinChangeBetChecked, setOnWinChangeBetChecked] = useState(false)
+    const [onLoseChangeBetChecked, setOnLoseChangeBetChecked] = useState(false)
     
     const [a, setA] = useState();
 
@@ -77,7 +84,7 @@ function MultiplyBet() {
         winProfit: win ? winProfit : '-',
         multiplier: betOdds,
         betmode: betmode,
-        date: new Date().toLocaleDateString(),
+        date: new Date().toLocaleDateString("en-IN"),
         wallet: wallet
     }
 
@@ -89,7 +96,7 @@ function MultiplyBet() {
                 setProfit(profit+Number(winProfit))
                 // console.log(Number(takeAwayAmount.toFixed(2)), '+', Number(winProfit))
                 let tk = Math.abs(Number(winProfit));
-                setWallet((Number(wallet) + tk).toFixed(2))
+                setWallet((Number(wallet) + tk).toFixed(3))
                 setTakeAwayAmount(tk)
                 // console.log(Number(wallet) + takeAwayAmount)
                 setWin(true)
@@ -101,7 +108,7 @@ function MultiplyBet() {
                 // console.log(Number(wallet) + takeAwayAmount)
                 // setWallet(Number(wallet) + takeAwayAmount)
                 let tk = -Number(winProfit);
-                setWallet((Number(wallet) + tk).toFixed(2))
+                setWallet((Number(wallet) + tk).toFixed(3))
                 setTakeAwayAmount(tk)
                 setWin(false)
             }
@@ -110,8 +117,9 @@ function MultiplyBet() {
             if(value === 'win') {
                 // setWin(true)
                 setProfit(profit + Number(winProfit))
-                setBetAmount(Number(betAmount)+Number(increaseBetWin))
-                setBetOdds(changeBetOddWin)
+                if(onWinIncreaseBetChecked) setBetAmount(Number(betAmount)+Number(betAmount * (increaseBetWin / 100)))
+                if(onWinChangeBetChecked) setBetOdds(changeBetOddWin)
+                if(onWinChecked) setBetAmount(basebet)
                 // setIncreasedWinProfit(((betAmount)*betOdds)-(betAmount))
                 // console.log(Number(takeAwayAmount.toFixed(2)), '+', Number(winProfit))
                 // if(Number(takeAwayAmount.toFixed(2)) + Number(winProfit) === 0) 
@@ -121,15 +129,16 @@ function MultiplyBet() {
                 console.log(Number(winProfit));
                 let tk = Math.abs(Number(winProfit));
                 console.log("hey", tk);
-                setWallet((Number(wallet) + Number(tk)).toFixed(2));
+                setWallet((Number(wallet) + Number(tk)).toFixed(3));
                 setTakeAwayAmount(tk);
                 setWin(true);
             }
             else if(value === 'lose') {
                 // setWin(false)
                 setLoss(loss+Number(winProfit))
-                setBetAmount(Number(betAmount)+Number(increaseBetLose))
-                setBetOdds(changeBetOddLose)
+                if(onLoseIncreaseBetChecked) setBetAmount(Number(betAmount)+Number(betAmount * (increaseBetLose / 100)))
+                if(onLoseChangeBetChecked) setBetOdds(changeBetOddLose)
+                if(onLoseChecked) setBetAmount(basebet)
                 // setIncreasedWinProfit(((betAmount)*betOdds)-(betAmount))
                 // console.log('increasedWinProfit',increasedWinProfit)
                 // console.log(Number(takeAwayAmount.toFixed(2)), '-', Number(winProfit))
@@ -137,7 +146,7 @@ function MultiplyBet() {
                 console.log(Number(winProfit));
                 let tk = -Number(winProfit);
                 console.log("hey", tk);
-                setWallet((Number(wallet) + Number(tk)).toFixed(2));
+                setWallet((Number(wallet) + Number(tk)).toFixed(3));
                 setTakeAwayAmount(tk);
                 setWin(false);
             }
@@ -265,25 +274,109 @@ function MultiplyBet() {
 
     const handleCheckBox = (event) => {
         const { name, value } = event.target
-        
-        if(name === "onWin") {
+        //################################################################################ continue here
+        if(name === "onWinReturnToBaseBet") {
             //
-            var val;
+            let val;
             if(value === 'false') {
+                setOnWinChecked(true)
                 val = true;
-                // console.log("false")
+                setOnWinIncreaseBetChecked(false)
+                setOnWinChangeBetChecked(false)
             }
             else if(value === 'true') {
+                setOnWinChecked(false)
                 val = false;
             }
             if(val) {
                 console.log("onwin")
             }
         }
-        else if(name === "onLose"  && val) {
+        else if(name === "onLoseReturnToBaseBet") {
             // 
-            setOnLoseChecked(true)
-            console.log("onlose")
+            let val;
+            if(value === 'false') {
+                setOnLoseChecked(true)
+                val =true
+                setOnLoseIncreaseBetChecked(false)
+                setOnLoseChangeBetChecked(false)
+            }
+            else if(value === 'true') {
+                setOnLoseChecked(false)
+                val = false
+            }
+            if(val) {
+                console.log("onlose")
+            }
+        }
+        else if(name === "onWinIncreaseBet") {
+            // 
+            let val;
+            console.log(value)
+            if(value === 'false') {
+                setOnWinIncreaseBetChecked(true)
+                val = true
+                console.log('selected increase Bet win')
+            }
+            else if(value === 'true') {
+                setOnWinIncreaseBetChecked(false)
+                val = false
+                console.log('unselected increase Bet win')
+            }
+            if(val) {
+                console.log("onWin")
+            }
+        }
+        else if(name === "onLoseIncreaseBet") {
+            // 
+            let val;
+            if(value === 'false') {
+                setOnLoseIncreaseBetChecked(true)
+                val =true
+                console.log('selected increase bet lose')
+            }
+            else if(value === 'true') {
+                setOnLoseIncreaseBetChecked(false)
+                val = false
+                console.log('unselected increase bet lose')
+            }
+            if(val) {
+                console.log("onlose")
+            }
+        }
+        else if(name === "onWinChangeBetOdds") {
+            // 
+            let val;
+            if(value === 'false') {
+                setOnWinChangeBetChecked(true)
+                val =true
+                console.log('selected change Bet win')
+            }
+            else if(value === 'true') {
+                setOnWinChangeBetChecked(false)
+                val = false
+                console.log('unselected change Bet win')
+            }
+            if(val) {
+                console.log("onWin")
+            }
+        }
+        else if(name === "onLoseChangeBetOdds") {
+            // 
+            let val;
+            if(value === 'false') {
+                setOnLoseChangeBetChecked(true)
+                val =true
+                console.log('selected change Bet lose')
+            }
+            else if(value === 'true') {
+                setOnLoseChangeBetChecked(false)
+                val = false
+                console.log('unselected change Bet lose')
+            }
+            if(val) {
+                console.log("onlose")
+            }
         }
     }
 
@@ -310,13 +403,26 @@ function MultiplyBet() {
                 })
                 return false;
             }
+            else if(betOdds < 1) {
+                addToast("Betodds can't be less than one", {
+                    appearance: 'info',
+                    autoDismiss: true
+                })
+                return false;
+            }
+            else if(betOdds > 4750) {
+                addToast("Betodds can't be greater than 4750", {
+                    appearance: 'info',
+                    autoDismiss: true
+                })
+            }
             else if(betAmount > wallet) {
                 addToast("You don't have enough money to place the bet. Deposit some money or you can always earn money from Free bet", {
                     appearance: 'info',
                     autoDismiss: true
                 })
                 return false;
-            }
+            }            
             else return true;
         }
         if(betmode === 'auto') {
@@ -327,7 +433,7 @@ function MultiplyBet() {
                 })
                 return false;
             }
-            else if(betAmount < 0.01) {
+            else if(betAmount < 0.001) {
                 addToast("BetAmount should be greater than 0.01", {
                     appearance: 'info',
                     autoDismiss: true
@@ -341,6 +447,19 @@ function MultiplyBet() {
                 })
                 return false;
             }
+            else if(betOdds < 1) {
+                addToast("Betodds can't be less than one", {
+                    appearance: 'info',
+                    autoDismiss: true
+                })
+                return false;
+            }
+            else if(betOdds > 4750) {
+                addToast("Betodds can't be greater than 4750", {
+                    appearance: 'info',
+                    autoDismiss: true
+                })
+            }
             else if(betAmount > wallet) {
                 // console.log("hey")
                 addToast("You don't have enough money to place the bet. Deposit some money or you can always earn money from Free bet", {
@@ -348,14 +467,13 @@ function MultiplyBet() {
                     autoDismiss: true
                 }) 
                 return false
-            }
-            else if(betAmount > 20) {
-                // console.log("info: betAmount greater than max bet")
-                addToast("BetAmount can't be greater than 20.", {
+            } /////////            terrible doing : betamount > 20            
+            else if(noOfRolls < 1) {
+                addToast('No of rolls is not valid', {
                     appearance: 'info',
                     autoDismiss: true
                 })
-                return false;
+                return false
             }
             else return true
         }
@@ -379,10 +497,10 @@ function MultiplyBet() {
 
     const handleBetOdds = () => {             //#################### Function that handles input Values on the Left pane #####################
         if(betOdds) {
-            if(betOdds > 4750) 
-                setBetOdds(4750);
-            else if(betOdds < 1) 
-                setBetOdds(1);
+            // if(betOdds > 4750) 
+            //     setBetOdds(4750);
+            // else if(betOdds < 1) 
+            //     setBetOdds(1);
             var x = 95.00 / betOdds;
             // console.log("betodds", betOdds);
             var y = ((((betOdds*100)/100)*betAmount)-betAmount);
@@ -390,7 +508,7 @@ function MultiplyBet() {
             setWinChance(x.toFixed(2));
             setWinLow(Math.floor(x*100));
             setWinHigh(Math.floor(10000-winLow));
-            setWinProfit(y.toFixed(2));
+            setWinProfit(y.toFixed(3));
             // setChangeBetOddWin(betOdds);
             // setChangeBetOddLose(betOdds);
             // setTakeAwayAmount(0);
@@ -457,7 +575,7 @@ function MultiplyBet() {
         // setWallet(w.toFixed(2))
         let w = Number(wallet);
         // console.log("hey", wallet, w);
-        console.log(w.toFixed(2))
+        // console.log(w.toFixed(2))
         if(betmode === "auto") {
             if(!handleValidation()) {
                 clearInterval(a);
@@ -465,7 +583,7 @@ function MultiplyBet() {
                 setIsAutoBetActive(false);
             } 
         }
-        setWalletData(userId, w.toFixed(2));
+        setWalletData(userId, w.toFixed(3));
         setHistory(!history);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [wallet])
@@ -732,46 +850,146 @@ function MultiplyBet() {
                                     <label className="h5 mb-3">Loss {'>='}</label>
                                     <input className="float-right rounded borderless mobile" value={stopLoss} onChange={event => setStopLoss(event.target.value)} required></input>
                                 </div>
-                                <nav className="nav nav-fill">
-                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                {/* <nav className="nav nav-fill">
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid 
                                     <a className="nav-item nav-link p-2 bg-dark borderless text-white" onClick={() => setOnWin(true)}>On Win</a>
-                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid 
                                     <a className="nav-item nav-link p-2 bg-dark borderless text-white" onClick={() => setOnWin(false)}>On Lose</a>
-                                </nav>
+                                </nav> */}
                                 <div className="bg-darkgray p-2">
-                                {onWin 
-                                    ? <> {/*#############################  On win ################################# */}
+                                    <div> {/*#############################  On win ################################# */}
+                                    <h5 className="text-center bg-dark p-2 rounded">On Win</h5>
+
                                     <p>Changes to make on every win</p>
                                     {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
-                                    <label className="h5 mb-3">Increase bet by (%)</label>
                                     <input 
-                                        className="float-right rounded borderless mobile"
-                                        value={increaseBetWin}
-                                        onChange={event => setIncreaseBetWin(event.target.value)}
-                                        ></input><br></br>
-                                    <label className="h5 mb-3">Change Bet Odds to</label>
-                                    <input  
-                                        className="float-right rounded borderless mobile"
-                                        value={changeBetOddWin}
-                                        onChange={event => setChangeBetOddWin(event.target.value)}></input>
-                                    </>
-                                    : <> {/*############################# On Lose  ################################ */}
-                                    <p>Changes to make on every lose</p>
+                                        className="" 
+                                        type="checkbox"
+                                        name="onWinReturnToBaseBet"
+                                        value={onWinChecked}
+                                        onClick={event => handleCheckBox(event)}></input>
+                                    <label className="h5 mx-2 mb-3">Return to BaseBet</label><br></br>
+                                    {onWinChecked
+                                    ? 
+                                    <div style={{"pointerEvents" : "none", "opacity" : "0.5"}}>
+                                        <input
+                                            type="checkbox"
+                                            name="onWinIncreaseBet"
+                                            value={onWinIncreaseBetChecked}
+                                            // onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Increase bet by (%)</label>
+                                        <input 
+                                            className="float-right rounded borderless mobile"
+                                            value={increaseBetWin}
+                                            onChange={event => setIncreaseBetWin(event.target.value)}
+                                            ></input><br></br>
+                                        <input
+                                            type="checkbox"
+                                            name="onWinChangeBetOdds"
+                                            value={onWinChangeBetChecked}
+                                            // onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Change Bet Odds to</label>
+                                        <input  
+                                            className="float-right rounded borderless mobile"
+                                            value={changeBetOddWin}
+                                            onChange={event => setChangeBetOddWin(event.target.value)}></input>
+                                    </div>
+                                    :
+                                    <>
+                                        <input
+                                            type="checkbox"
+                                            name="onWinIncreaseBet"
+                                            value={onWinIncreaseBetChecked}
+                                            onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Increase bet by (%)</label>                                        
+                                        <input 
+                                            className="float-right rounded borderless mobile"
+                                            value={increaseBetWin}
+                                            onChange={event => setIncreaseBetWin(event.target.value)}
+                                            ></input><br></br>
+                                        <input
+                                            type="checkbox"
+                                            name="onWinChangeBetOdds"
+                                            value={onWinChangeBetChecked}
+                                            onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Change Bet Odds to</label>
+                                        <input  
+                                            className="float-right rounded borderless mobile"
+                                            value={changeBetOddWin}
+                                            onChange={event => setChangeBetOddWin(event.target.value)}></input>
+                                    </>}
+                                    </div>
+                                    <div> {/*############################# On Lose  ################################ */}
+                                    <h5 className="text-center bg-dark p-2 rounded">On Lose</h5>
+                                    <p>Changes to make on every lose</p>                             
                                     {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
-                                    <label className="h5 mb-3">Increase bet by (%)</label>
                                     <input 
-                                        className="float-right rounded borderless mobile"
-                                        value={increaseBetLose}
-                                        onChange={event => setIncreaseBetLose(event.target.value)}
-                                        ></input><br></br>
-                                    <label className="h5 mb-3">Change Bet Odds to</label>
-                                    <input  
-                                        className="float-right rounded borderless mobile"
-                                        value={changeBetOddLose}
-                                        onChange={event => setChangeBetOddLose(event.target.value)}></input>         
-                                    </>
-                                }
-                                </div>
+                                        className="" 
+                                        type="checkbox"
+                                        name="onLoseReturnToBaseBet"
+                                        value={onLoseChecked}
+                                        onChange={event => handleCheckBox(event)}></input>
+                                    <label className="h5 mx-2 mb-3">Return to BaseBet</label><br></br>
+                                    {onLoseChecked
+                                    ? 
+                                    <div style={{"pointerEvents" : "none", "opacity" : "0.5"}}>
+                                        <input
+                                            type="checkbox"
+                                            name="onLoseIncreaseBet"
+                                            value={onLoseIncreaseBetChecked}
+                                            // onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Increase bet by (%)</label>
+                                        <input 
+                                            className="float-right rounded borderless mobile"
+                                            value={increaseBetLose}
+                                            onChange={event => setIncreaseBetLose(event.target.value)}
+                                            ></input><br></br>
+                                        <input
+                                            type="checkbox"
+                                            name="onLoseChangeBetOdds"
+                                            value={onLoseChangeBetChecked}
+                                            // onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Change Bet Odds to</label>
+                                        <input  
+                                            className="float-right rounded borderless mobile"
+                                            value={changeBetOddLose}
+                                            onChange={event => setChangeBetOddLose(event.target.value)}></input>
+                                    </div>
+                                    :
+                                    <>
+                                        <input
+                                            type="checkbox"
+                                            name="onLoseIncreaseBet"
+                                            value={onLoseIncreaseBetChecked}
+                                            onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Increase bet by (%)</label>
+                                        <input 
+                                            className="float-right rounded borderless mobile"
+                                            value={increaseBetLose}
+                                            onChange={event => setIncreaseBetLose(event.target.value)}
+                                            ></input><br></br>
+                                        <input
+                                            type="checkbox"
+                                            name="onLoseChangeBetOdds"
+                                            value={onLoseChangeBetChecked}
+                                            onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Change Bet Odds to</label>
+                                        <input  
+                                            className="float-right rounded borderless mobile"
+                                            value={changeBetOddLose}
+                                            onChange={event => setChangeBetOddLose(event.target.value)}></input>
+                                    </>}         
+                                    </div>
+
+                            </div>
                             </div>
                             :
                             <div>
@@ -787,59 +1005,146 @@ function MultiplyBet() {
                                     <label className="h5 mb-3">Loss {'>='}</label>
                                     <input className="float-right rounded borderless mobile" value={stopLoss} onChange={event => setStopLoss(event.target.value)} required></input>
                                 </div>
-                                <nav className="nav nav-fill">
-                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                {/* <nav className="nav nav-fill">
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid 
                                     <a className="nav-item nav-link p-2 bg-dark borderless text-white" onClick={() => setOnWin(true)}>On Win</a>
-                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                    /* eslint-disable-next-line jsx-a11y/anchor-is-valid 
                                     <a className="nav-item nav-link p-2 bg-dark borderless text-white" onClick={() => setOnWin(false)}>On Lose</a>
-                                </nav>
+                                </nav> */}
                                 <div className="bg-darkgray p-2">
-                                {onWin 
-                                    ? <> {/*#############################  On win ################################# */}
+                                    <div> {/*#############################  On win ################################# */}
+                                    <h5 className="text-center bg-dark p-2 rounded">On Win</h5>
                                     <p>Changes to make on every win</p>
                                     {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
                                     <input 
                                         className="" 
                                         type="checkbox"
-                                        name="onWin"
+                                        name="onWinReturnToBaseBet"
                                         value={onWinChecked}
-                                        onChange={event => handleCheckBox(event)}></input>
+                                        onClick={event => handleCheckBox(event)}></input>
                                     <label className="h5 mx-2 mb-3">Return to BaseBet</label><br></br>
-                                    <label className="h5 mb-3">Increase bet by (%)</label>
-                                    <input 
-                                        className="float-right rounded borderless mobile"
-                                        value={increaseBetWin}
-                                        onChange={event => setIncreaseBetWin(event.target.value)}
-                                        ></input><br></br>
-                                    <label className="h5 mb-3">Change Bet Odds to</label>
-                                    <input  
-                                        className="float-right rounded borderless mobile"
-                                        value={changeBetOddWin}
-                                        onChange={event => setChangeBetOddWin(event.target.value)}></input>
-                                    </>
-                                    : <> {/*############################# On Lose  ################################ */}
+                                    {onWinChecked
+                                    ? 
+                                    <div style={{"pointerEvents" : "none", "opacity" : "0.5"}}>
+                                        <input
+                                            type="checkbox"
+                                            name="onWinIncreaseBet"
+                                            value={onWinIncreaseBetChecked}
+                                            // onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Increase bet by (%)</label>
+                                        <input 
+                                            className="float-right rounded borderless mobile"
+                                            value={increaseBetWin}
+                                            onChange={event => setIncreaseBetWin(event.target.value)}
+                                            ></input><br></br>
+                                        <input
+                                            type="checkbox"
+                                            name="onWinChangeBetOdds"
+                                            value={onWinChangeBetChecked}
+                                            // onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Change Bet Odds to</label>
+                                        <input  
+                                            className="float-right rounded borderless mobile"
+                                            value={changeBetOddWin}
+                                            onChange={event => setChangeBetOddWin(event.target.value)}></input>
+                                    </div>
+                                    :
+                                    <>
+                                        <input
+                                            type="checkbox"
+                                            name="onWinIncreaseBet"
+                                            value={onWinIncreaseBetChecked}
+                                            onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Increase bet by (%)</label>                                        
+                                        <input 
+                                            className="float-right rounded borderless mobile"
+                                            value={increaseBetWin}
+                                            onChange={event => setIncreaseBetWin(event.target.value)}
+                                            ></input><br></br>
+                                        <input
+                                            type="checkbox"
+                                            name="onWinChangeBetOdds"
+                                            value={onWinChangeBetChecked}
+                                            onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Change Bet Odds to</label>
+                                        <input  
+                                            className="float-right rounded borderless mobile"
+                                            value={changeBetOddWin}
+                                            onChange={event => setChangeBetOddWin(event.target.value)}></input>
+                                    </>}
+                                    </div>
+                                    
+                                    <div> {/*############################# On Lose  ################################ */}
+                                    <h5 className="text-center bg-dark p-2 rounded">On Lose</h5>
                                     <p>Changes to make on every lose</p>
+                                    
                                     {/* <input type="checkbox"></input><label className="mx-2 mb-3 h5">Return to BaseBet</label><br></br> */}
                                     <input 
                                         className="" 
                                         type="checkbox"
-                                        name="onLose"
+                                        name="onLoseReturnToBaseBet"
                                         value={onLoseChecked}
                                         onChange={event => handleCheckBox(event)}></input>
                                     <label className="h5 mx-2 mb-3">Return to BaseBet</label><br></br>
-                                    <label className="h5 mb-3">Increase bet by (%)</label>
-                                    <input 
-                                        className="float-right rounded borderless mobile"
-                                        value={increaseBetLose}
-                                        onChange={event => setIncreaseBetLose(event.target.value)}
-                                        ></input><br></br>
-                                    <label className="h5 mb-3">Change Bet Odds to</label>
-                                    <input  
-                                        className="float-right rounded borderless mobile"
-                                        value={changeBetOddLose}
-                                        onChange={event => setChangeBetOddLose(event.target.value)}></input>         
-                                    </>
-                                }
+                                    {onLoseChecked
+                                    ? 
+                                    <div style={{"pointerEvents" : "none", "opacity" : "0.5"}}>
+                                        <input
+                                            type="checkbox"
+                                            name="onLoseIncreaseBet"
+                                            value={onLoseIncreaseBetChecked}
+                                            // onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Increase bet by (%)</label>
+                                        <input 
+                                            className="float-right rounded borderless mobile"
+                                            value={increaseBetLose}
+                                            onChange={event => setIncreaseBetLose(event.target.value)}
+                                            ></input><br></br>
+                                        <input
+                                            type="checkbox"
+                                            name="onLoseChangeBetOdds"
+                                            value={onLoseChangeBetChecked}
+                                            // onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Change Bet Odds to</label>
+                                        <input  
+                                            className="float-right rounded borderless mobile"
+                                            value={changeBetOddLose}
+                                            onChange={event => setChangeBetOddLose(event.target.value)}></input>
+                                    </div>
+                                    :
+                                    <>
+                                        <input
+                                            type="checkbox"
+                                            name="onLoseIncreaseBet"
+                                            value={onLoseIncreaseBetChecked}
+                                            onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Increase bet by (%)</label>
+                                        <input 
+                                            className="float-right rounded borderless mobile"
+                                            value={increaseBetLose}
+                                            onChange={event => setIncreaseBetLose(event.target.value)}
+                                            ></input><br></br>
+                                        <input
+                                            type="checkbox"
+                                            name="onLoseChangeBetOdds"
+                                            value={onLoseChangeBetChecked}
+                                            onChange={handleCheckBox}
+                                        ></input>
+                                        <label className="h5 mx-2 mb-3">Change Bet Odds to</label>
+                                        <input  
+                                            className="float-right rounded borderless mobile"
+                                            value={changeBetOddLose}
+                                            onChange={event => setChangeBetOddLose(event.target.value)}></input>
+                                    </>}         
+                                    </div>
+
                                 </div>
                             </div>
                             }

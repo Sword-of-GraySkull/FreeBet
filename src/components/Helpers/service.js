@@ -16,7 +16,7 @@ export async function roll(clientSeed) {
                     .then(res => {
                         return res.data;
                     })
-    console.log(await response)
+    // console.log(await response)
     return await response;
 }
 

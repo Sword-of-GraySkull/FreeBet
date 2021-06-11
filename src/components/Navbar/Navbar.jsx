@@ -129,7 +129,7 @@ function Navbar({wallet}) {
                     <a href="/FreeBet/#/wallet" className="nav-link text-info" style={{"pointerEvents": "none"}}>${wallet}</a>
                     :
                     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-                    <a className="nav-link text-info" href="/FreeBet/#/login">$0.00</a> 
+                    <a className="nav-link text-info" href="/FreeBet/#/login">$0.000</a> 
                         /*style={{"cursor": "pointer"}} onClick={() =>{
                         setRegister(false)
                         setUsername('')
