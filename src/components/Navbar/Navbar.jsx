@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useToasts } from 'react-toast-notifications'
 
+import Logo from './bee.png';
 // import { Modal } from 'react-bootstrap';
 // import { registerUser, loginUser } from '../Helpers/service';
 
@@ -57,7 +58,7 @@ function Navbar({wallet}) {
             <nav className="navbar navbar-expand-lg navbar-light bg-light rounded">
                 <a className="navbar-brand text-info font-weight-bolder" href="/FreeBet">
                     {/* <img src={Logo} alt="Logo" width="36" height="36" className="vertical-align-middle" /> */}
-                    <span className="">FREE MONEY</span>
+                    <span className=""><img src={Logo} alt="Logo" width="50" height="50" className="vertical-align-middle" /></span>
                 </a>
                 <button className="custom-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded={!isNavCollapsed ? "true" : "false"} aria-label="Toggle navigation" onClick={handleNavCollapse}>
                     <span className="navbar-toggler-icon"></span>

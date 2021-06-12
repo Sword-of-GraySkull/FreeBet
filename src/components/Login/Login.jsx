@@ -169,8 +169,8 @@ function Login() {
     }
 
     // console.log(loginPass);
-    console.log(unmaskedPassword);
-    console.log(unmaskedConfirmPassword);
+    // console.log(unmaskedPassword);
+    // console.log(unmaskedConfirmPassword);
 
     React.useEffect(() => {
         const timer = window.setTimeout(() => {
@@ -205,9 +205,9 @@ function Login() {
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => handleScroll('nav4')}>nav4</a>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => { setRegister(false);setEmail('');setPassword('');setUsername('');setConfirmPassword('');setIsLoading(false)}}>Login</a>
+                    <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => { setRegister(false);setEmail('');setPassword('');setUsername('');setConfirmPassword('');setLoginPass('');setIsLoading(false)}}>Login</a>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => {setRegister(true);setEmail('');setPassword('');setUsername('');setConfirmPassword('');setIsLoading(false)}}>Sign up</a>
+                    <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => {setRegister(true);setEmail('');setPassword('');setUsername('');setConfirmPassword('');setLoginPass('');setIsLoading(false)}}>Sign up</a>
                 </div>
             </nav>
             <div className="row">
@@ -215,7 +215,7 @@ function Login() {
 
                 </div>
                 <div className="col-6">
-                <div className="bg-gray p-3 text-white">
+                <div className="bg-gray p-3 text-white text-shadow">
                     {register ? 
                     <>
                         <h1 className="text-center">Create a New Account</h1>                        

@@ -135,9 +135,9 @@ function Lottery() {
             <Navbar wallet={wallet} />
             <LoggedUser />
             <div className="w-100">
-                <div className="display-4 my-4 text-center">Check Your Chance Of Winning The Lottery </div>
+                <div className="display-4 my-4 text-center text-white text-shadow">Check Your Chance Of Winning The Lottery </div>
                 {/* Count Down Timer */}
-                <div className="">
+                <div className="text-shadow">
                     <h1 className="bg-gray py-2 pr-5 text-white text-center">Lottery Ends in:</h1>
                     <div className="row">
                         <div className="col-4"></div>
@@ -196,7 +196,7 @@ function Lottery() {
                     </div>
                 </div>
                 {/* Buy Tickets */}
-                <div className="w-50 card card-body mx-auto my-4 pt-5 pl-5 pr-5 pb-3 bg-gray text-white">
+                <div className="w-50 card card-body mx-auto my-4 pt-5 pl-5 pr-5 pb-3 bg-gray text-white text-shadow">
                     <h2 className="text-center mb-4">Buy Your Tickets Here</h2>
                     <div>
                         <label className="h5 mb-3">Win Probability</label>
@@ -212,9 +212,9 @@ function Lottery() {
                     </div>
                 </div>
                 {/* Temporary Winners */}
-                <h1 className="text-center"> Winners List </h1>
-                <div className="text-center">* Updates Every 5 Minutes</div>
-                <table className="table table-bordered w-50 my-4 mx-auto">
+                <h1 className="text-center text-white text-shadow"> Winners List </h1>
+                <div className="text-center text-white text-shadow">* Updates Every 5 Minutes</div>
+                <table className="table table-bordered w-50 my-4 mx-auto text-white text-shadow">
                     <thead>
                         <td className="text-center" style={{"width":"20%"}}>Win Position</td>
                         <td className="text-center" style={{"width":"60%"}}>Winners</td>

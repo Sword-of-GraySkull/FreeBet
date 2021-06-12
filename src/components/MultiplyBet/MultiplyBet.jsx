@@ -604,16 +604,16 @@ function MultiplyBet() {
         <div>
             <Navbar wallet={wallet} />
             <LoggedUser />
-            <div className=" bg-gray text-white p-3">
+            <div className=" bg-gray text-white text-shadow p-3">
                 <h1 className="text-white text-center py-4">Multiply your Bet here</h1>
                 <div className="text-center mb-3">
-                    <button className="btn btn-lg btn-primary mr-3" onClick={() => {
+                    <button className="btn btn-lg btn-warning text-white text-shadow mr-3" onClick={() => {
                         setBetmode('manual')
                         setRollValue(10000)
                         clearInterval(a)
                         setIsAutoBetActive(false)
                         }}>Manual</button>
-                    <button className="btn btn-lg btn-primary" onClick={() => {
+                    <button className="btn btn-lg btn-warning text-white text-shadow" onClick={() => {
                         setBetmode('auto')
                         setRollValue(10000)
                     }}>Auto</button>

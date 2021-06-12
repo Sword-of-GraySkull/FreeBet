@@ -145,11 +145,11 @@ function FakeDoor() {
     }
 
     return (
-        <div className="text-brown">
+        <div className="text-white">
             <Navbar wallet={wallet}/>
             <LoggedUser />
-            <div className="display-4 text-center my-4">Welcome to Fake Door</div>
-            <h1 className="text-center mb-4 pb-5">Everything you see around here is not <div className="text-danger text-center"><span className="real"></span></div></h1>
+            <div className="display-4 text-center text-shadow my-4">Welcome to Fake Door</div>
+            <h1 className="text-center text-shadow mb-4 pb-5">Everything you see around here is not <div className="text-danger text-center"><span className="real"></span></div></h1>
             <div className="row">
                 {result.map((li, index) => {
                     return(
@@ -177,21 +177,21 @@ function FakeDoor() {
                     )
                 })}
             </div>
-            <h3 className="text-center mt-4 mb-2">Difficulty Level</h3>
+            <h3 className="text-center text-shadow mt-4 mb-2">Difficulty Level</h3>
             <div className="d-inline-block text-center mb-4 w-100">
                 <button className="btn btn-info mx-2" onClick={() => {setDiffLvl(3);setResult([0,0,0])}}>3</button>
                 <button className="btn btn-info mx-2" onClick={() => {setDiffLvl(4);setResult([0,0,0,0])}}>4</button>
                 <button className="btn btn-info mx-2" onClick={() => {setDiffLvl(5);setResult([0,0,0,0,0])}}>5</button>
                 <button className="btn btn-info mx-2" onClick={() => {setDiffLvl(6);setResult([0,0,0,0,0,0])}}>6</button>
             </div>
-            <div className="text-center my-4">
+            <div className="text-center text-shadow my-4">
                 <label className="h5">Bet Amount</label>
                 <input 
                     className="rounded borderless mx-3"
                     value={betAmount}
                     onChange={event => setBetAmount(event.target.value)}></input>
             </div>
-            <h3 className="text-center mb-3">Higher the Difficulty Level, Higher the Profit You Earn</h3>
+            <h3 className="text-center text-shadow mb-3">Higher the Difficulty Level, Higher the Profit You Earn</h3>
          {/* <div className="text-center m-auto">
 <div class="hexagon one">
 <div class="text">

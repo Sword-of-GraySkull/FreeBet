@@ -6,7 +6,11 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 import './home.scss';
 import transaction from './24-money.gif';
-import CarousalItem from './BE FREE MONEY_(FINAL).jpg';
+import CarousalItem1 from './BE FREE MONEY_(FINAL).jpg';
+import CarousalItem2 from './CREST & TROUGH (COINS).jpg';
+import CarousalItem3 from './FAKE DOOR 6x-.jpg';
+import CarousalItem4 from './GIFT CARD-ALT1.jpg';
+
 import Navbar from '../Navbar/Navbar';
 import { roll, getWalletData, setWalletData, pushRollHistory, getClientSeed } from '../Helpers/service';
 import LoggedUser from '../LoggedUser/LoggedUser';
@@ -303,13 +307,16 @@ function Home() {
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src={CarousalItem} alt="First slide"></img>
+                        <img class="d-block w-100" src={CarousalItem1} alt="First slide"></img>
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src={CarousalItem} alt="Second slide"></img>
+                        <img class="d-block w-100" src={CarousalItem2} alt="Second slide"></img>
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src={CarousalItem} alt="Third slide"></img>
+                        <img class="d-block w-100" src={CarousalItem3} alt="Third slide"></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src={CarousalItem4} alt="Third slide"></img>
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -323,7 +330,7 @@ function Home() {
             </div>
             <div className="row p-4">
                 <div className="col-6 p-4 text-center money"><img src={transaction} width="300" height="300" alt="transaction"/></div>
-                <div className="col-6 money">
+                <div className="col-6 money text-white text-shadow">
                     <span className="display-3">Make your transactions in a snap</span>
                     <div className="row py-3 my-4">
                         <div className="col-6 text-center">
@@ -335,7 +342,7 @@ function Home() {
                     </div>
                 </div>
             </div>
-            <div className="mb-3 p-3 bg-gray text-center text-white">
+            <div className="mb-3 p-3 bg-gray text-center text-white text-shadow">
                 <span className="display-4">Get Free Money Upto $10 Every 45 Minutes</span>
             </div>
              
@@ -381,10 +388,10 @@ function Home() {
                 </div>
             </div>
             <div className="desc">
-                <p className="mx-3 text-white">Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie looodeodk dejis opoe</p>
+                <p className="mx-3 text-white text-shadow">Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie looodeodk dejis opoe</p>
             </div>
             <div className="desc-right ">
-                <p className="ml-3 text-white" style={{"margin-right": "130px"}}>Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie looodeodk dejis opoe</p>
+                <p className="ml-3 text-white text-shadow" style={{"margin-right": "130px"}}>Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie looodeodk dejis opoe</p>
             </div>
             <div class="hexagon des-right float-right">
                 <div class="text">
@@ -399,10 +406,10 @@ function Home() {
                 </div>
             </div>
             <div className="desc">
-                <p className="mx-3 text-white">Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie looodeodk dejis opoe</p>
+                <p className="mx-3 text-white text-shadow">Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie looodeodk dejis opoe</p>
             </div>
             <div className="desc-right ">
-                <p className="ml-3 text-white" style={{"margin-right": "130px"}}>Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie looodeodk dejis opoe</p>
+                <p className="ml-3 text-white text-shadow" style={{"margin-right": "130px"}}>Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie looodeodk dejis opoe</p>
             </div>
             <div class="hexagon des-right float-right">
                 <div class="text">
@@ -411,7 +418,7 @@ function Home() {
                 </div>
             </div>
             <div className="my-4 px-4 w-100">
-                <table className="table table-bordered text-center m-auto w-50">
+                <table className="table table-bordered text-center text-white text-shadow m-auto w-50">
                     <thead>
                         <tr>
                             <th scope="col">Roll</th>
@@ -449,7 +456,7 @@ function Home() {
                 {disable 
                 ?
                 <>
-                <h3 className="mt-3 text-center">Next Roll Available in: </h3><br></br>
+                <h3 className="mt-3 text-center text-white text-shadow">Next Roll Available in: </h3><br></br>
                 <div className="row">
                     {/* <CountdownCircleTimer
                         {...timerProps}
@@ -475,7 +482,7 @@ function Home() {
                         }
                     </CountdownCircleTimer> */}
                     <div className="col-5"></div>
-                    <div className="col-2 d-flex">
+                    <div className="col-2 d-flex text-shadow">
                     <CountdownCircleTimer
                         {...timerProps}
                         colors={[["#EF798A"]]}
@@ -510,24 +517,24 @@ function Home() {
                 <></>
                 }                
                 <div className="rounded p-4 bg-gray w-50 mx-auto my-4 text-white text-center">
-                    <h3>Previous Roll</h3>
-                    <h5>Server Seed Hash</h5> 
+                    <h3 className="text-shadow">Previous Roll</h3>
+                    <h5 className="text-shadow">Server Seed Hash</h5> 
                     <input 
                         className="rounded mobile borderless" 
                         value={prevServerSeed}
                         disabled
                     ></input>
-                    <h5>Client Seed</h5>
+                    <h5 className="text-shadow">Client Seed</h5>
                     <input 
                         className="rounded mobile borderless mb-2"
                         value={prevClientSeed}
                         disabled
                     />
                     <br></br>
-                    <a className="" href={`/FreeBet/#/VerifyRoll/${prevServerSeed}/${prevClientSeed}`}>VerifyRoll</a>
+                    <a className="text-info nav-link text-shadow" style={{"cursor": "pointer"}} href={`/FreeBet/#/VerifyRoll/${prevServerSeed}/${prevClientSeed}`}>VerifyRoll</a>
                 </div>
                 <div className="rounded p-4 bg-gray w-50 mx-auto my-4 text-white text-center">
-                    <h5>Edit Client Seed</h5> 
+                    <h5 className="text-shadow">Edit Client Seed</h5> 
                     <input 
                         className="rounded mobile borderless" 
                         value={clientSeed}
@@ -536,7 +543,7 @@ function Home() {
                         }}
                     ></input>
                 </div>
-                <div className="w-100 text-center bg-gray p-4 my-4">
+                <div className="w-100 text-center bg-gray p-4 my-4 text-shadow">
                     {counter
                     ?
                     <>
