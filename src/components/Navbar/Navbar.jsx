@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useToasts } from 'react-toast-notifications'
 
-import Logo from './bee.png';
+import Logo from './NAVIGATION LOGO (TITLE)-BLACK-min.png';
+import './Navbar.css';
 // import { Modal } from 'react-bootstrap';
 // import { registerUser, loginUser } from '../Helpers/service';
 
@@ -55,16 +56,17 @@ function Navbar({wallet}) {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light rounded">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light rounded frostedGlass">
                 <a className="navbar-brand text-info font-weight-bolder" href="/FreeBet">
                     {/* <img src={Logo} alt="Logo" width="36" height="36" className="vertical-align-middle" /> */}
-                    <span className=""><img src={Logo} alt="Logo" width="50" height="50" className="vertical-align-middle" /></span>
+                    <span className=""><img src={Logo} alt="Logo" width="200" height="100" className="vertical-align-middle" /></span>
                 </a>
-                <button className="custom-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded={!isNavCollapsed ? "true" : "false"} aria-label="Toggle navigation" onClick={handleNavCollapse}>
+                <button className="custom-toggler navbar-toggler"  style={{"backgroundColor": "whitesmoke"}} type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded={!isNavCollapsed ? "true" : "false"} aria-label="Toggle navigation" onClick={handleNavCollapse}>
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
                 <div className={`${isNavCollapsed ? 'collapse' : 'collapse'} navbar-collapse`} id="navbarsExample09">
+                    <a className="text-info nav-link" href="/FreeBet">Free Bet</a>
                     {requireAuth()
                     ?
                     <a className="nav-link text-info" href="/FreeBet/#/multiplybet">Crest & Trough</a>
@@ -94,6 +96,12 @@ function Navbar({wallet}) {
                     <a href="/FreeBet/#/fakedoor" className="nav-link text-info">Fake Door</a>
                     :
                     <a className="nav-link text-info" href="/FreeBet/#/login">Fake Door</a>
+                    }
+                    {requireAuth()
+                    ?
+                    <a href="/FreeBet/#/giftbox" className="nav-link text-info">Gift Box</a>
+                    :
+                    <a href="/FreeBet/#/login" className="nav-link text-info">Gift Box</a>
                     }
                     {requireAuth()
                     ? <a className="nav-link text-info" href="/FreeBet/#/rollHistory">Roll History</a>
@@ -127,7 +135,7 @@ function Navbar({wallet}) {
                     }
                     {requireAuth()
                     ?
-                    <a href="/FreeBet/#/wallet" className="nav-link text-info" style={{"pointerEvents": "none"}}>${wallet}</a>
+                    <a href="/FreeBet/#/wallet" className="nav-link text-info" style={{"pointerEvents": "none"}}>${Number(wallet).toFixed(3)}</a>
                     :
                     // eslint-disable-next-line jsx-a11y/anchor-is-valid
                     <a className="nav-link text-info" href="/FreeBet/#/login">$0.000</a> 

@@ -1,3 +1,7 @@
+.bg-black {
+  background-color: #000000;
+}
+
 div.desc, div.desc-right {
   font-weight: 350;
 }
@@ -6,6 +10,7 @@ div.desc, div.desc-right {
   margin-left: 130px;
   padding: 40px 0 30px 0;
   background-color: #324D5B;
+  height: 230px;
 }
 
 .desc-right {
@@ -15,6 +20,7 @@ div.desc, div.desc-right {
   margin: 30px 100px 30px 30px;
   padding: 40px 0 30px 0;
   background-color: #324D5B;
+  height: 230px;
 }
 
 .hexagon.des {
@@ -37,12 +43,18 @@ div.desc, div.desc-right {
 }
 
 .bg-gray {
-    background-color: #73540A;
+    // background-color: #73540A;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2) !important; 
+    border-radius: 5px !important;
+    background-color: rgba(255, 255, 255, .05) !important;
+    
+    backdrop-filter: blur(7px);
 }
 
 .fixed {
     position: fixed;
 }
+
 
 .text-green {
     color: lawngreen;
@@ -136,6 +148,21 @@ border-left: solid 2.8284px #000000;
 
   .display-4 {
     font-size: 2rem;
+  }
+
+  .w-50 {
+    width: 100% !important;
+  }
+
+  .col-4.mob {
+    flex: none;
+    max-width: 0;
+    padding-left: 0;
+  }
+
+  .col-5.mob {
+    flex: none;
+    max-width: 0;
   }
 
 }

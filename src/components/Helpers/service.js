@@ -73,6 +73,25 @@ export async function setWalletData(userId, wallet) {
     return response;
 }       
 
+export async function getWagerData(userId) {
+    const data = {
+        id: userId
+    }
+    const response = axios.post(`${URL}/wager`, data)
+
+    // console.log(response.data)
+    return response;
+}
+
+export async function setWagerData(userId, wager) {
+    const data = {
+        id: userId,
+        wager: wager
+    }
+
+    await axios.post(`${URL}/setWager`, data)
+}
+
 export async function pushRollHistory(userId, rollHistory) {
     const data = {
         id: userId,
@@ -89,9 +108,7 @@ export async function getRollHistory(userId) {
     }
     // const response = await axios.post('https://freebet-server.herokuapp.com/api/getRollHistory', data)
     const response = await axios.post(`${URL}/getRollHistory`, data)
-
     return response;
-    // console.log(response)
 }
 
 export async function pushMultiplyBetRollHistory(userId, rollHistory) {
@@ -111,6 +128,24 @@ export async function getMultiplyBetRollHistory(userId) {
 
     // const response = await axios.post('https://freebet-server.herokuapp.com/api/getMultiplyBetRollHistory', data)
     const response = await axios.post(`${URL}/getMultiplyBetRollHistory`, data)
+
+    return response;
+}
+
+export async function pushFakeDoorHistory(userId, history) {
+    const data = {
+        id: userId,
+        history: history
+    }
+
+    await axios.post(`${URL}/pushFakeDoorHistory`, data)
+}
+
+export async function getFakeDoorHistory(userId) {
+    const data = {
+        id: userId
+    }
+    const response = await axios.post(`${URL}/getFakeDoorHistory`, data)
 
     return response;
 }
@@ -141,6 +176,15 @@ export async function calcLotteryWinner() {
     const response = await axios.get(`${URL}/calcLotteryWinner`)
     // console.log(response)
     return response
+}
+
+export async function verifyRoll(serverSeed, clientSeed) {
+    var data = {
+        serverSeed: serverSeed,
+        clientSeed: clientSeed
+    }
+    const response = await axios.post(`${URL}/verifyRoll`, data);
+    return response;
 }
 
 // export async function getLotteryWinner() {

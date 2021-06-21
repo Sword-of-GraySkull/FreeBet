@@ -1,0 +1,20 @@
+.bg-gradient-blue {
+    background: rgb(27,30,205);
+    background: linear-gradient(207deg, rgba(27,30,205,1) 55%, rgba(0,0,0,0.2) 95%);
+    /* background: linear-gradient(rgba(255,255,255,0.1), lawngreen); */
+}
+
+.bg-gradient-gold {
+    background: rgb(205, 193, 27);
+    background: linear-gradient(207deg, rgb(205, 193, 27) 55%, rgba(0,0,0,0.2) 95%);
+}
+
+.bg-gradient-silver {
+    background: rgb(124, 124, 124);
+    background: linear-gradient(207deg, rgb(124, 124, 124) 55%, rgba(0,0,0,0.2) 95%);
+}
+
+.bg-gradient-bronze {
+    background: rgb(202, 120, 26);
+    background: linear-gradient(207deg, rgb(202, 120, 26) 55%, rgba(0,0,0,0.2) 95%);
+}

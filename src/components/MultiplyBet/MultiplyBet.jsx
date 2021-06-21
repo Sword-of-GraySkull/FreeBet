@@ -3,10 +3,8 @@ import { useToasts } from 'react-toast-notifications';
 
 import './MultiplyBet.scss';
 import Navbar from './../Navbar/Navbar';
-import { roll, getWalletData, setWalletData, pushMultiplyBetRollHistory, getClientSeed } from '../Helpers/service';
+import { roll, getWalletData, setWalletData, pushMultiplyBetRollHistory, getClientSeed, setWagerData, getWagerData } from '../Helpers/service';
 import LoggedUser from '../LoggedUser/LoggedUser';
-
-
 
 // eslint-disable-next-line no-lone-blocks
 {/* <ul class="nav nav-tabs">
@@ -25,11 +23,11 @@ import LoggedUser from '../LoggedUser/LoggedUser';
 </ul> */}
 
 function MultiplyBet() {
-
     const [counter, setCounter] = useState(false)
     const [clientSeed, setClientSeed] = useState()
     const [prevServerSeed, setPrevServerSeed] = useState()
     const [prevClientSeed, setPrevClientSeed] = useState()
+    const [prevRollValue, setPrevRollValue] = useState()
 
     // ###################################      manual bet options  ###################################################
     const [rollValue, setRollValue] = useState(10000);
@@ -49,7 +47,7 @@ function MultiplyBet() {
     const [noOfRolls, setNoOfRolls] = useState('1000');
     const [max_bet, setMax_Bet] = useState('stopbet');              // On hitting max bet
     const [rollmode, setrollmode] = useState('hi');
-    const [onWin, setOnWin] = useState(true);
+    // const [onWin, setOnWin] = useState(true);
     const [profit, setProfit] = useState(0.0);
     const [loss, setLoss] = useState(0.0);
     const [stopProfit, setStopProfit] = useState('100')
@@ -74,7 +72,8 @@ function MultiplyBet() {
     // ####################### Roll History ##########################
     const { addToast } = useToasts()
     const [userId, setUserId] = useState()
-    const [wallet, setWallet] = useState('0.0')
+    const [wallet, setWallet] = useState('0.000')
+    const [wager, setWager] = useState('0.000')
     const [history, setHistory] = useState(false)
     const rollHistory = {
         rollValue: rollValue,
@@ -85,6 +84,7 @@ function MultiplyBet() {
         multiplier: betOdds,
         betmode: betmode,
         date: new Date().toLocaleDateString("en-IN"),
+        time: new Date().toLocaleTimeString(),
         wallet: wallet
     }
 
@@ -129,8 +129,8 @@ function MultiplyBet() {
                 console.log(Number(winProfit));
                 let tk = Math.abs(Number(winProfit));
                 console.log("hey", tk);
-                setWallet((Number(wallet) + Number(tk)).toFixed(3));
                 setTakeAwayAmount(tk);
+                setWallet((Number(wallet) + Number(tk)).toFixed(3));
                 setWin(true);
             }
             else if(value === 'lose') {
@@ -146,8 +146,8 @@ function MultiplyBet() {
                 console.log(Number(winProfit));
                 let tk = -Number(winProfit);
                 console.log("hey", tk);
-                setWallet((Number(wallet) + Number(tk)).toFixed(3));
                 setTakeAwayAmount(tk);
+                setWallet((Number(wallet) + Number(tk)).toFixed(3));
                 setWin(false);
             }
         }
@@ -215,7 +215,7 @@ function MultiplyBet() {
             })
             setIsAutoBetActive(false)
             clearInterval(a);
-            setTimeout(() => setRollValue(10000), 2000)
+            setTimeout(() => {setPrevRollValue(rollValue);setRollValue(10000)}, 2000)
         }
         else if(max_bet === 'basebet' && betAmount >= MaxBet) {
             // console.log('info: Changed betamount to base bet [from - On Hitting MaxBet - chosen Return to BaseBet')
@@ -254,8 +254,14 @@ function MultiplyBet() {
     function handleRoll() {                     //#################### Function that gets the RollValue from the Server ####################
         roll(clientSeed)
         .then(x => {
-            setCounter(false)
+            setCounter(false);
+            //
+            let wg = Number(wager) + Number(betAmount);
+            setWager(wg.toFixed(3))
+            setWagerData(localStorage.getItem("userId"), wg.toFixed(3))
+            //
             setRollValue(x.data);
+            setPrevRollValue(x.data);
             setPrevClientSeed(x.clientSeed)
             setPrevServerSeed(x.serverSeed)
         });
@@ -410,8 +416,8 @@ function MultiplyBet() {
                 })
                 return false;
             }
-            else if(betOdds > 4750) {
-                addToast("Betodds can't be greater than 4750", {
+            else if(betOdds > 10) {
+                addToast("Betodds can't be greater than 10", {
                     appearance: 'info',
                     autoDismiss: true
                 })
@@ -454,8 +460,8 @@ function MultiplyBet() {
                 })
                 return false;
             }
-            else if(betOdds > 4750) {
-                addToast("Betodds can't be greater than 4750", {
+            else if(betOdds > 10) {
+                addToast("Betodds can't be greater than 10", {
                     appearance: 'info',
                     autoDismiss: true
                 })
@@ -492,7 +498,6 @@ function MultiplyBet() {
                 handleRoll()
                 x++;
             }, 3000);
-        
     }
 
     const handleBetOdds = () => {             //#################### Function that handles input Values on the Left pane #####################
@@ -530,6 +535,16 @@ function MultiplyBet() {
         } 
     }
 
+    const handleSetWager = () => {
+        if(localStorage.getItem("userId")) {
+            getWagerData(localStorage.getItem("userId"))
+            .then(res => {
+                console.log("res", res);
+                setWager(res.data.wager)
+            })
+        }
+    }
+
     // #####################   Life Cycle Functions   ########################
         
     useEffect(() => {
@@ -546,6 +561,7 @@ function MultiplyBet() {
         }
         
         handleSetWallet();
+        handleSetWager();
 
         if(localStorage.getItem("userId")) {
             getClientSeed().then(res => {
@@ -589,6 +605,10 @@ function MultiplyBet() {
     }, [wallet])
 
     useEffect(() => {
+        handleSetWager();
+    }, [wager])
+
+    useEffect(() => {
         if(betmode === 'manual' && rollValue !== 10000)
             pushMultiplyBetRollHistory(userId, rollHistory)    
         if(betmode === 'auto' && rollValue !== 10000) {
@@ -600,6 +620,17 @@ function MultiplyBet() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [history])
 
+    useEffect(() => {
+        console.log(profit, loss, !isAutoBetActive)
+        if(!isAutoBetActive && (profit !== 0 || loss !== 0) && rollValue !== 10000 && betmode === "auto") {
+            addToast(`On this Auto Bet Roll, Your Total Profit earned is ${profit} and Total Loss is ${loss}`, {
+                appearance: 'info',
+                autoDismiss: true
+            })
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [profit, loss])
+
     return (
         <div>
             <Navbar wallet={wallet} />
@@ -607,15 +638,19 @@ function MultiplyBet() {
             <div className=" bg-gray text-white text-shadow p-3">
                 <h1 className="text-white text-center py-4">Multiply your Bet here</h1>
                 <div className="text-center mb-3">
-                    <button className="btn btn-lg btn-warning text-white text-shadow mr-3" onClick={() => {
+                    <button className="btn btn-lg btn-primary text-white text-shadow mr-3" onClick={() => {
                         setBetmode('manual')
                         setRollValue(10000)
+                        setBetAmount(0.001)
+                        setBetOdds(2)
                         clearInterval(a)
                         setIsAutoBetActive(false)
                         }}>Manual</button>
-                    <button className="btn btn-lg btn-warning text-white text-shadow" onClick={() => {
+                    <button className="btn btn-lg btn-primary text-white text-shadow" onClick={() => {
                         setBetmode('auto')
                         setRollValue(10000)
+                        setBetAmount(0.001)
+                        setBetOdds(2)
                     }}>Auto</button>
                 </div>
                 <div className="row" style={{"fontWeight": 'lighter'}}>
@@ -625,7 +660,22 @@ function MultiplyBet() {
                         <>    {/*#####################################  manual bet  ######################## */}
                             <label className="mb-3 h5">Max Bet</label>
                             <label className="float-right mr-4"><span className="text-gold h5">{MaxBet}</span></label><br></br>
-                            <label className="mb-3 h5">Bet Amount</label>
+                            
+                            <label className="mb-3 h5">
+                                <div className="d-inline-block">
+                                    Bet Amount
+                                    <button className="btn btn-sm btn-info mx-2" onClick={() => {
+                                        if(!(betAmount*2 > 20)) {
+                                            setBetAmount((betAmount*2).toFixed(3))
+                                        }
+                                    }}>X2</button>
+                                    <button className="btn btn-sm btn-info mx-2" onClick={() => {
+                                        if(!(betAmount/2 < 0.001)) {
+                                            setBetAmount((betAmount/2).toFixed(3))
+                                        }
+                                    }}>/2</button>
+                                </div>
+                            </label>
                             <input 
                                 className="float-right rounded borderless mobile"
                                 value={betAmount} 
@@ -653,7 +703,20 @@ function MultiplyBet() {
                             <label className="float-right mr-4"><span className="text-gold h5">{MaxBet}</span></label><br></br>
                             <label className="mb-3 h5">Base Bet</label>
                             <label className="float-right mr-4"><span className="text-gold h5">{basebet}</span></label><br></br>
-                            <label className="mb-3 h5">Bet Amount</label>
+                            <label className="mb-3 h5">
+                                <div className="d-inline-block">
+                                    Bet Amount
+                                    <button className="btn btn-sm btn-info mx-2" onClick={() => {
+                                        if(!(betAmount*2 > 20)) {
+                                            setBetAmount((betAmount*2).toFixed(3))
+                                        }
+                                    }}>X2</button>
+                                    <button className="btn btn-sm btn-info mx-2" onClick={() => {
+                                        if(!(betAmount/2 < 0.001)) {
+                                            setBetAmount((betAmount/2).toFixed(3))
+                                        }
+                                    }}>/2</button>
+                                </div></label>
                             <input 
                                 className="float-right rounded borderless disabled mobile"
                                 value={betAmount} 
@@ -685,7 +748,19 @@ function MultiplyBet() {
                             <label className="float-right mr-4"><span className="text-gold h5">{MaxBet}</span></label><br></br>
                             <label className="mb-3 h5">Base Bet</label>
                             <label className="float-right mr-4"><span className="text-gold h5">{basebet}</span></label><br></br>
-                            <label className="mb-3 h5">Bet Amount</label>
+                            <label className="mb-3 h5"><div className="d-inline-block">
+                                    Bet Amount
+                                    <button className="btn btn-sm btn-info mx-2" onClick={() => {
+                                        if(!(betAmount*2 > 20)) {
+                                            setBetAmount((betAmount*2).toFixed(3))
+                                        }
+                                    }}>X2</button>
+                                    <button className="btn btn-sm btn-info mx-2" onClick={() => {
+                                        if(!(betAmount/2 < 0.001)) {
+                                            setBetAmount((betAmount/2).toFixed(3))
+                                        }
+                                    }}>/2</button>
+                                </div></label>
                             <input 
                                 className="float-right rounded borderless disabled mobile"
                                 value={betAmount} 
@@ -738,7 +813,7 @@ function MultiplyBet() {
                                             if(handleValidation()) {
                                                 setIsHi(1);
                                                 setTakeAwayAmount(0);
-                                                setCounter(true)
+                                                setCounter(true);
                                                 handleRoll();
                                             }
                                         }}>ROLL HI</button>
@@ -810,6 +885,12 @@ function MultiplyBet() {
                                         clearInterval(a);
                                         setTimeout(() => setRollValue(10000), 2000)
                                         setIsAutoBetActive(false);
+                                        if(profit !== 0 && loss !== 0 && betmode === "auto") {
+                                            addToast(`On this Auto Bet Roll, Your Total Profit earned is ${profit} and total Loss is ${loss}`, {
+                                                appearance: 'info',
+                                                autoDismiss: true
+                                            })
+                                        }
                                     }}
                                 >Stop Auto Bet</button>
                                 :
@@ -988,7 +1069,6 @@ function MultiplyBet() {
                                             onChange={event => setChangeBetOddLose(event.target.value)}></input>
                                     </>}         
                                     </div>
-
                             </div>
                             </div>
                             :
@@ -1144,7 +1224,6 @@ function MultiplyBet() {
                                             onChange={event => setChangeBetOddLose(event.target.value)}></input>
                                     </>}         
                                     </div>
-
                                 </div>
                             </div>
                             }
@@ -1156,6 +1235,37 @@ function MultiplyBet() {
                     </div>
                 </div>
             </div>
+            <div className="rounded p-4 bg-gray w-50 mx-auto my-4 text-white text-center">
+                    <h5 className="text-shadow">Edit Client Seed</h5> 
+                    <input 
+                        className="rounded mobile borderless" 
+                        value={clientSeed}
+                        onChange={event => {
+                        setClientSeed(event.target.value)
+                        }}
+                    ></input>
+            </div>
+            <div className="rounded p-4 bg-gray w-50 mx-auto my-4 text-white text-center">
+                    <h3 className="text-shadow">Previous Roll</h3>
+                    <h5 className="text-shadow">Server Seed Hash</h5> 
+                    <input 
+                        className="rounded mobile borderless" 
+                        value={prevServerSeed}
+                        disabled
+                    ></input>
+                    <h5 className="text-shadow">Client Seed</h5>
+                    <input 
+                        className="rounded mobile borderless mb-2"
+                        value={prevClientSeed}
+                        disabled
+                    />
+                    <br></br>
+                    {prevServerSeed !== undefined ?
+                    <a className="text-info nav-link text-shadow" target='_blank' rel='noreferrer' style={{"cursor": "pointer"}} href={`/FreeBet/#/VerifyRoll/${prevServerSeed}/${prevClientSeed}/${prevRollValue}`}>VerifyRoll</a>
+                    :
+                    <a className="text-info nav-link text-shadow" target='_blank' rel='noreferrer' style={{"cursor": "pointer","pointerEvents":"none"}} href={`/FreeBet/#/VerifyRoll/${prevServerSeed}/${prevClientSeed}/${prevRollValue}`}>VerifyRoll</a>}
+            </div>
+                
         </div>
     )
 }

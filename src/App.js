@@ -13,6 +13,7 @@ import Lottery from './components/Lottery/Lottery';
 import FakeDoor from './components/FakeDoor/FakeDoor';
 import PathError from './components/PathError/PathError';
 import VerifyRoll from './components/VerifyRoll/VerifyRoll';
+import GiftBox from './components/GiftBox/GiftBox';
 
 // const wallet = '0.00';
 
@@ -30,7 +31,8 @@ const App = () => {
         <Route path='/login' component={Login} />
         <Route path='/lottery' component={Lottery} />
         <Route path='/fakedoor' component={FakeDoor} />
-        <Route path={`/VerifyRoll/:serverSeed/:clientSeed`} component={VerifyRoll} />
+        <Route path='/giftbox' component={GiftBox} />
+        <Route path={`/VerifyRoll/:serverSeed/:clientSeed/:rollValue`} component={VerifyRoll} />
         <Route component={PathError} />
       </Switch>
     </ToastProvider>

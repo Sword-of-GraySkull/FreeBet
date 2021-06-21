@@ -22,7 +22,7 @@ function LoggedUser() {
     return (
         requireAuth() 
         ?
-        <div className="text-right p-2 bg-gray text-white text-shadow">
+        <div className="text-right p-2 bg-darkgray text-white text-shadow">
             Logged in as {userName}
         </div>
         :

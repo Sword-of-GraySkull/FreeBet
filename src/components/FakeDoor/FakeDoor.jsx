@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 // import ReactDOM from 'react-dom'
 import logo from '../../logo.svg';
 
-import { getWalletData, setWalletData } from '../Helpers/service'
+import { getWalletData, setWalletData, pushFakeDoorHistory, setWagerData, getWagerData } from '../Helpers/service'
 import Navbar from '../Navbar/Navbar'
 import './FakeDoor.scss'
 import { useToasts } from 'react-toast-notifications'
@@ -10,12 +10,16 @@ import LoggedUser from '../LoggedUser/LoggedUser'
 
 function FakeDoor() {
     const { addToast } = useToasts()
-    const [wallet, setWallet] = useState(0.00)
-    const [betAmount, setBetAmount] = useState()
+    const [wallet, setWallet] = useState(0.000)
+    const [betAmount, setBetAmount] = useState(0.001)
     const [diffLvl, setDiffLvl] = useState(3) 
     const [result, setResult] = useState([0,0,0]) 
     const [index, setIndex] = useState()
-    const [className, setClassName] = useState("door")    
+    const [className, setClassName] = useState("door") 
+    const [win, setWin] = useState(false)   
+    const [takeaway, setTakeaway] = useState(0)
+    const [wager, setWager] = useState(0)
+    const [history, setHistory] = useState(false)
     // const [prizeIndex, setPrizeIndex] = useState()
     // const [margin, setmargin] = useState(0)
 
@@ -23,6 +27,16 @@ function FakeDoor() {
     const arr4 = ['0001', '0010', '0100', '1000']
     const arr5 = ['00001', '00010', '00100', '01000', '10000']
     const arr6 = ['000001', '000010', '000100', '001000', '010000', '100000']
+
+    const FakeDoorHistory = {
+        betAmount: betAmount,
+        win: win ? 'Win' : 'Lose',
+        takeaway: takeaway,
+        date: new Date().toLocaleDateString("en-IN"),
+        time: new Date().toLocaleTimeString(),
+        wallet: wallet
+    }
+
 
 
     const handleSetWallet = () => {
@@ -97,9 +111,26 @@ function FakeDoor() {
         return true
     }
 
+    const handleHistory = () => {
+        if(result.join('') !== [0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0, 0, 0].join('')) {
+            let userId = localStorage.getItem('userId');
+            pushFakeDoorHistory( userId, FakeDoorHistory)
+        }
+    }
+
+    const handleSetWager = () => {
+        if(localStorage.getItem("userId")) {
+            getWagerData(localStorage.getItem("userId"))
+            .then(res => {
+                console.log("res", res);
+                setWager(res.data.wager)
+            })
+        }
+    }
 
     useEffect(() => {
         handleSetWallet()
+        // handleSetWager()
     })
 
     useEffect(() => {
@@ -114,7 +145,13 @@ function FakeDoor() {
                 autoDismiss: true
             })
             // console.log((Number(wallet) + Number(0.01*diffLvl)).toFixed(2))
-            setWalletData(localStorage.getItem("userId"),(Number(wallet) + Number(betAmount*diffLvl)).toFixed(2))
+            let tk = Number(betAmount*diffLvl)
+            setWalletData(localStorage.getItem("userId"),(Number(wallet) + Number(betAmount*diffLvl)).toFixed(3))
+            let w = Number(wallet) + Number(betAmount*diffLvl)
+            setWallet(w.toFixed(3))
+            setTakeaway(tk)
+            setHistory(!history)
+            setWin(true)
         }
         else {
             if(result.join('') !== [0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0, 0, 0].join('')) {
@@ -123,11 +160,29 @@ function FakeDoor() {
                     autoDismiss: true
                 })
                 // console.log((wallet + (0.01*diffLvl)))
-                setWalletData(localStorage.getItem("userId"),(Number(wallet) - Number(betAmount*diffLvl)).toFixed(2))
+                let tk = -Number(betAmount*diffLvl)
+                setWalletData(localStorage.getItem("userId"),(Number(wallet) - Number(betAmount*diffLvl)).toFixed(3))
+                let w = Number(wallet) - Number(betAmount*diffLvl)
+                setWallet(w.toFixed(3))
+                setTakeaway(tk)
+                setHistory(!history)
+                setWin(false)
             }    
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [result, index])
+
+    useEffect(() => {
+        if(localStorage.getItem('userId')) {
+            handleHistory()
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [history])
+
+    useEffect(() => {
+        handleSetWager();
+        // console.log("hi")
+    }, [wager])
 
     function toggleDoor() {
         // console.log("ji")
@@ -159,6 +214,12 @@ function FakeDoor() {
                             <div class="backDoor">
                                 <div className={className} id={index} onClick={() => {
                                     if(handleValidation()) {
+                                        if(className !== "door doorOpen") {
+                                            console.log(wager, betAmount)
+                                            let w = Number(wager) + Number(betAmount);
+                                            setWager(w.toFixed(3))                              //////////// Wager Implementation
+                                            setWagerData(localStorage.getItem("userId"), w.toFixed(3))
+                                        }
                                         handleFakeDoor(index);
                                         toggleDoor();
                                     }

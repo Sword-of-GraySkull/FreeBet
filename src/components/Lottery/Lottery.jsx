@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 
 import Navbar from '../Navbar/Navbar'
-import { getLotteryTickets, getWalletData, writeLottery, calcLotteryWinner, setWalletData } from '../Helpers/service';
+import { getLotteryTickets, getWalletData, writeLottery, calcLotteryWinner, setWalletData, setWagerData, getWagerData } from '../Helpers/service';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { useToasts } from 'react-toast-notifications';
 import LoggedUser from '../LoggedUser/LoggedUser';
 
 function Lottery() {
     const { addToast } = useToasts(); 
-    const [wallet, setWallet] = useState('0.00')
+    const [wallet, setWallet] = useState('0.000')
+    const [wager, setWager] = useState('0.000')
     const [tickets, setTickets] = useState(0)
     const [userTickets, setUserTickets] = useState(0)
     const [totalTickets, setTotalTickets] = useState(0)
@@ -16,7 +17,7 @@ function Lottery() {
     const [a, setA] = useState()
     const [b, setB] = useState()
 
-    const pricePerTicket = 0.01;
+    const pricePerTicket = 0.05;
     const minuteSeconds = 60;
     const hourSeconds = 3600;
     const daySeconds = 86400;
@@ -56,6 +57,15 @@ function Lottery() {
         } 
     }
 
+    const handleSetWager = () => {
+        if(localStorage.getItem("userId")) {
+            getWagerData(localStorage.getItem("userId"))
+            .then(res => {
+                setWager(res.data.wager)
+            })
+        }
+    }
+
     const handleBuyTickets = () => {
         console.log(Math.ceil(Number(tickets)))
         if(Math.ceil(Number(tickets)) <= 0) {
@@ -77,8 +87,11 @@ function Lottery() {
             })
         } 
         else {
-            setWalletData(localStorage.getItem("userId"), (wallet - tickets*pricePerTicket).toFixed(2))
+            setWalletData(localStorage.getItem("userId"), (wallet - tickets*pricePerTicket).toFixed(3))
             writeLottery(Math.ceil(Number(tickets)), localStorage.getItem("userId"))
+            let wg = Number(wager) + Number(tickets*pricePerTicket);
+            setWagerData(localStorage.getItem("userId"), wg.toFixed(3))
+            setWager(wager);
         }
         setTickets(0)
     }
@@ -95,10 +108,12 @@ function Lottery() {
     
     useEffect(() => {
         handleSetWallet();
+        handleSetWager();
         handleGetLotteryTickets();
     })
 
     useEffect(() => {
+        handleSetWager();
         calcLotteryWinner()
         .then(res => {
             if(res.data.winners) {
@@ -138,10 +153,10 @@ function Lottery() {
                 <div className="display-4 my-4 text-center text-white text-shadow">Check Your Chance Of Winning The Lottery </div>
                 {/* Count Down Timer */}
                 <div className="text-shadow">
-                    <h1 className="bg-gray py-2 pr-5 text-white text-center">Lottery Ends in:</h1>
+                    <h1 className="bg-darkgray py-2 pr-5 text-white text-center">Lottery Ends in:</h1>
                     <div className="row">
-                        <div className="col-4"></div>
-                        <div className="col-4 d-flex">
+                        <div className="col-4 mob"></div>
+                        <div className="col-4 mob d-flex">
                             <CountdownCircleTimer
                                 {...timerProps}
                                 colors={[["#7E2E84"]]}
@@ -192,7 +207,7 @@ function Lottery() {
                                 }
                             </CountdownCircleTimer>
                         </div>
-                        <div className="col-4"></div>
+                        <div className="col-4 mob"></div>
                     </div>
                 </div>
                 {/* Buy Tickets */}
@@ -207,14 +222,20 @@ function Lottery() {
                         <label className="h5 mb-3">Price Per Ticket</label>
                         <label className="float-right mr-4 h5">{pricePerTicket}</label><br></br>
                         <label className="h5 mb-3">Buy Tickets (No.)</label>
-                        <input className="rounded borderless float-right" value={tickets} onChange={event => {setTickets(event.target.value)}}></input><br></br>
-                        <div className="text-center mt-3"><button className="btn btn-lg btn-info" onClick={() => {handleBuyTickets();}}>Buy</button></div>
+                        <input className="rounded borderless float-right mobile" value={tickets} onChange={event => {setTickets(event.target.value)}}></input><br></br>
+                        <div className="text-center mt-3">
+                            <button 
+                                className="btn btn-lg btn-info" 
+                                onClick={() => {
+                                    handleBuyTickets();                                    
+                                }}
+                            >Buy</button></div>
                     </div>
                 </div>
                 {/* Temporary Winners */}
                 <h1 className="text-center text-white text-shadow"> Winners List </h1>
                 <div className="text-center text-white text-shadow">* Updates Every 5 Minutes</div>
-                <table className="table table-bordered w-50 my-4 mx-auto text-white text-shadow">
+                <table className="table table-bordered w-50 my-4 mx-auto bg-gray text-white text-shadow">
                     <thead>
                         <td className="text-center" style={{"width":"20%"}}>Win Position</td>
                         <td className="text-center" style={{"width":"60%"}}>Winners</td>
@@ -238,7 +259,6 @@ function Lottery() {
                     }
                 </table>
                 {/*Previous Lottery Winners */}
-                
             </div>
         </div>
     )

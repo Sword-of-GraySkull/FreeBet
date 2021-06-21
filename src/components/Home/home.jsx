@@ -6,10 +6,16 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 import './home.scss';
 import transaction from './24-money.gif';
-import CarousalItem1 from './BE FREE MONEY_(FINAL).jpg';
+import CarousalItem1 from './BE FREE MONEY_(FINAL) (1).jpg';
 import CarousalItem2 from './CREST & TROUGH (COINS).jpg';
 import CarousalItem3 from './FAKE DOOR 6x-.jpg';
-import CarousalItem4 from './GIFT CARD-ALT1.jpg';
+import CarousalItem4 from './LOTTERY (just at) (1).jpg';
+import CarousalItem5 from './GIFT CARD-ALT1.jpg';
+import CarousalItem6 from './win 10.jpg';
+import CTLogo from './CT.png';
+import fakeDoorLogo from './fake door ico.png';
+import lotteryLogo from './lottery (FINAL).png';
+import giftLogo from './gift.png';
 
 import Navbar from '../Navbar/Navbar';
 import { roll, getWalletData, setWalletData, pushRollHistory, getClientSeed } from '../Helpers/service';
@@ -73,7 +79,8 @@ function Home() {
         rollValue: faucet,
         win: win ? 'Win' : 'Lose',
         takeaway: takeaway,
-        date: new Date().toLocaleDateString(),
+        date: new Date().toLocaleDateString("en-IN"),
+        time: new Date().toLocaleTimeString(),
         wallet: wallet
     }
     // const [showModal, setShow] = useState(false);
@@ -251,14 +258,6 @@ function Home() {
         }
     }
 
-    const handleGetRollHistory = () => {
-        // getRollHistory(userId)
-        // .then(res => {
-        //     const { data } = res;
-        //     // console.log(data.[0].rollHistory.[0].rollValue)
-        //     setRollData(data.[0].rollHistory)
-        // })
-    }
 
     // const handleOpen = () => setShow(true)
 
@@ -304,121 +303,87 @@ function Home() {
             <Navbar wallet={wallet}/>
             <LoggedUser />
             {/* ##################################################33        Carousal           3########################################33*/}
-            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="d-block w-100" src={CarousalItem1} alt="First slide"></img>
+            <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
+                <div className="carousel-inner">
+                    <div className="carousel-item active">
+                        <img className="d-block w-100" src={CarousalItem1} alt="First slide"></img>
                     </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src={CarousalItem2} alt="Second slide"></img>
+                    <div className="carousel-item">
+                        <img className="d-block w-100" src={CarousalItem6} alt="Second slide"></img>
                     </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src={CarousalItem3} alt="Third slide"></img>
+                    <div className="carousel-item">
+                        <img className="d-block w-100" src={CarousalItem2} alt="Third slide"></img>
                     </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src={CarousalItem4} alt="Third slide"></img>
+                    <div className="carousel-item">
+                        <img className="d-block w-100" src={CarousalItem4} alt="Fourth slide"></img>
+                    </div>
+                    <div className="carousel-item">
+                        <img className="d-block w-100" src={CarousalItem3} alt="Fifth slide"></img>
+                    </div>
+                    <div className="carousel-item">
+                        <img className="d-block w-100" src={CarousalItem5} alt="sixth slide"></img>
                     </div>
                 </div>
-                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
+                {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
+                <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Next</span>
                 </a>
             </div>
-            <div className="row p-4">
-                <div className="col-6 p-4 text-center money"><img src={transaction} width="300" height="300" alt="transaction"/></div>
-                <div className="col-6 money text-white text-shadow">
-                    <span className="display-3">Make your transactions in a snap</span>
+            <div className="row p-4 bg-black">
+                {/* <div className="col-6 p-4 text-center money"><img src={transaction} width="300" height="300" alt="transaction"/></div> */}
+                <div className="col-12 money text-center text-white text-shadow">
+                    <span className="display-3">Make your transactions here</span>
                     <div className="row py-3 my-4">
-                        <div className="col-6 text-center">
-                            <button className="btn btn-info btn-lg mx-3">Deposit</button>
-                            <button className="btn btn-info btn-lg mx-3">Withdraw</button>
+                        <div className="col-12 text-center">
+                            <button className="btn btn-primary btn-lg mx-3">Deposit</button>
+                            <button className="btn btn-primary btn-lg mx-3">Withdraw</button>
                         </div>
-                        <div className="col-6 text-center">
-                        </div>
+                        {/* <div className="col-6 text-center">
+                        </div> */}
                     </div>
                 </div>
             </div>
-            <div className="mb-3 p-3 bg-gray text-center text-white text-shadow">
+            <div className="mb-4 p-3 bg-gray text-center text-white text-shadow">
                 <span className="display-4">Get Free Money Upto $10 Every 45 Minutes</span>
             </div>
              
+            <div className="row my-4">
+                <div className="col-3 text-center">
+                    <a href="/FreeBet/#/multiplybet"><img src={CTLogo} alt="Crest & Trough" width="110" height="120"></img></a><br></br>
+                    <label className="text-white h5 text-shadow">Crest & Trough</label>
+                </div>
+                <div className="col-3 text-center">
+                    <a href="/FreeBet/#/fakedoor"><img src={fakeDoorLogo} alt="Fake Door" width="110" height="120"></img></a><br></br>
+                    <label className="text-white h5 text-shadow">Fake Door</label>
+                </div> 
+                <div className="col-3 text-center">
+                    <a href="/FreeBet/#/lottery"><img src={lotteryLogo} alt="Fake Door" width="110" height="120"></img></a><br></br>
+                    <label className="text-white h5 text-shadow">Lottery</label>
+                </div>
+                <div className="col-3 text-center">
+                    <a href="/FreeBet/#/giftbox"><img src={giftLogo} alt="Gift Box" width="110" height="120"></img></a><br></br>
+                    <label className="text-white h5 text-shadow">Gift Box</label>
+                </div>
+            </div>
 
-
-                  
-                {/* {faucet !== 10000 
-                ? 
-                <>
-                <button className="btn btn-primary btn-lg mb-3" onClick={() => handleGetRollHistory()}>Refresh Roll History</button>
-                <table className="table table-bordered m-auto text-center">
-                    <thead>
-                        <th>SNO</th>
-                        <th>RollValue</th>
-                        <th>Win/Lose</th>
-                        <th>Roll Takeaway</th>
-                        <th>Wallet</th>
-                    </thead>
-                    {rollData.map((item, index) => {
-                    return (
-                    <tbody>
-                        <th>{index}</th>
-                        <td>{item.rollValue}</td>
-                        {item.win === 'Win' ?
-                            <td className="text-darkGreen">{item.win}</td>
-                        :
-                            <td className="text-danger">{item.win}</td>
-                        }
-                        <td>{item.takeaway}</td>
-                        <td>{item.wallet}</td>
-                    </tbody>)})}
-                </table> 
-                </>
-                :
-                <>
-                </>
-                } */}
-            <div class="hexagon des">
-                <div class="text">
-                    <h1>Crest</h1>
-                    &
-                    <h1>Trough</h1>
-                </div>
+            <div className="my-4 w-50 p-4 mx-auto text-white text-shadow bg-gray">
+                <h1 className="text-center">Features</h1>
+                <ul>
+                    <li className="h5">BeeFreeMoney.com brings you the chance to win upto $10 every 45 minutes.</li>
+                    <li className="h5">All the Games in BeeFreeMoney.com are Provably Fair.</li>
+                    <li className="h5">Players can edit their client seed, which is one of the ways where we prove that the games are Provably Fair.</li>
+                    <li className="h5">Players can multiply their bet amount upto 10 times in - <a href="/FreeBet/#/multiplybet">"Crest & Trough"</a></li>
+                    <li className="h5">Players can multiply their bet amount upto 6 times in our fully fun-packed game - <a href="/FreeBet/#/fakedoor">"Fake Door"</a></li>
+                </ul>
             </div>
-            <div className="desc">
-                <p className="mx-3 text-white text-shadow">Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie looodeodk dejis opoe</p>
-            </div>
-            <div className="desc-right ">
-                <p className="ml-3 text-white text-shadow" style={{"margin-right": "130px"}}>Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie looodeodk dejis opoe</p>
-            </div>
-            <div class="hexagon des-right float-right">
-                <div class="text">
-                    <br></br>
-                    <h1>Lottery</h1>
-                </div>
-            </div>
-            <div class="hexagon des">
-                <div class="text">
-                    <br></br>
-                    <h1>Fake Door</h1>
-                </div>
-            </div>
-            <div className="desc">
-                <p className="mx-3 text-white text-shadow">Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie looodeodk dejis opoe</p>
-            </div>
-            <div className="desc-right ">
-                <p className="ml-3 text-white text-shadow" style={{"margin-right": "130px"}}>Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie looodeodk dejis opoe</p>
-            </div>
-            <div class="hexagon des-right float-right">
-                <div class="text">
-                    <br></br>
-                    <h1>Gift Box</h1>
-                </div>
-            </div>
+            
             <div className="my-4 px-4 w-100">
-                <table className="table table-bordered text-center text-white text-shadow m-auto w-50">
+                <table className="table table-bordered text-center text-white text-shadow bg-gray m-auto w-50">
                     <thead>
                         <tr>
                             <th scope="col">Roll</th>
@@ -481,7 +446,7 @@ function Home() {
                         renderTime("hours", getTimeHours(daySeconds - elapsedTime))
                         }
                     </CountdownCircleTimer> */}
-                    <div className="col-5"></div>
+                    <div className="col-5 mob"></div>
                     <div className="col-2 d-flex text-shadow">
                     <CountdownCircleTimer
                         {...timerProps}
@@ -510,7 +475,7 @@ function Home() {
                         }
                     </CountdownCircleTimer>
                     </div>
-                    <div className="col-5"></div>
+                    <div className="col-5 mob"></div>
                 </div>
                 </>
                 :
@@ -531,7 +496,10 @@ function Home() {
                         disabled
                     />
                     <br></br>
-                    <a className="text-info nav-link text-shadow" style={{"cursor": "pointer"}} href={`/FreeBet/#/VerifyRoll/${prevServerSeed}/${prevClientSeed}`}>VerifyRoll</a>
+                    {prevServerSeed !== undefined ? 
+                    <a className="text-info nav-link text-shadow" target='_blank' rel='noreferrer' style={{"cursor": "pointer"}} href={`/FreeBet/#/VerifyRoll/${prevServerSeed}/${prevClientSeed}/${faucet}`}>VerifyRoll</a>
+                    :
+                    <a className="text-info nav-link text-shadow" target='_blank' rel='noreferrer' style={{"cursor": "pointer","pointerEvents":"none"}} href={`/FreeBet/#/VerifyRoll/${prevServerSeed}/${prevClientSeed}/${faucet}`}>VerifyRoll</a>}
                 </div>
                 <div className="rounded p-4 bg-gray w-50 mx-auto my-4 text-white text-center">
                     <h5 className="text-shadow">Edit Client Seed</h5> 
@@ -581,6 +549,7 @@ function Home() {
                         onClick={() => {
                             if(userId) {
                                 setCounter(true)
+                                setDisable(true)
                                 handleRoll()
                                 // handleGetRollHistory()
                                 // console.log(rollData)
@@ -611,6 +580,49 @@ export default Home
 
 
 // // Version 1.0.3    user loggedin state added, bug fix #1
+
+{/* <div className="row">
+                <div className="col-12 col-sm-6">
+                    <div className="hexagon des">
+                        <div className="text">
+                            <h1>Crest</h1>
+                            &
+                            <h1>Trough</h1>
+                        </div>
+                    </div>
+                    <div className="desc">
+                        <h4 className="mx-3 text-white text-shadow">Crest & Trough is where you multiply your bet</h4>
+                    </div>
+                    <div className="desc-right">
+                        <h4 className="ml-3 text-white text-shadow" style={{"marginRight": "130px"}}>Buy Lottery and Check your Luck</h4>
+                    </div>
+                    <div className="hexagon des-right float-right">
+                        <div className="text">
+                            <br></br>
+                            <h1>Lottery</h1>
+                        </div>
+                    </div>
+                    <div className="hexagon des">
+                        <div className="text">
+                            <br></br>
+                            <h1>Fake Door</h1>
+                        </div>
+                    </div>
+                    <div className="desc ">
+                        <h4 className="mx-3 text-white text-shadow ">Open the door !!! Oh, I forgot to say "Open the Real Door"</h4>
+                    </div>
+                    <div className="desc-right ">
+                        <h4 className="ml-3 text-white text-shadow" style={{"marginRight": "130px"}}>Win Amazing & Exciting Gifts</h4>
+                    </div>
+                    <div className="hexagon des-right float-right">
+                        <div className="text">
+                            <br></br>
+                            <h1>Gift Box</h1>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-6"></div>
+            </div> */}
 
 // import React, { useState, useEffect } from 'react'
 // import { useToasts } from 'react-toast-notifications';

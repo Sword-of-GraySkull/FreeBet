@@ -11,10 +11,15 @@ input.mobile {
 }
 
 .bg-darkgray {
-    background-color: #503a07;
+    // background-color: #503a07;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2) !important; 
+    border-radius: 5px !important;
+    background-color: rgba(255, 255, 255, .15) !important;
+    
+    backdrop-filter: blur(7px);
 }
 
-h5,h6,h1,h2,h3,.h5 {
+h1,h2,h3,h4,h5,h6,.h5 {
     font-weight: 350 !important;
 }
 
@@ -24,6 +29,12 @@ h5,h6,h1,h2,h3,.h5 {
 
 .borderless {
     border: 1px solid transparent;
+}
+
+.border-bottom {
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid white;
 }
 
 

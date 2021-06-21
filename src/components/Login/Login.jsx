@@ -3,6 +3,7 @@ import { useToasts } from 'react-toast-notifications';
 
 import {registerUser, loginUser } from '../Helpers/service'
 import Spinner from './spinner2.gif';
+import Logo from './bee.png';
 
 const pointGen = (pattern, num) => {
     return Array.apply(null, Array(num)).map(() => pattern).join("");
@@ -31,6 +32,7 @@ function Login() {
         password: unmaskedPassword,
         email: email,
         wallet: '0.000',
+        wager: '0.000',
         lottery: 0
     }
     const loginData = {
@@ -188,12 +190,12 @@ function Login() {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light rounded">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light rounded frostedGlass">
                 <a className="navbar-brand text-info font-weight-bolder" href="/FreeBet">
                     {/* <img src={Logo} alt="Logo" width="36" height="36" className="vertical-align-middle" /> */}
-                    <span className="">FREE MONEY</span>
+                    <span className=""><img src={Logo} alt="Logo" width="50" height="50" className="vertical-align-middle" /></span>
                 </a>
-                <button className="custom-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded={!isNavCollapsed ? "true" : "false"} aria-label="Toggle navigation" onClick={handleNavCollapse}>
+                <button className="custom-toggler navbar-toggler" style={{"backgroundColor": "whitesmoke"}} type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded={!isNavCollapsed ? "true" : "false"} aria-label="Toggle navigation" onClick={handleNavCollapse}>
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
@@ -211,10 +213,7 @@ function Login() {
                 </div>
             </nav>
             <div className="row">
-                <div className="col-6">
-
-                </div>
-                <div className="col-6">
+                <div className="w-50 mx-auto p-2">
                 <div className="bg-gray p-3 text-white text-shadow">
                     {register ? 
                     <>
