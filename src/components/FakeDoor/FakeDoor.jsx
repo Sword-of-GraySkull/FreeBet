@@ -140,7 +140,7 @@ function FakeDoor() {
     
         if(result[index] === '1') {
             // setPrizeIndex(index)
-            addToast(`You have Found the Real Door!! +${diffLvl * betAmount} added to wallet`, {
+            addToast(`You have Found the Real Door!! +${(diffLvl * betAmount).toFixed(3)} added to wallet`, {
                 appearance: 'success',
                 autoDismiss: true
             })
@@ -149,13 +149,14 @@ function FakeDoor() {
             setWalletData(localStorage.getItem("userId"),(Number(wallet) + Number(betAmount*diffLvl)).toFixed(3))
             let w = Number(wallet) + Number(betAmount*diffLvl)
             setWallet(w.toFixed(3))
-            setTakeaway(tk)
+            setTakeaway(tk.toFixed(3))
+            setBetAmount(Number(betAmount).toFixed(3))
             setHistory(!history)
             setWin(true)
         }
         else {
             if(result.join('') !== [0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0, 0].join('') && result.join('') !== [0, 0, 0, 0, 0, 0].join('')) {
-                addToast(`Uh Oh, You have opened the fake door!! -${diffLvl * betAmount} reduced from wallet`, {
+                addToast(`Uh Oh, You have opened the fake door!! -${(diffLvl * betAmount).toFixed(3)} reduced from wallet`, {
                     appearance: 'error',
                     autoDismiss: true
                 })
@@ -164,7 +165,8 @@ function FakeDoor() {
                 setWalletData(localStorage.getItem("userId"),(Number(wallet) - Number(betAmount*diffLvl)).toFixed(3))
                 let w = Number(wallet) - Number(betAmount*diffLvl)
                 setWallet(w.toFixed(3))
-                setTakeaway(tk)
+                setTakeaway(tk.toFixed(3))
+                setBetAmount(Number(betAmount).toFixed(3))
                 setHistory(!history)
                 setWin(false)
             }    
@@ -216,7 +218,7 @@ function FakeDoor() {
                                     if(handleValidation()) {
                                         if(className !== "door doorOpen") {
                                             console.log(wager, betAmount)
-                                            let w = Number(wager) + Number(betAmount);
+                                            let w = Number(wager) + Number(betAmount*diffLvl);
                                             setWager(w.toFixed(3))                              //////////// Wager Implementation
                                             setWagerData(localStorage.getItem("userId"), w.toFixed(3))
                                         }

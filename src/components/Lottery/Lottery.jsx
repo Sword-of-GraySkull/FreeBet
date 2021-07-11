@@ -67,7 +67,7 @@ function Lottery() {
     }
 
     const handleBuyTickets = () => {
-        console.log(Math.ceil(Number(tickets)))
+        // console.log(Math.ceil(Number(tickets)))
         if(Math.ceil(Number(tickets)) <= 0) {
             addToast("Number of Tickets can't be Zero", {
                 appearance: 'info',
@@ -88,6 +88,7 @@ function Lottery() {
         } 
         else {
             setWalletData(localStorage.getItem("userId"), (wallet - tickets*pricePerTicket).toFixed(3))
+            setUserTickets(Math.ceil(Number(tickets) + Number(userTickets)))
             writeLottery(Math.ceil(Number(tickets)), localStorage.getItem("userId"))
             let wg = Number(wager) + Number(tickets*pricePerTicket);
             setWagerData(localStorage.getItem("userId"), wg.toFixed(3))
@@ -109,7 +110,7 @@ function Lottery() {
     useEffect(() => {
         handleSetWallet();
         handleSetWager();
-        handleGetLotteryTickets();
+        // handleGetLotteryTickets();
     })
 
     useEffect(() => {
@@ -121,13 +122,14 @@ function Lottery() {
             }
         })
 
-        let interval1 = setInterval(() => {
-            setB(interval1)
-            handleGetLotteryTickets();
-        }, 1000)
+        handleGetLotteryTickets();
+        // let interval1 = setInterval(() => {
+        //     setB(interval1)
+        //     // handleGetLotteryTickets();
+        // }, 1000)
 
         let interval = setInterval(() => {
-            console.log("kio")
+            // console.log("kio")
             setA(interval)
             calcLotteryWinner()
             .then(res => {
@@ -138,7 +140,7 @@ function Lottery() {
         }, 60000)
         
         return () => {
-            console.log("koi")
+            // console.log("koi")
             clearInterval(a)
             clearInterval(b)
         }

@@ -97,6 +97,7 @@ function MultiplyBet() {
                 // console.log(Number(takeAwayAmount.toFixed(2)), '+', Number(winProfit))
                 let tk = Math.abs(Number(winProfit));
                 setWallet((Number(wallet) + tk).toFixed(3))
+                setWager((Number(wager) + Number(betAmount)).toFixed(3));
                 setTakeAwayAmount(tk)
                 // console.log(Number(wallet) + takeAwayAmount)
                 setWin(true)
@@ -109,6 +110,7 @@ function MultiplyBet() {
                 // setWallet(Number(wallet) + takeAwayAmount)
                 let tk = -Number(winProfit);
                 setWallet((Number(wallet) + tk).toFixed(3))
+                setWager((Number(wager) + Number(betAmount)).toFixed(3));
                 setTakeAwayAmount(tk)
                 setWin(false)
             }
@@ -126,11 +128,12 @@ function MultiplyBet() {
                 //     setTakeAwayAmount(Number(winProfit))
                 // else 
                 //     setTakeAwayAmount(Number(takeAwayAmount.toFixed(2)) + Number(winProfit))  //############################# !!!!!!!!!!!!!!!!
-                console.log(Number(winProfit));
+                // console.log(Number(winProfit));
                 let tk = Math.abs(Number(winProfit));
-                console.log("hey", tk);
+                // console.log("hey", tk);
                 setTakeAwayAmount(tk);
                 setWallet((Number(wallet) + Number(tk)).toFixed(3));
+                setWager((Number(wager) + Number(betAmount)).toFixed(3));
                 setWin(true);
             }
             else if(value === 'lose') {
@@ -143,11 +146,12 @@ function MultiplyBet() {
                 // console.log('increasedWinProfit',increasedWinProfit)
                 // console.log(Number(takeAwayAmount.toFixed(2)), '-', Number(winProfit))
                 // setTakeAwayAmount(Number(takeAwayAmount.toFixed(2)) - Number(winProfit))
-                console.log(Number(winProfit));
+                // console.log(Number(winProfit));
                 let tk = -Number(winProfit);
-                console.log("hey", tk);
+                // console.log("hey", tk);
                 setTakeAwayAmount(tk);
                 setWallet((Number(wallet) + Number(tk)).toFixed(3));
+                setWager((Number(wager) + Number(betAmount)).toFixed(3));
                 setWin(false);
             }
         }
@@ -256,9 +260,10 @@ function MultiplyBet() {
         .then(x => {
             setCounter(false);
             //
-            let wg = Number(wager) + Number(betAmount);
-            setWager(wg.toFixed(3))
-            setWagerData(localStorage.getItem("userId"), wg.toFixed(3))
+            // let wg = Number(wager) + Number(betAmount);
+            // console.log(wager, betAmount);
+            // setWager(wg.toFixed(3))
+            // setWagerData(localStorage.getItem("userId"), wg.toFixed(3))
             //
             setRollValue(x.data);
             setPrevRollValue(x.data);
@@ -537,10 +542,9 @@ function MultiplyBet() {
 
     const handleSetWager = () => {
         if(localStorage.getItem("userId")) {
-            getWagerData(localStorage.getItem("userId"))
-            .then(res => {
-                console.log("res", res);
-                setWager(res.data.wager)
+            getWagerData(localStorage.getItem("userId")).then(res => {
+                // console.log("res", res);
+                setWager((res.data.wager))
             })
         }
     }
@@ -549,9 +553,11 @@ function MultiplyBet() {
         
     useEffect(() => {
         handleBetOdds();
+        // handleSetWager();
         if(isAutoBetActive === false) {
             clearInterval(a)
         }
+        // console.log(wager);
     });
 
     useEffect(() => {
@@ -575,6 +581,7 @@ function MultiplyBet() {
         handleWin()
         handleHitMax()
         handleStopBetAfter()
+        // handleSetWager()
         // if(betmode === "auto") {
         //     if(!handleValidation()) {
         //         clearInterval(a);
@@ -590,6 +597,7 @@ function MultiplyBet() {
         // let w = Number(wallet) + Number(takeAwayAmount)
         // setWallet(w.toFixed(2))
         let w = Number(wallet);
+        // let wg = Number(wager);
         // console.log("hey", wallet, w);
         // console.log(w.toFixed(2))
         if(betmode === "auto") {
@@ -600,12 +608,18 @@ function MultiplyBet() {
             } 
         }
         setWalletData(userId, w.toFixed(3));
+        // console.log(wg)
+        // setWagerData(userId, wg.toFixed(3));
         setHistory(!history);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [wallet])
 
     useEffect(() => {
-        handleSetWager();
+        // setWager(wager);
+        // console.log(wager);
+        let wg = Number(wager)
+        setWagerData(localStorage.getItem('userId'), wg.toFixed(3));
+        // handleSetWager();
     }, [wager])
 
     useEffect(() => {
@@ -621,7 +635,7 @@ function MultiplyBet() {
     }, [history])
 
     useEffect(() => {
-        console.log(profit, loss, !isAutoBetActive)
+        // console.log(profit, loss, !isAutoBetActive)
         if(!isAutoBetActive && (profit !== 0 || loss !== 0) && rollValue !== 10000 && betmode === "auto") {
             addToast(`On this Auto Bet Roll, Your Total Profit earned is ${profit} and Total Loss is ${loss}`, {
                 appearance: 'info',
