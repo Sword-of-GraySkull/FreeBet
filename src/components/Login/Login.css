@@ -1,0 +1,7 @@
+@media only screen and (max-width: 500px) {
+    .col-3.mobile-login, .col-9.mobile-login {
+        max-width: 100%;
+        text-align: center;
+        flex: none;
+    }
+}
