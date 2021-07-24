@@ -2,8 +2,14 @@ import React, { useState } from 'react'
 import { useToasts } from 'react-toast-notifications';
 
 import {registerUser, loginUser } from '../Helpers/service'
+import './Login.css';
 import Spinner from './spinner2.gif';
 import Logo from './bee.png';
+import Faucet from './faucet.jpeg';
+import CrestTrough from './SQ.CREST AND TROUGH.jpg';
+import Lottery from './SQ.LOTTERY.jpg';
+import Fake_door from './SQ.DOOR1.jpg';
+import Giftbox from './SQ.GIFT BOX.jpg';
 
 const pointGen = (pattern, num) => {
     return Array.apply(null, Array(num)).map(() => pattern).join("");
@@ -201,11 +207,15 @@ function Login() {
 
                 <div className={`${isNavCollapsed ? 'collapse' : 'collapse'} navbar-collapse`} id="navbarsExample09">
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => handleScroll('nav2')}>nav2</a>
+                    <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => handleScroll('nav2')}>Free Bet</a>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => handleScroll('nav3')}>nav3</a>
+                    <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => handleScroll('nav3')}>Crest & Trough</a>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => handleScroll('nav4')}>nav4</a>
+                    <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => handleScroll('nav4')}>Fake Door</a>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => handleScroll('nav5')}>Lottery</a>
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a className="nav-link text-info" style={{"cursor": "pointer"}} onClick={() => handleScroll('nav6')}>Gift Box</a>
                     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                     <a 
                         className="nav-link text-info" style={{"cursor": "pointer"}} 
@@ -409,25 +419,51 @@ function Login() {
                     </div>
                 </div>
             </div>
-            <div className="card my-4" id="nav2">
+            <div className="card my-4 text-white m-3" style={{"background-color": "#060200", "boxShadow": "#FED600 0px 0px 5px 3px"}} id="nav2">
                 <div className="card-body">
-                    <h1>nav2</h1>
-                    <p>Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie ipsum quis porttitor efficitur. Nulla pretium commodo massa, eu aliquam felis bibendum ac. Cras in accumsan mi, sed egestas augue.</p>
+                    <h1 className="text-gold">Free Bet</h1>
+                    <div className="row">
+                        <div className="col-3 mobile-login"><img src={Faucet} alt="Free Bet" width="300" height="300"></img></div>
+                        <div className="col-9 mobile-login pt-5"><h5>Free Bet provides you the opportunity to earn upto $10 for every 45 minutes !! Free Bet does not need any investment for lifetime. Players can just earn money out of nothing. We also provide Complete Fairness in the games we provide. In Free Bet, Players can see the server seed and client seed, we are gonna use for the upcoming roll. Players can also edit the client seed for the upcoming roll. Later, they can also verify the previous roll's fairness. This proves the fairness on our every roll in the game. </h5></div>
+                    </div>
                 </div>
             </div>
-            <div className="card my-4" id="nav3">
+            <div className="card my-4 text-white m-3" style={{"background-color": "#060200", "boxShadow": "#FED600 0px 0px 5px 3px"}} id="nav3">
                 <div className="card-body">
-                    <h1>nav3</h1>
-                    <p>Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie ipsum quis porttitor efficitur. Nulla pretium commodo massa, eu aliquam felis bibendum ac. Cras in accumsan mi, sed egestas augue.</p>
+                    <h1 className="text-gold">Crest & Trough</h1>
+                    <div className="row">
+                        <div className="col-3 mobile-login"><img src={CrestTrough} alt="Crest & Trough" width="300" height="300"></img></div>
+                        <div className="col-9 mobile-login pt-5"><h5>Crest & Trough is the one of the places in BEE FREE MONEY where you can multiply your bet amount upto 10 times. Players will have to guess whether the number that the system rolls will come under high range or low range. Simple, Thats it!! In addition to this, Bee Free Money offers a provably fair game, where the players can see the server seed and client seed for the upcoming roll, edit the client seed for the same. Players can also verify the fairness of previous roll. Which proves that Bee Free Money provides a provably fair game.</h5></div>
+                    </div>
                 </div>
             </div>
-            <div className="card my-4" id="nav4">
+            <div className="card my-4 text-white m-3" style={{"background-color": "#060200", "boxShadow": "#FED600 0px 0px 5px 3px"}} id="nav4">
                 <div className="card-body">
-                    <h1>nav4</h1>
-                    <p>Mauris placerat dolor massa, sed porttitor massa volutpat sed. Donec ac eros quam. Vestibulum non massa eu diam pulvinar sagittis suscipit at purus. In rhoncus velit sed neque vulputate, quis sollicitudin arcu egestas. Pellentesque dignissim, quam vehicula auctor lobortis, elit sapien consequat metus, ac faucibus sapien augue non neque. Vivamus sapien dolor, suscipit sed sem sed, ultrices finibus nibh. Maecenas aliquet elit id est mattis, eget eleifend ex tristique. Vivamus ac purus dignissim metus gravida ornare. Sed magna lacus, tincidunt a facilisis at, condimentum a neque. Vestibulum ornare eget sem vitae vehicula. Nam non diam a quam feugiat iaculis. Aenean luctus, lacus at iaculis laoreet, risus diam egestas mauris, at iaculis tellus mi efficitur diam. Etiam imperdiet consequat nulla. Integer molestie ipsum quis porttitor efficitur. Nulla pretium commodo massa, eu aliquam felis bibendum ac. Cras in accumsan mi, sed egestas augue.</p>
+                    <h1 className="text-gold">Fake Door</h1>
+                    <div className="row">
+                        <div className="col-3 mobile-login"><img src={Fake_door} alt="Fake Door" width="300" height="300"></img></div>
+                        <div className="col-9 mobile-login pt-5"><h5>Fake Door is a fully fun packed game where you have to find the real prize among the fake doors. The number of doors will increase according to the difficulty level you choose, making it difficult for you to guess the real door. Fun, right? in addition to this, players can also increase their bet upto 6 times.</h5></div>
+                    </div>
                 </div>
             </div>
-
+            <div className="card my-4 text-white m-3" style={{"background-color": "#060200", "boxShadow": "#FED600 0px 0px 5px 3px"}} id="nav5">
+                <div className="card-body">
+                    <h1 className="text-gold">Lottery</h1>
+                    <div className="row">
+                        <div className="col-3 mobile-login"><img src={Lottery} alt="Lottery" width="300" height="300"></img></div>
+                        <div className="col-9 mobile-login pt-5"><h5>Lottery is a classic game where the players buy lottery tickets with unique number and then the system will choose a random unique number and the user with that unique number wins the lottery prize. This is classic, right? Well, Bee Free Money adds a new custom to the traditional lottery to make it more interesting. The Lottery Winners List will be updated every 5 minutes, so even the top position players will have to buy more tickets to sustain their position. This feature will increase the randomness of the winner and also We give you a hint only for you (Buy more tickets to increase your chance of winning). </h5></div>
+                    </div>
+                </div>
+            </div>
+            <div className="card my-4 text-white m-3" style={{"background-color": "#060200", "boxShadow": "#FED600 0px 0px 5px 3px"}} id="nav6">
+                <div className="card-body">
+                    <h1 className="text-gold">Gift Box</h1>
+                    <div className="row">
+                        <div className="col-3 mobile-login"><img src={Giftbox} alt="Gift Box" width="300" height="300"></img></div>
+                        <div className="col-9 mobile-login pt-5"><h5>Gift Box gives exciting and amusing gifts to the players. The players can win Gaming Laptops, Iphones, HeadPhones, Smart Watches and other cool gadgets. All that is needed for the player to do is play the games in the website, so that they can gain more wager, which they use to claim their gifts. Gifts will be delivered to the address( which players provide ).</h5></div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
